@@ -1,0 +1,37 @@
+<!--pages/list/list.wxml-->
+<view class='list-root'>
+  <radio-group class="radio-group" bindchange="listChange">
+    <label wx:for="{{carList}}" wx:for-index="idx" wx:key="item.value" class="radio {{ idx == index ? 'active' : ''}}">
+      <radio class="radio-item" value="{{item.value}}" checked="{{idx==0}}" />{{item.name}}
+    </label>
+  </radio-group>
+
+  <view class='content-layout'>
+    <view class='list-body'>
+      <block wx:for='{{listInfo}}' wx:key='item.id'>
+        <view class='item-wraper' id='{{item.id}}'>
+          <view class='list-item'>
+            <view class='item-subscribe' wx:if='{{showTime}}'>
+              <image class='item-date-icon' src='../../image/date_icon.png'></image>
+              <text class='item-time'>{{item.subscribeTime}}</text>
+            </view>
+            <view class='line' wx:if='{{showTime}}'></view>
+            <view class='item-user'>
+              <text class='item-name'>{{'车主姓名：' + item.real_name}}</text>
+              <text class='item-plate'>{{'车牌号：' + item.plate_no}}</text>
+            </view>
+            <text class='item-ad'>{{'广告名：' + item.name}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view class='empty-layout' wx-if='{{showEmpty}}'>
+      <text class='empty-text'>数据还在奔跑的路上</text>
+    </view>
+  </view>
+
+</view>
+
+<view class='switch-tab' bindtap='switchAccount'>
+  <image class='switch-icon' src='../../image/switch_icon.png'></image>
+</view>
