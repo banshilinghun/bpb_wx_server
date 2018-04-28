@@ -1273,14 +1273,12 @@ white-space:nowrap;
 }
 
 .item_layout{
-  width: 100%;
   display: flex;
   flex-direction: column;
-  margin-left: 50rpx;
+  padding-left: 40rpx;
 }
 
 .item_info{
-  width: 100%;
   padding-top: 60rpx;
   display: flex;
   flex-direction: column;
