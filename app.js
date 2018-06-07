@@ -10,6 +10,7 @@ App({
     //服务网点id
     server_id: '0', 
     //baseUrl: 'http://192.168.1.114:8000/',
-    baseUrl: 'https://wxapi.benpaobao.com/',
+    //baseUrl: 'https://wxapi.benpaobao.com/',
+    baseUrl: 'https://wxapi2.benpaobao.com/',
 	}
 })

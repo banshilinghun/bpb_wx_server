@@ -65,6 +65,11 @@ Page({
     leaseName: '',
   },
 
+  onLoad: function(){
+    //检测更新
+    this.checkUpdate();
+  },
+
   onReady: function () {
 
   },
@@ -232,7 +237,8 @@ Page({
       wx.request({
         url: that.data.searchUrl,
         data: {
-          plate_no: plateNo
+          plate_no: plateNo,
+          server_id: app.globalData.server_id
         },
         header: {
           'content-type': 'application/json'
@@ -248,6 +254,7 @@ Page({
                 carFlag: flagArray[0],
               })
             } else {
+              //如果是全租
               if (dataBean.flag == lease) {
                 that.setData({
                   sta: -1,
@@ -361,5 +368,36 @@ Page({
     this.setData({
       sourceTypeIndex: e.detail.value
     })
+  },
+
+  /**
+   * 版本更新
+   */
+  checkUpdate: function () {
+    if (wx.canIUse('getUpdateManager')) {
+      const updateManager = wx.getUpdateManager();
+      updateManager.onCheckForUpdate(function (res) {
+        // 请求完新版本信息的回调
+        console.log('onCheckForUpdate----------------->');
+        console.log(res.hasUpdate);
+      })
+
+      updateManager.onUpdateReady(function () {
+        wx.showModal({
+          title: '更新提示',
+          content: '新版本已经准备好，即刻体验？',
+          success: function (res) {
+            if (res.confirm) {
+              // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+              updateManager.applyUpdate();
+            }
+          }
+        })
+      })
+
+      updateManager.onUpdateFailed(function () {
+        // 新的版本下载失败
+      })
+    }
   },
 });

@@ -146,9 +146,16 @@ Page({
             that.loadImageSrc(filePath, clickId);
           } else {
             console.log('图片上传失败')
-            that.hideLoadingView(clickId)
           }
         },
+        fail: function(res){
+          wx.showToast({
+            title: res.data.msg,
+          })
+        },
+        complete: function(res){
+          that.hideLoadingView(clickId)
+        }
       })
     }
   },
@@ -162,25 +169,21 @@ Page({
       that.setData({
         showPlaceholder1: false,
         imageSrc1: filePath,
-        showLoading1: false
       })
     } else if (clickId == uploadType[1]) {
       that.setData({
         showPlaceholder2: false,
         imageSrc2: filePath,
-        showLoading2: false
       })
     } else if (clickId == uploadType[2]) {
       that.setData({
         showPlaceholder3: false,
         imageSrc3: filePath,
-        showLoading3: false
       })
     } else if (clickId == uploadType[3]) {
       that.setData({
         showPlaceholder4: false,
         imageSrc4: filePath,
-        showLoading4: false
       })
     }
   },
