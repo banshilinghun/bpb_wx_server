@@ -1,10 +1,9 @@
 var util = require("../../utils/util.js");
 const app = getApp()
-//console.log(222)
+const apiManager = require('../../utils/api/ApiManager.js');
 
 Page({
   data: {
-    loginUrl: app.globalData.baseUrl + 'server/user/login',
     loginBtnTxt: "登录",
     loginBtnBgBgColor: "#ff5539",
     btnLoading: false,
@@ -75,7 +74,7 @@ Page({
     if (flag) {
       this.setLoginData1();
       wx.request({
-        url: that.data.loginUrl,
+        url: apiManager.getLoginUrl(),
         data: loginData,
         header: {
           'content-type': 'application/json'

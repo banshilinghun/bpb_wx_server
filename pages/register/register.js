@@ -1,4 +1,5 @@
 var util = require("../../utils/util.js");
+const apiManager = require('../../utils/api/ApiManager.js');
 const app = getApp();
 var sourceType = [
   ['camera'],
@@ -20,7 +21,6 @@ var flagArray = [0, 1, 2];
 
 Page({
   data: {
-    searchUrl: app.globalData.baseUrl + 'server/query/user_info',
     plate_no: "",
     textTips: "在搜索框内输入车牌号查询",
     sta: -1,
@@ -235,7 +235,7 @@ Page({
         sta: 0
       })
       wx.request({
-        url: that.data.searchUrl,
+        url: apiManager.getSearchUrl(),
         data: {
           plate_no: plateNo,
           server_id: app.globalData.server_id
@@ -284,7 +284,7 @@ Page({
                   carFlag: flagArray[1],
                   user_id: dataBean.user_id,
                   ad_id: dataBean.ad_id,
-                  check_id: dataBean.check_id,
+                  check_id: dataBean.check_id ? dataBean.check_id : '',
                   time_id: dataBean.time_id,
                   begin_time: dataBean.begin_time,
                   end_time: dataBean.end_time,

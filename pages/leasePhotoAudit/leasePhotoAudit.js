@@ -1,5 +1,6 @@
-// pages/photoAudit/photoAudit.js
+
 const app = getApp();
+const apiManager = require('../../utils/api/ApiManager.js');
 var sourceType = [
   ['camera'],
   ['album'],
@@ -19,8 +20,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    uploadUrl: app.globalData.baseUrl + 'leaseServer/upload/regist_img',
-    confirmUrl: app.globalData.baseUrl + 'leaseServer/commit/regist_info',
     disabled: false,
     btnLoading: false,
     auditBtnBgBgColor: '#ff5539',
@@ -130,7 +129,7 @@ Page({
       }
       console.log('filename--------->' + filename);
       wx.uploadFile({
-        url: that.data.uploadUrl,
+        url: apiManager.getLeaseUploadUrl(),
         filePath: filePath,
         name: filename,
         formData: {
@@ -253,7 +252,7 @@ Page({
     requestData.ad_id = that.data.ad_id;
     requestData.server_id = that.data.server_id;
     wx.request({
-      url: that.data.confirmUrl,
+      url: apiManager.getLeaseConfirmUrl(),
       data: requestData,
       success: function (res) {
         if(res.data.code == 1000){

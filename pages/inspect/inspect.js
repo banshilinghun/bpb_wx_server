@@ -1,13 +1,13 @@
-// pages/inspect/inspect.js
+
 const app = getApp();
+const apiManager = require('../../utils/api/ApiManager.js');
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    checkInfoUrl: app.globalData.baseUrl + 'server/upload/ad_check_info',
-    leaseCheckInfoUrl: app.globalData.baseUrl + 'leaseServer/commit/check_info',
     //参数
     user_id: '',
     ad_id: '',
@@ -105,11 +105,11 @@ Page({
     var params = {};
     var requestUrl;
     if(that.data.flag == 1){
-      requestUrl = that.data.checkInfoUrl;
+      requestUrl = apiManager.getCheckInfoUrl();
       params.user_id = that.data.user_id;
       params.check_id = that.data.check_id;
     } else if (that.data.flag == 2) {
-      requestUrl = that.data.leaseCheckInfoUrl;
+      requestUrl = apiManager.getLeaseCheckInfoUrl();
       params.car_id = that.data.user_id;
     }
     params.ad_id = that.data.ad_id;

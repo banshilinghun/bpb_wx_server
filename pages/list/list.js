@@ -1,5 +1,6 @@
-// pages/list/list.js
+
 var app = getApp();
+const apiManager = require('../../utils/api/ApiManager.js');
 
 Page({
 
@@ -7,8 +8,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    subscribeUrl: app.globalData.baseUrl + 'server/query/server_subscribe',
-    activeUrl: app.globalData.baseUrl + 'server/query/server_regist',
     inspectUrl: app.globalData.baseUrl + '',
     server_id: '',
     index: 0,
@@ -60,7 +59,7 @@ Page({
     var inst = this;
     inst.showLoadingView();
     wx.request({
-      url: inst.data.subscribeUrl,
+      url: apiManager.getSubscribeUrl(),
       data:{
         server_id: app.globalData.server_id
       },
@@ -110,7 +109,7 @@ Page({
     var inst = this;
     inst.showLoadingView();
     wx.request({
-      url: inst.data.activeUrl,
+      url: apiManager.getActiveUrl(),
       data: {
         server_id: app.globalData.server_id
       },

@@ -1,4 +1,5 @@
-// pages/photoAudit/photoAudit.js
+
+const apiManager = require('../../utils/api/ApiManager.js');
 const app = getApp();
 var sourceType = [
   ['camera'],
@@ -19,8 +20,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    uploadUrl: app.globalData.baseUrl + 'server/upload/ad_image',
-    confirmUrl: app.globalData.baseUrl + 'server/upload/ad_regist_info',
     disabled: false,
     btnLoading: false,
     auditBtnBgBgColor: '#ff5539',
@@ -129,7 +128,7 @@ Page({
         filename = uploadType[3];
       }
       wx.uploadFile({
-        url: that.data.uploadUrl,
+        url: apiManager.getUploadUrl(),
         filePath: filePath,
         name: filename,
         formData: {
@@ -253,7 +252,7 @@ Page({
     requestData.server_id = that.data.server_id;
     requestData.time_id = that.data.time_id;
     wx.request({
-      url: that.data.confirmUrl,
+      url: apiManager.getConfirmUrl(),
       data: requestData,
       success: function (res) {
         if (res.data.code == 1000) {

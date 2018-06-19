@@ -6,7 +6,9 @@
     "pages/photoAudit/photoAudit",
     "pages/inspect/inspect",
     "pages/list/list",
-    "pages/leasePhotoAudit/leasePhotoAudit"
+    "pages/leasePhotoAudit/leasePhotoAudit",
+    "pages/guide/guide",
+    "pages/guideDetail/guideDetail"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -26,6 +28,12 @@
         "iconPath": "image/icon_component.png",
         "selectedIconPath": "image/icon_component_HL.png",
         "text": "激活检测"
+      },
+      {
+        "pagePath": "pages/guide/guide",
+        "iconPath": "image/icon_guide.png",
+        "selectedIconPath": "image/icon_guide_HL.png",
+        "text": "使用指南"
       },
       {
         "pagePath": "pages/list/list",
