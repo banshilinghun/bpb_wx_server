@@ -1,3 +1,9 @@
-<view>
-  <cell cellList='{{ cellList }}' bind:navigate='navigateListener'></cell>
+<view class='guide-container {{ cellList && cellList.length != 0? "bg" : "" }}'>
+  <view wx:if='{{ cellList && cellList.length != 0 }}'>
+    <cell cellList='{{ cellList }}' bind:navigate='navigateListener'></cell>
+  </view>
+  <view class='guide-empty-wrapper' wx:else>
+    <image class='guide-empty-image' src='../../image/empty_data.png'></image>
+    <text class='guide-empty-text'>空空如也</text>
+  </view>
 </view>

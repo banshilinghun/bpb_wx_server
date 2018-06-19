@@ -1,1 +1,29 @@
-/* pages/guide/guide.wxss */
+
+.guide-container{
+  padding-top: 20rpx;
+}
+
+.bg{
+  min-height: 100vh;
+  background-color: #eee;
+}
+
+.guide-empty-wrapper{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.guide-empty-image{
+  width: 294rpx;
+  height: 192rpx;
+  margin-top: 200rpx;
+}
+
+.guide-empty-text{
+  font-size: 28rpx;
+  color: #999;
+  margin-top: 30rpx;
+}
