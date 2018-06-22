@@ -5,14 +5,21 @@ var sourceType = [
   ['camera'],
   ['album'],
   ['camera', 'album']
-]
+];
 var sizeType = [
   ['compressed'],
   ['original'],
   ['compressed', 'original']
-]
-var typeArray = ['REGISTER', 'CHECK']
-var uploadType = ['front_img', 'in_img', 'left_img', 'right_img']
+];
+//登记和检测
+var typeArray = ['REGISTER', 'CHECK'];
+//车尾，车内，左侧，右侧
+var uploadType = ['front_img', 'in_img', 'left_img', 'right_img'];
+//adType 3:车内+车外 4:车外
+let carEnd = { title: '车尾照片', placeType: 'front_img', showLoading: false, remark: '注：必须同时拍到广告画面和车牌', showPlaceholder: true, emptyTip: '请拍摄车辆正面照片' };
+let carInner = { title: '车内照片', placeType: 'in_img', showLoading: false, remark: '注：必须同时拍到两个车内广告画面', showPlaceholder: true, emptyTip: '请拍摄车内照片' };
+let carLeft = { title: '车身左侧', placeType: 'left_img', showLoading: false, remark: '注：以车辆左侧拍摄', showPlaceholder: true, emptyTip: '请拍摄车身左侧照片' };
+let carRight = { title: '车身右侧', placeType: 'right_img', showLoading: false, remark: '注：以车辆右侧拍摄', showPlaceholder: true, emptyTip: '请拍摄车身右侧照片' };
 
 Page({
 
@@ -24,18 +31,6 @@ Page({
     btnLoading: false,
     auditBtnBgBgColor: '#ff5539',
     auditBtnText: '提交',
-    showPlaceholder1: true,
-    showPlaceholder2: true,
-    showPlaceholder3: true,
-    showPlaceholder4: true,
-    imageSrc1: '',
-    imageSrc2: '',
-    imageSrc3: '',
-    imageSrc4: '',
-    showLoading1: false,
-    showLoading2: false,
-    showLoading3: false,
-    showLoading4: false,
     typeValue: 1,
     user_id: '',
     ad_id: '',
@@ -44,6 +39,7 @@ Page({
     check_id: '',
     //预约上传
     time_id: '',
+    carPhotoList: []
   },
 
   /**
@@ -60,12 +56,37 @@ Page({
         typeValue: 2
       })
     }
+    //初始化数组
+    console.log('ad_type------>' + options.ad_type);
+    let list = this.data.carPhotoList;
+    switch (options.ad_type){
+      //车内+车外
+      case 3:
+        list.push(carEnd);
+        list.push(carInner);
+        list.push(carLeft);
+        list.push(carRight);
+        break;
+      //车外
+      case 4:
+        list.push(carEnd);
+        list.push(carLeft);
+        list.push(carRight);
+        break;
+      default:
+        list.push(carEnd);
+        list.push(carInner);
+        list.push(carLeft);
+        list.push(carRight);
+        break;
+    }
     this.setData({
       user_id: options.user_id,
       ad_id: options.ad_id,
       check_id: options.check_id,
       time_id: options.time_id,
       server_id: app.globalData.server_id,
+      carPhotoList: list
     })
   },
 
@@ -73,7 +94,7 @@ Page({
    * 选择图片
    */
   chooseImage: function (params) {
-    var clickId = params.target.id;
+    var index = params.currentTarget.dataset.index;
     var that = this;
     wx.chooseImage({
       sourceType: sourceType[0],
@@ -82,51 +103,36 @@ Page({
       success: function (res) {
         console.log(res)
         //上传图片
-        that.showLoadingView(clickId);
-        that.uploadImage(res.tempFilePaths[0], clickId);
+        that.showLoadingView(index);
+        that.uploadImage(res.tempFilePaths[0], index);
       }
     })
   },
 
-  showLoadingView: function (clickId) {
-    var that = this
-    if (clickId == uploadType[0]) {
-      that.setData({
-        showLoading1: true
-      })
-    } else if (clickId == uploadType[1]) {
-      that.setData({
-        showLoading2: true
-      })
-    } else if (clickId == uploadType[2]) {
-      that.setData({
-        showLoading3: true
-      })
-    } else if (clickId == uploadType[3]) {
-      that.setData({
-        showLoading4: true
-      })
+  showLoadingView: function (index) {
+    var that = this;
+    let list = that.data.carPhotoList;
+    for(let i = 0; i< list.length; i++){
+      if(i == index){
+        list[index].showLoading = true;
+      }
     }
+    that.setData({
+      carPhotoList: list
+    })
   },
 
   /**
    * 上传图片
    */
-  uploadImage: function (filePath, clickId) {
+  uploadImage: function (filePath, index) {
+    console.log('uploadImage-------->' + index);
     var that = this;
     var filename;
     if (filePath == undefined || filePath == '') {
       return;
     } else {
-      if (clickId == uploadType[0]) {
-        filename = uploadType[0];
-      } else if (clickId == uploadType[1]) {
-        filename = uploadType[1];
-      } else if (clickId == uploadType[2]) {
-        filename = uploadType[2];
-      } else if (clickId == uploadType[3]) {
-        filename = uploadType[3];
-      }
+      filename = uploadType[index];
       wx.uploadFile({
         url: apiManager.getUploadUrl(),
         filePath: filePath,
@@ -142,18 +148,19 @@ Page({
           console.log(res)
           var resdata = JSON.parse(res.data);
           if (resdata.code == 1000) {
-            that.loadImageSrc(filePath, clickId);
+            that.loadImageSrc(filePath, index);
           } else {
             console.log('图片上传失败')
           }
         },
         fail: function(res){
-          wx.showToast({
-            title: res.data.msg,
+          wx.showModal({
+            content: '服务器开小差了~\n~~~~(>_<)~~~~',
+            showCancel: false
           })
         },
         complete: function(res){
-          that.hideLoadingView(clickId)
+          that.hideLoadingView(index)
         }
       })
     }
@@ -162,50 +169,31 @@ Page({
   /**
    * 上传成功后才设置图片
    */
-  loadImageSrc: function (filePath, clickId) {
+  loadImageSrc: function (filePath, index) {
     var that = this;
-    if (clickId == uploadType[0]) {
-      that.setData({
-        showPlaceholder1: false,
-        imageSrc1: filePath,
-      })
-    } else if (clickId == uploadType[1]) {
-      that.setData({
-        showPlaceholder2: false,
-        imageSrc2: filePath,
-      })
-    } else if (clickId == uploadType[2]) {
-      that.setData({
-        showPlaceholder3: false,
-        imageSrc3: filePath,
-      })
-    } else if (clickId == uploadType[3]) {
-      that.setData({
-        showPlaceholder4: false,
-        imageSrc4: filePath,
-      })
+    let list = that.data.carPhotoList;
+    for (let i = 0; i < list.length; i++) {
+      if (i == index) {
+        list[index].showPlaceholder = false;
+        list[index].imageSrc = filePath;
+      }
     }
+    that.setData({
+      carPhotoList: list
+    })
   },
 
-  hideLoadingView: function (clickId) {
+  hideLoadingView: function (index) {
     var that = this;
-    if (clickId == uploadType[0]) {
-      that.setData({
-        showLoading1: false
-      })
-    } else if (clickId == uploadType[1]) {
-      that.setData({
-        showLoading2: false
-      })
-    } else if (clickId == uploadType[2]) {
-      that.setData({
-        showLoading3: false
-      })
-    } else if (clickId == uploadType[3]) {
-      that.setData({
-        showLoading4: false
-      })
+    let list = that.data.carPhotoList;
+    for (let i = 0; i < list.length; i++) {
+      if (i == index) {
+        list[index].showLoading = false;
+      }
     }
+    that.setData({
+      carPhotoList: list
+    })
   },
 
   /**
@@ -213,17 +201,11 @@ Page({
    */
   commitAudit: function () {
     var that = this
-    if (!that.checkImage(that.data.imageSrc1, '请拍摄车辆正面照片')) {
-      return;
-    }
-    if (!that.checkImage(that.data.imageSrc2, '请拍摄车内照片')) {
-      return;
-    }
-    if (!that.checkImage(that.data.imageSrc3, '请拍摄车身左侧照片')) {
-      return;
-    }
-    if (!that.checkImage(that.data.imageSrc4, '请拍摄车身右侧照片')) {
-      return;
+    let list = that.data.carPhotoList;
+    for (let i = 0; i < list.length; i++) {
+      if (!that.checkImage(list[i].imageSrc, list[i].emptyTip)) {
+        return;
+      }
     }
     that.redirectTo();
   },
@@ -259,14 +241,16 @@ Page({
           wx.showToast({
             title: "提交成功"
           })
-          wx.switchTab({
-            url: '../register/register',
-          })
+          setTimeout(function () {
+            wx.switchTab({
+              url: '../register/register',
+            })
+          }, 1000);
         } else {
           wx.showModal({
             title: '提示',
             showCancel: false,
-            content: res.data.msg
+            content: res.data.msg? res.data.msg : '网络错误'
           });
         }
       },

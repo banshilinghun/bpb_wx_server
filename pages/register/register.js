@@ -63,6 +63,7 @@ Page({
     flag: '',
     carFlag: flagArray[0],
     leaseName: '',
+    ad_type: ''
   },
 
   onLoad: function(){
@@ -139,7 +140,7 @@ Page({
     var that = this;
     if (that.data.flag == normal) {
       wx.redirectTo({
-        url: '../photoAudit/photoAudit?typeValue=' + that.data.typeValue + '&user_id=' + that.data.user_id + '&ad_id=' + that.data.ad_id + '&check_id=' + that.data.check_id + '&time_id=' + that.data.time_id,
+        url: '../photoAudit/photoAudit?typeValue=' + that.data.typeValue + '&user_id=' + that.data.user_id + '&ad_id=' + that.data.ad_id + '&check_id=' + that.data.check_id + '&time_id=' + that.data.time_id + '&ad_type=' + that.data.ad_type
       });
     } else if (that.data.flag == lease) {
       var adId = that.data.idList[that.data.sourceTypeIndex];
@@ -153,7 +154,7 @@ Page({
         return false;
       }
       wx.redirectTo({
-        url: '../leasePhotoAudit/leasePhotoAudit?typeValue=' + that.data.typeValue + '&car_id=' + that.data.car_id + '&ad_id=' + adId + '&check_id=' + that.data.check_id,
+        url: '../leasePhotoAudit/leasePhotoAudit?typeValue=' + that.data.typeValue + '&car_id=' + that.data.car_id + '&ad_id=' + adId + '&check_id=' + that.data.check_id + '&ad_type=' + that.data.ad_type
       })
     }
   },
@@ -263,6 +264,7 @@ Page({
                   carFlag: flagArray[2],
                   car_id: dataBean.car_id,
                   flag: dataBean.flag,
+                  ad_type: dataBean.ad_type ? dataBean.ad_type : 3
                 })
                 var idList = [];
                 var nameList = [];
@@ -290,6 +292,7 @@ Page({
                   end_time: dataBean.end_time,
                   date: dataBean.date,
                   flag: dataBean.flag,
+                  ad_type: dataBean.ad_type ? dataBean.ad_type : 3
                 })
               }
 
