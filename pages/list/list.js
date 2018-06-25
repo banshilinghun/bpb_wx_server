@@ -76,7 +76,7 @@ Page({
         }
         inst.setData({
           listInfo: dataBean,
-          showEmpty: dataBean.length == 0 ? true : false
+          showEmpty: !dataBean || dataBean.length == 0 ? true : false,
         });
       },
       fail: function(res){
@@ -126,7 +126,7 @@ Page({
         }
         inst.setData({
           listInfo: dataBean,
-          showEmpty: dataBean.length == 0? true : false
+          showEmpty: !dataBean || dataBean.length == 0? true : false
         });
       },
       fail: function (res) {

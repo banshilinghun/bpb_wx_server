@@ -1,4 +1,6 @@
 
+@import '../guide/guide.wxss';
+
 /** radio start **/
 list-root{
   width: 100%;
