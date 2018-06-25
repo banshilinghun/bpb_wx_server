@@ -11,7 +11,7 @@ Page({
     inspectUrl: app.globalData.baseUrl + '',
     server_id: '',
     index: 0,
-    carList: [{name: '预约列表', value: 0}, {name: '已激活列表', value: 1}],
+    carList: [{ name: '预约列表', value: 0 }, { name: '已激活列表', value: 1 }],
     listInfo: [],
     showTime: true,
     showEmpty: false,

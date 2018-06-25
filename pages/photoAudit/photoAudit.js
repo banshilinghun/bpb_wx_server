@@ -150,7 +150,10 @@ Page({
           if (resdata.code == 1000) {
             that.loadImageSrc(filePath, index);
           } else {
-            console.log('图片上传失败')
+            wx.showModal({
+              content: res.data.msg || '服务器开小差了~\n~~~~(>_<)~~~~',
+              showCancel: false
+            })
           }
         },
         fail: function(res){
