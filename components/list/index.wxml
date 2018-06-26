@@ -1,0 +1,18 @@
+<block wx:for='{{ listInfo }}' wx:key='item.id'>
+  <view class='item-wraper' id='{{ item.id }}'>
+    <view class='list-item'>
+      <view class='item-subscribe' wx:if='{{ item.subscribeTime }}'>
+        <image class='item-date-icon' src='../../image/date_icon.png'></image>
+        <text class='item-time'>{{ item.subscribeTime }}</text>
+      </view>
+      <view class='line' wx:if='{{ item.subscribeTime }}'></view>
+      <view class='item-user'>
+        <view class='name-wrapper'>
+          <text class='item-name'>{{'车主姓名：' + item.real_name}}</text>
+        </view>
+        <text class='item-plate'>{{'车牌号：' + item.plate_no}}</text>
+      </view>
+      <text class='item-ad'>{{'广告名：' + item.name}}</text>
+    </view>
+  </view>
+</block>

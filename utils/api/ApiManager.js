@@ -3,7 +3,7 @@
  * API 接口管理
  */
 const domainAttr = ['release', 'release2', 'debug']
-const domain = domainAttr[1];//1
+const domain = domainAttr[2];//1
 
 const releaseDomain = 'https://wxapi.benpaobao.com/';
 const releaseDomain2 = 'https://wxapi2.benpaobao.com/';
@@ -102,6 +102,27 @@ function getLeaseCheckInfoUrl() {
   return getBaseUrl() + 'leaseServer/commit/check_info';
 }
 
+/**
+ * 查询车行广告登记统计信息
+ */
+function queryRegistStatisticInfoUrl(){
+  return getBaseUrl() + 'server/query/query_regist_statistic_info';
+}
+
+/**
+ * 根据广告ID查询车行广告登记列表 
+ */
+function queryServerAdRegistUrl() {
+  return getBaseUrl() + 'server/query/query_server_ad_regist_list';
+}
+
+/**
+ * 根据广告ID查询车行广告登记列表  query_server_check_list
+ */
+function queryServerAdCheckUrl() {
+  return getBaseUrl() + 'server/query/query_server_check_list';
+}
+
 class uploadInfo {
   constructor(object) {
     this.url = object.url;
@@ -157,7 +178,7 @@ function uploadFile(uploadInfo) {
 
     fail: function (res) {
       uploadInfo.fail && uploadInfo.fail(res);
-      showModel(res.data.msg);
+      showModel();
     },
 
     complete: function (res) {
@@ -197,7 +218,7 @@ function sendRequest(requestInfo) {
 
     fail: function (res) {
       requestInfo.fail && requestInfo.fail(res);
-      showModel(res.data.msg);
+      showModel();
     },
 
     complete: function (res) {
@@ -207,10 +228,8 @@ function sendRequest(requestInfo) {
 }
 
 function showModel(content) {
-  if (content == null) {
+  if (!content) {
     content = '✈️服务器开小差了🌔\n\r~~~~(>_<)~~~~';
-  } else {
-    content = dataBean.msg;
   }
   wx.showModal({
     content: content,
@@ -233,5 +252,8 @@ module.exports = {
   getLeaseUploadUrl: getLeaseUploadUrl,
   getLeaseConfirmUrl: getLeaseConfirmUrl,
   getCheckInfoUrl: getCheckInfoUrl,
-  getLeaseCheckInfoUrl: getLeaseCheckInfoUrl
+  getLeaseCheckInfoUrl: getLeaseCheckInfoUrl,
+  queryRegistStatisticInfoUrl: queryRegistStatisticInfoUrl,
+  queryServerAdRegistUrl: queryServerAdRegistUrl,
+  queryServerAdCheckUrl: queryServerAdCheckUrl
 }

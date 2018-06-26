@@ -1,14 +1,12 @@
-
-.guide-container{
-  padding-top: 20rpx;
+.guide-container {
 }
 
-.bg{
+.bg {
   min-height: 100vh;
   background-color: #eee;
 }
 
-.guide-empty-wrapper{
+.guide-empty-wrapper {
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -16,14 +14,22 @@
   align-items: center;
 }
 
-.guide-empty-image{
+.guide-empty-image {
   width: 294rpx;
   height: 192rpx;
   margin-top: 200rpx;
 }
 
-.guide-empty-text{
+.guide-empty-text {
   font-size: 28rpx;
   color: #999;
   margin-top: 30rpx;
+}
+
+.guide-title {
+  font-size: 26rpx;
+  color: #666;
+  height: 80rpx;
+  margin-left: 40rpx;
+  line-height: 80rpx;
 }

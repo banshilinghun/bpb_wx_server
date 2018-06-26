@@ -11,10 +11,10 @@ Page({
     inspectUrl: app.globalData.baseUrl + '',
     server_id: '',
     index: 0,
-    carList: [{ name: '预约列表', value: 0 }, { name: '已激活列表', value: 1 }],
+    carList: [{ name: '预约列表', value: 0 }, { name: '已激活列表', value: 1 }, { name: '已检测列表', value: 2 }],
     listInfo: [],
-    showTime: true,
     showEmpty: false,
+    cellList: [],
   },
 
   /**
@@ -44,12 +44,10 @@ Page({
     if(value == 0){
       inst.getSubscribeList();
     }else if(value == 1){
-      inst.getActiveList();
+      inst.getActiveAdList();
+    }else if(value == 2){
+      inst.getInspectAdList();
     }
-
-    inst.setData({
-      showTime: value == 0? true : false
-    });
   },
 
   /**
@@ -105,11 +103,46 @@ Page({
   /**
    * 广告激活列表
    */
-  getActiveList: function () {
+  getActiveAdList: function(){
+    let that = this;
+    that.showLoadingView();
+    let requestParams = {};
+    requestParams.url = apiManager.queryRegistStatisticInfoUrl();
+    requestParams.data = {
+      server_id: app.globalData.server_id
+    }
+    requestParams.success = res => {
+      console.log(res);
+      that.setData({
+        cellList: []
+      })
+      if (res && res.length > 0) {
+        res.forEach(element => {
+          element.cellTitle = element.name;
+          element.remark = '已激活' + element.count + '辆';
+          element.type = 'active';
+        });
+        console.log(res);
+        that.setData({
+          cellList: res,
+          showEmpty: !res || res.length == 0 ? true : false,
+        })
+      }
+    };
+    requestParams.complete = res =>{
+      that.hideLoadingView();
+    };
+    apiManager.sendRequest(new apiManager.requestInfo(requestParams));
+  },
+
+  /**
+   * 广告检测列表
+   */
+  getInspectAdList: function () {
     var inst = this;
     inst.showLoadingView();
     wx.request({
-      url: apiManager.getActiveUrl(),
+      url: apiManager.queryServerAdCheckUrl(),
       data: {
         server_id: app.globalData.server_id
       },
@@ -118,15 +151,15 @@ Page({
         var dataBean = res.data.data;
         for (var key in dataBean) {
           var item = dataBean[key];
-          if (item.date != undefined || item.date != null){
-            item.subscribeTime = '预约时间：' + item.date + ' ' + item.begin_time + '~' + item.end_time;
-          }else{
+          if (item.check_date) {
+            item.subscribeTime = '检测时间：' + item.check_date;
+          } else {
             item.subscribeTime = '';
           }
         }
         inst.setData({
           listInfo: dataBean,
-          showEmpty: !dataBean || dataBean.length == 0? true : false
+          showEmpty: !dataBean || dataBean.length == 0 ? true : false,
         });
       },
       fail: function (res) {
@@ -142,36 +175,15 @@ Page({
     })
   },
 
-  /**
-   * 广告检测列表
-   */
-  getInspectsList: function () {
-    var inst = this;
-    wx.request({
-      url: inst.data.inspectUrl,
-      data: {
-        server_id: app.globalData.server_id
-      },
-      success: function (res) {
-        console.log(res)
-      },
-      fail: function (res) {
-        wx.showModal({
-          title: '提示',
-          content: '网络错误',
-          showCancel: false,
-        })
-      }
-    })
-  },
-
   onPullDownRefresh: function () {
     var that = this;
     var index = that.data.index;
     if(index == 0){
       that.getSubscribeList();
     }else if(index == 1){
-      that.getActiveList();
+      that.getActiveAdList();
+    }else if(index == 2){
+      that.getInspectAdList();
     }
     wx.stopPullDownRefresh();
   },
@@ -191,4 +203,11 @@ Page({
       },
     })
   },
+
+  navigateListener: function(event){
+    console.log(event);
+    wx.navigateTo({
+      url: '../listSort/listSort?title=' + event.detail.cell.cellTitle + '&count=' + event.detail.cell.count + '&ad_id=' + event.detail.cell.ad_id + '&type=' + event.detail.cell.type,
+    })
+  }
 })

@@ -287,15 +287,15 @@ Page({
                   user_id: dataBean.user_id,
                   ad_id: dataBean.ad_id,
                   check_id: dataBean.check_id ? dataBean.check_id : '',
-                  time_id: dataBean.time_id,
-                  begin_time: dataBean.begin_time,
-                  end_time: dataBean.end_time,
-                  date: dataBean.date,
+                  time_id: dataBean.time_id ? dataBean.time_id : '',
+                  begin_time: dataBean.begin_time ? dataBean.begin_time : '',
+                  end_time: dataBean.end_time ? dataBean.end_time : '',
+                  date: dataBean.date ? dataBean.date : '',
                   flag: dataBean.flag,
                   ad_type: dataBean.ad_type ? dataBean.ad_type : 3
                 })
               }
-
+              console.log('ad_type------->' + that.data.ad_type)
               //填充数据
               that.setAdCheckInfo();
               that.hideKeyboard();

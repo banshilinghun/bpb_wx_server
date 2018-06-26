@@ -1,0 +1,78 @@
+.item-wraper {
+  width: 100%;
+  margin-top: 20rpx;
+}
+
+.list-item {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  background-color: white;
+  border-radius: 10rpx;
+  flex-direction: column;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  padding-top: 8rpx;
+  padding-bottom: 8rpx;
+  -moz-box-shadow: 0px 0px 5px #ddd;
+  -webkit-box-shadow: 0px 0px 5px #ddd;
+  box-shadow: 0px 0px 5px #ddd;
+}
+
+.item-subscribe {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.item-date-icon {
+  width: 35rpx;
+  height: 35rpx;
+}
+
+.item-time {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 10rpx;
+}
+
+.line {
+  width: 100%;
+  height: 1rpx;
+  background-color: #e5e5e5;
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
+}
+
+.item-user {
+  width: 100%;
+  position: relative;
+}
+
+.name-wrapper{
+  max-width: 400rpx;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-name {
+  font-size: 28rpx;
+  color: black;
+}
+
+.item-plate {
+  font-size: 28rpx;
+  color: black;
+  margin-left: 40rpx;
+  position: absolute;
+  right: 0rpx;
+}
+
+.item-ad {
+  font-size: 28rpx;
+  color: black;
+  margin-top: 10rpx;
+}

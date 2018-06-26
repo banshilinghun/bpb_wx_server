@@ -1,0 +1,8 @@
+<view>
+  <view class='count'>
+    <text>{{ '登记数：' + count }}</text>
+  </view>
+  <view class='list-wrapper'>
+    <listView listInfo='{{ listInfo }}'></listView>
+  </view>
+</view>

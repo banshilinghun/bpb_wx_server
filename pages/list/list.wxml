@@ -7,27 +7,19 @@
   </radio-group>
 
   <view class='content-layout'>
-    <view class='list-body' wx:if='{{ listInfo && listInfo.length !=0 }}'>
+    <view class='list-body' wx:if='{{ !showEmpty }}'>
       <view class='content-margin-wrapper'>
-        <block wx:for='{{ listInfo }}' wx:key='item.id'>
-          <view class='item-wraper' id='{{ item.id }}'>
-            <view class='list-item'>
-              <view class='item-subscribe' wx:if='{{ showTime }}'>
-                <image class='item-date-icon' src='../../image/date_icon.png'></image>
-                <text class='item-time'>{{item.subscribeTime}}</text>
-              </view>
-              <view class='line' wx:if='{{ showTime }}'></view>
-              <view class='item-user'>
-                <text class='item-name'>{{'车主姓名：' + item.real_name}}</text>
-                <text class='item-plate'>{{'车牌号：' + item.plate_no}}</text>
-              </view>
-              <text class='item-ad'>{{'广告名：' + item.name}}</text>
-            </view>
+        <block wx:if='{{ index != 1 && listInfo && listInfo.length !=0}}'>
+          <listView listInfo='{{ listInfo }}'></listView>
+        </block>
+        <block wx:if='{{ index == 1 }}'>
+          <view class='cell-wrapper'>
+            <cell cellList='{{ cellList }}' bind:navigate='navigateListener'></cell>
           </view>
         </block>
       </view>
     </view>
-    <view class='guide-empty-wrapper' wx-if='{{ showEmpty }}'>
+    <view class='guide-empty-wrapper' wx:if='{{ showEmpty }}'>
       <image class='guide-empty-image' src='../../image/empty_data.png'></image>
       <text class='guide-empty-text'>空空如也</text>
     </view>

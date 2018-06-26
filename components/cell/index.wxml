@@ -4,6 +4,9 @@
       <image class='cell-left-image' src='{{ item.src }}' wx:if='{{ item.src }}'></image>
       <view class='cell-title-wrapper' style='margin-left: {{ item.src? "20rpx" : "40rpx"}}'>
         <text class='cell-title'>{{ item.cellTitle }}</text>
+        <view class='cell-remark' wx:if='{{ item.remark }}'>
+          <text>{{ item.remark }}</text>
+        </view>
       </view>
       <view class='cell-image-wrapper'>
         <image class='cell-image' src='../../image/arrow.png'></image>

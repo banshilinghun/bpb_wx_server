@@ -59,26 +59,20 @@ Page({
     //初始化数组
     console.log('ad_type------>' + options.ad_type);
     let list = this.data.carPhotoList;
-    switch (options.ad_type){
-      //车内+车外
-      case 3:
-        list.push(carEnd);
-        list.push(carInner);
-        list.push(carLeft);
-        list.push(carRight);
-        break;
-      //车外
-      case 4:
-        list.push(carEnd);
-        list.push(carLeft);
-        list.push(carRight);
-        break;
-      default:
-        list.push(carEnd);
-        list.push(carInner);
-        list.push(carLeft);
-        list.push(carRight);
-        break;
+    if (options.ad_type == 3){
+      list.push(carEnd);
+      list.push(carInner);
+      list.push(carLeft);
+      list.push(carRight);
+    } else if (options.ad_type == 4){
+      list.push(carEnd);
+      list.push(carLeft);
+      list.push(carRight);
+    } else {
+      list.push(carEnd);
+      list.push(carInner);
+      list.push(carLeft);
+      list.push(carRight);
     }
     this.setData({
       user_id: options.user_id,
@@ -94,8 +88,10 @@ Page({
    * 选择图片
    */
   chooseImage: function (params) {
-    var index = params.currentTarget.dataset.index;
-    var that = this;
+    let index = params.currentTarget.dataset.index;
+    let name = params.currentTarget.dataset.id;
+    console.log('name------->'+ name);
+    let that = this;
     wx.chooseImage({
       sourceType: sourceType[0],
       sizeType: sizeType[0],
@@ -104,7 +100,7 @@ Page({
         console.log(res)
         //上传图片
         that.showLoadingView(index);
-        that.uploadImage(res.tempFilePaths[0], index);
+        that.uploadImage(res.tempFilePaths[0], index, name);
       }
     })
   },
@@ -125,14 +121,13 @@ Page({
   /**
    * 上传图片
    */
-  uploadImage: function (filePath, index) {
+  uploadImage: function (filePath, index, filename) {
     console.log('uploadImage-------->' + index);
+    console.log('uploadImage---filename----->' + filename);
     var that = this;
-    var filename;
     if (filePath == undefined || filePath == '') {
       return;
     } else {
-      filename = uploadType[index];
       wx.uploadFile({
         url: apiManager.getUploadUrl(),
         filePath: filePath,

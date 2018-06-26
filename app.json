@@ -8,7 +8,8 @@
     "pages/list/list",
     "pages/leasePhotoAudit/leasePhotoAudit",
     "pages/guide/guide",
-    "pages/guideDetail/guideDetail"
+    "pages/guideDetail/guideDetail",
+    "pages/listSort/listSort"
   ],
   "window": {
     "backgroundTextStyle": "light",

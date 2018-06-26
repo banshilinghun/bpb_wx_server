@@ -15,6 +15,8 @@
   position: relative;
   display: flex;
   min-height: 100rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
   align-items: center;
 }
 
@@ -24,11 +26,8 @@
 
 .cell-title{
   font-size: 32rpx;
-  color: #333333;
-  font-weight: 500;
+  color: black;
   display: block;
-  padding-top: 20rpx;
-  padding-bottom: 20rpx;
 }
 
 .cell-image-wrapper{
@@ -58,4 +57,11 @@
   width: 50rpx;
   height: 50rpx;
   margin-left: 30rpx;
+}
+
+.cell-remark{
+  width: 100%;
+  text-align: left;
+  font-size: 26rpx;
+  color: #FB653D;
 }
