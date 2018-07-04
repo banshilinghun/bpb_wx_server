@@ -31,12 +31,6 @@
         "text": "激活检测"
       },
       {
-        "pagePath": "pages/guide/guide",
-        "iconPath": "image/icon_guide.png",
-        "selectedIconPath": "image/icon_guide_HL.png",
-        "text": "使用指南"
-      },
-      {
         "pagePath": "pages/list/list",
         "iconPath": "image/icon_API.png",
         "selectedIconPath": "image/icon_API_HL.png",

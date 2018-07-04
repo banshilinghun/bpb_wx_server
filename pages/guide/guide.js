@@ -18,15 +18,17 @@ Page({
     let requestInfo = {};
     requestInfo.url = apiManager.getGuideUrl();
     requestInfo.success = res => {
+      console.log(res);
       let list = [];
-      for(let cell of res){
+      res.forEach(element => {
+        console.log(element);
         //过滤为空的数据
-        if (!cell.course){
+        if (!element.imgs || element.length === 0){
           return;
         }
-        cell.cellTitle = cell.name;
-        list.push(cell);
-      }
+        element.cellTitle = element.name;
+        list.push(element);
+      });
       that.setData({
         cellList: list
       })
@@ -37,7 +39,7 @@ Page({
   navigateListener: function(event){
     console.log(event);
     wx.navigateTo({
-      url: '../guideDetail/guideDetail?imageSrc=' + event.detail.cell.course + '&title=' + event.detail.cell.cellTitle
+      url: '../guideDetail/guideDetail?imageSrc=' + JSON.stringify(event.detail.cell.imgs) + '&title=' + event.detail.cell.cellTitle
     })
   }
 })

@@ -13,6 +13,11 @@
         <text class='item-plate'>{{'车牌号：' + item.plate_no}}</text>
       </view>
       <text class='item-ad'>{{'广告名：' + item.name}}</text>
+      <view class='line-phone' wx:if='{{ item.phone }}'></view>
+      <view class='item-ad' wx:if='{{ item.phone }}' bindtap='callPhone' data-phone='{{ item.phone }}'>
+        <text>电话号码：</text>
+        <text class='item-phone'>{{ item.phone? item.phone : "未知" }}</text>
+      </view>
     </view>
   </view>
 </block>

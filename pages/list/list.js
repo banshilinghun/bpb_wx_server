@@ -209,5 +209,12 @@ Page({
     wx.navigateTo({
       url: '../listSort/listSort?title=' + event.detail.cell.cellTitle + '&count=' + event.detail.cell.count + '&ad_id=' + event.detail.cell.ad_id + '&type=' + event.detail.cell.type,
     })
+  },
+
+  callPhoneListener: function(event){
+    console.log(event);
+    wx.makePhoneCall({
+      phoneNumber: event.detail.phone
+    })
   }
 })

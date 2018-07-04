@@ -1,7 +1,5 @@
 
-.container-layout{
-  padding: 15rpx;
-}
+
 
 .image{
   width: 100%;

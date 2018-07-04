@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imageSrc: ''
+    guideList: [],
+    swiperHeight: 0
   },
 
   /**
@@ -13,12 +14,18 @@ Page({
    */
   onLoad: function (options) {
     console.log(options);
+    let imageSrc = JSON.parse(options.imageSrc);
     this.setData({
-      imageSrc: options.imageSrc
-    })
+      guideList: imageSrc
+    });
+    
     wx.setNavigationBarTitle({
       title: options.title,
     })
   },
+
+  previewImage: function(e){
+    console.log(e);
+  }
 
 })

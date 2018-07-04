@@ -1,3 +1,9 @@
 <view class='container-layout'>
-  <image class='image' src='{{ imageSrc }}' mode='widthFix'></image>
+  <swiper indicator-dots="{{ true }}" autoplay="{{ false }}" style='height: {{ swiperHeight }}'>
+    <block wx:for="{{ guideList }}" wx:key="*this">
+      <swiper-item data-image='{{ item }}' bindtap="previewImage">
+        <image class='image' mode='widthFix' src='{{ item }}'></image>
+      </swiper-item>
+    </block>
+  </swiper>
 </view>

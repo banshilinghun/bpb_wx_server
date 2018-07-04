@@ -14,9 +14,9 @@
   padding-right: 20rpx;
   padding-top: 8rpx;
   padding-bottom: 8rpx;
-  -moz-box-shadow: 0px 0px 5px #ddd;
-  -webkit-box-shadow: 0px 0px 5px #ddd;
-  box-shadow: 0px 0px 5px #ddd;
+  -moz-box-shadow: 0px 0px 8px #ddd;
+  -webkit-box-shadow: 0px 0px 8px #ddd;
+  box-shadow: 0px 0px 8px #ddd;
 }
 
 .item-subscribe {
@@ -43,6 +43,13 @@
   background-color: #e5e5e5;
   margin-top: 10rpx;
   margin-bottom: 10rpx;
+}
+
+.line-phone{
+  width: 100%;
+  height: 1rpx;
+  background-color: #e5e5e5;
+  margin-top: 20rpx;
 }
 
 .item-user {
@@ -75,4 +82,10 @@
   font-size: 28rpx;
   color: black;
   margin-top: 10rpx;
+}
+
+.item-phone{
+  color: #FB653D;
+  font-weight: bold;
+  text-decoration: underline;
 }

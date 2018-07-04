@@ -1,4 +1,4 @@
-<view>
+<view class='list-container'>
   <view class='count'>
     <text>{{ '登记数：' + count }}</text>
   </view>

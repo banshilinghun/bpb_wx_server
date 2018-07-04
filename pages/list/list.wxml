@@ -10,7 +10,7 @@
     <view class='list-body' wx:if='{{ !showEmpty }}'>
       <view class='content-margin-wrapper'>
         <block wx:if='{{ index != 1 && listInfo && listInfo.length !=0}}'>
-          <listView listInfo='{{ listInfo }}'></listView>
+          <listView listInfo='{{ listInfo }}' bind:call='callPhoneListener'></listView>
         </block>
         <block wx:if='{{ index == 1 }}'>
           <view class='cell-wrapper'>
