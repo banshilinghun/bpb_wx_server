@@ -142,3 +142,11 @@
 button::after{
   border: none;
 }
+
+.b-detail-btn-text, .b-detail-btn-time{
+  display: inline-block
+}
+
+.b-detail-btn-time{
+  font-size: 24rpx
+}
