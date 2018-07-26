@@ -14,6 +14,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
+  },
+
+  onShow: function(){
     let that = this;
     let requestInfo = {};
     requestInfo.url = apiManager.getGuideUrl();
@@ -23,7 +27,7 @@ Page({
       res.forEach(element => {
         console.log(element);
         //过滤为空的数据
-        if (!element.imgs || element.length === 0){
+        if (!element.imgs || element.length === 0) {
           return;
         }
         element.cellTitle = element.name;

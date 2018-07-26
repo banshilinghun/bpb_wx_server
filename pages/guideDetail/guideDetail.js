@@ -5,8 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    guideList: [],
-    swiperHeight: 0
+    guideImageList: [],
+    title: ''
   },
 
   /**
@@ -16,16 +16,23 @@ Page({
     console.log(options);
     let imageSrc = JSON.parse(options.imageSrc);
     this.setData({
-      guideList: imageSrc
+      guideImageList: imageSrc,
+      title: options.title
     });
     
     wx.setNavigationBarTitle({
-      title: options.title,
+      title: '安装指南',
     })
   },
 
-  previewImage: function(e){
-    console.log(e);
+  previewImage: function(event){
+    var that = this;
+    console.log(event);
+    let guideImageList = that.data.guideImageList;
+    wx.previewImage({
+      current: guideImageList[event.currentTarget.dataset.index],
+      urls: guideImageList,
+    })
   }
 
 })

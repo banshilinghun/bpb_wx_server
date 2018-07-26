@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "使用指南",
+  "navigationBarTitleText": "安装指南",
   "usingComponents": {
     "cell": "../../components/cell/index"
   }

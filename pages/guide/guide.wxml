@@ -1,7 +1,7 @@
 <view class='guide-container {{ cellList && cellList.length != 0? "bg" : "" }}'>
   <view wx:if='{{ cellList && cellList.length != 0 }}'>
     <view class='guide-title'>
-      <text>广告安装检测指南</text>
+      <text>安装指南</text>
     </view>
     <cell cellList='{{ cellList }}' bind:navigate='navigateListener'></cell>
   </view>

@@ -1,9 +1,10 @@
 <view class='container-layout'>
-  <swiper indicator-dots="{{ true }}" autoplay="{{ false }}" style='height: {{ swiperHeight }}'>
-    <block wx:for="{{ guideList }}" wx:key="*this">
-      <swiper-item data-image='{{ item }}' bindtap="previewImage">
-        <image class='image' mode='widthFix' src='{{ item }}'></image>
-      </swiper-item>
-    </block>
-  </swiper>
+  <view class='wrapper'>
+      <view class='answer-reco-title'>
+        <text>{{ title }}</text>
+      </view>
+      <block wx:for='{{ guideImageList }}' wx:key='image'>
+        <image class='answer-reco-image' mode='widthFix' src='{{ item }}' bindtap='previewImage' data-image='{{ item }}' data-index='{{ index }}'></image>
+      </block>
+    </view>
 </view>
