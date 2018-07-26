@@ -1,0 +1,70 @@
+<view>
+  <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px'>
+    <view class='b-top-wrapper'>
+      <view class='b-detail-ad'>
+        <view class='b-detail-ad-name'>
+          <text>奔跑宝</text>
+        </view>
+        <view class='b-detail-ad-status'>
+          <text>已签到</text>
+        </view>
+      </view>
+      <view class='b-detail-ad'>
+        <view class='b-user-info'>
+          <view class='b-user-title'>
+            <text>车主姓名: </text>
+          </view>
+          <view class='b-user-name'>
+            <text>杨正树</text>
+          </view>
+        </view>
+        <view class='b-info-right'>
+          <view class='b-user-title'>
+            <text>车牌号: </text>
+          </view>
+          <view class='b-user-name'>
+            <text>粤666666</text>
+          </view>
+        </view>
+      </view>
+      <!-- 电话 -->
+      <view class='b-detail-ad'>
+        <view class='b-detail-left'>
+          <text>车主电话</text>
+        </view>
+        <view class='b-detail-ad-status b-theme-color'>
+          <text>18170601995</text>
+        </view>
+      </view>
+      <!-- 预约时间 -->
+      <view class='b-detail-ad b-subs-time'>
+        <view class='b-detail-left'>
+          <text>预约时间</text>
+        </view>
+        <view class='b-detail-ad-status'>
+          <text>12:00~13:00</text>
+        </view>
+      </view>
+    </view>
+    <view class='b-divider'></view>
+    <view class='b-design-container'>
+      <view class='b-ad-design-title'>广告设计预览</view>
+      <view>
+        <view wx:for="{{ designList }}" wx:for-item='design' class='b-design-wrapper' wx:key='design'>
+          <view class='b-design-item-title'>{{ design.title }}</view>
+          <view wx:for="{{ design.effect }}" class='b-design-effect' wx:key='effect'>
+            <image class='b-design-effect-image' src='{{ item.src }}' bindtap='handlePreview' data-effect='{{ design.effect }}' data-index='{{ index }}' mode='widthFix'></image>
+            <view class='b-design-effect-type'>{{ item.type }}</view>
+          </view>
+          <view class='b-design-divider'></view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <view class='b-check-btn-wrapper'>
+    <button class='b-check-btn' bindtap='handleCheck'>
+      <view>{{ isStart? "结束安装" : "开始安装" }}</view>
+      <view wx:if='{{ isStart }}'>(安装用时 {{ time_process }})</view>
+    </button>
+  </view>
+</view>

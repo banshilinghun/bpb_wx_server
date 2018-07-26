@@ -118,7 +118,7 @@ function queryServerAdRegistUrl() {
 }
 
 /**
- * 根据广告ID查询车行广告登记列表  query_server_check_list
+ * 根据广告ID查询车行广告登记列表  
  */
 function queryServerAdCheckUrl() {
   return getBaseUrl() + 'server/query/query_server_check_list';

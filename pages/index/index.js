@@ -19,7 +19,8 @@ Page({
           app.globalData.code = res.code
           wx.redirectTo({
             //modify
-            url: '../login/login',
+            // url: '../login/login',
+            url: '../detail/detail'
           })
         } else {
           console.log('获取用户登录态失败！' + res.errMsg)

@@ -9,7 +9,9 @@
     "pages/leasePhotoAudit/leasePhotoAudit",
     "pages/guide/guide",
     "pages/guideDetail/guideDetail",
-    "pages/listSort/listSort"
+    "pages/listSort/listSort",
+    "pages/me/me",
+    "pages/detail/detail"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -28,19 +30,19 @@
         "pagePath": "pages/register/register",
         "iconPath": "image/icon_component.png",
         "selectedIconPath": "image/icon_component_HL.png",
-        "text": "激活检测"
-      },
-      {
-        "pagePath": "pages/guide/guide",
-        "iconPath": "image/icon_guide.png",
-        "selectedIconPath": "image/icon_guide_HL.png",
-        "text": "安装指南"
+        "text": "广告检测"
       },
       {
         "pagePath": "pages/list/list",
         "iconPath": "image/icon_API.png",
         "selectedIconPath": "image/icon_API_HL.png",
-        "text": "登记列表"
+        "text": "任务列表"
+      },
+      {
+        "pagePath": "pages/me/me",
+        "iconPath": "image/icon_guide.png",
+        "selectedIconPath": "image/icon_guide_HL.png",
+        "text": "个人中心"
       }
     ]
   },
