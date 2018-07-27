@@ -64,7 +64,7 @@
   <view class='b-check-btn-wrapper'>
     <button class='b-check-btn' bindtap='handleInstall'>
       <view class='b-detail-btn-text'>{{ isInstall? "结束安装" : "开始安装" }}</view>
-      <view class='b-detail-btn-time' wx:if='{{ isInstall }}'><text decode='true'>&nbsp;&nbsp;(安装用时 {{ time_process }})</text></view>
+      <view class='b-detail-btn-time' wx:if='{{ isInstall }}'><text decode='true'>&nbsp;&nbsp;( 安装用时 {{ time_process }} )</text></view>
     </button>
   </view>
 </view>

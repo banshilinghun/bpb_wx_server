@@ -1,2 +1,69 @@
-<!--pages/me/me.wxml-->
-<text>pages/me/me.wxml</text>
+   <view class="b-me-container">
+  <view class='b-me-header'>
+    <view class='b-header-wrapper'>
+      <view class='b-header-user'>
+        <image class='b-header-avatar' src='{{ userInfo.avatarUrl }}'></image>
+        <view class='b-header-detail'>
+          <view class='b-user-name'>
+            <text>{{ serverName }}</text>
+          </view>
+        </view>
+      </view>
+      <!-- 余额、待收收益、累计收益 -->
+      <view class='b-header-income'>
+        <view class='b-user-balance'>
+          <view class='b-balance-wrapper'>
+            <view class='b-balance-title'>
+              <text>今日安装数量</text>
+            </view>
+            <view class='b-balance-number'>
+              <text>{{ dayCount }}</text>
+            </view>
+          </view>
+        </view>
+        <view class='b-user-balance' bindtap='handleIncomeClick'>
+          <view class='b-balance-wrapper'>
+            <view class='b-balance-title'>
+              <text>累计安装数量</text>
+            </view>
+            <view class='b-balance-number'>
+              <text>{{ totalCount }}</text>
+            </view>
+            <view class='b-red-dot' wx:if='{{ dotVisible }}'></view>
+          </view>
+        </view>
+        <view class='b-user-balance'>
+          <view class='b-balance-wrapper'>
+            <view class='b-balance-title'>
+              <text>平均耗时</text>
+            </view>
+            <view class='b-avg-time'>
+              <text>{{ avgTime }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 收益（提现、提现记录、收益记录 ）-->
+  <view class='b-me-income'>
+    <view class='b-me-panel'>
+      <view class='b-panel-title'>
+        <text>帮助</text>
+      </view>
+      <view class='b--panel-right'>
+        <text>超过了{{ rate }}%的网点</text>
+      </view>
+    </view>
+    <view class='b-me-cell'>
+      <view class='b-cell-item' wx:for="{{ helpCells }}"  wx:key='income'   wx:if='{{ item.visible }}'  bindtap='handleAction' data-item='{{ item }}'>
+        <view class='b-cell-wrapper'>
+          <image class='b-cell-image' src='{{ item.icon }}'></image>
+          <view class='b-cell-action'>
+            <text>{{ item.text }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

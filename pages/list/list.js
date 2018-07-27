@@ -11,10 +11,16 @@ Page({
     inspectUrl: app.globalData.baseUrl + '',
     server_id: '',
     index: 0,
-    carList: [{ name: '预约列表', value: 0 }, { name: '已激活列表', value: 1 }, { name: '已检测列表', value: 2 }],
+    carList: [{ name: '已预约', value: 0 }, { name: '已签到', value: 1 }, { name: '已完成', value: 2 }],
     listInfo: [],
     showEmpty: false,
+    usePlate: true, //使用车牌号查询还是手机号查询
     cellList: [],
+    subNumber: 1,
+    signNumber: 0,
+    finishNumber: 0,
+    avgTime: '00:00',
+    switchStr: '手机号'
   },
 
   /**
@@ -216,5 +222,21 @@ Page({
     wx.makePhoneCall({
       phoneNumber: event.detail.phone
     })
+  },
+
+  handleSwitchSearch(){
+    let that = this;
+    let usePlate = that.data.usePlate;
+    if(usePlate){
+      that.setData({
+        usePlate: !usePlate,
+        switchStr: '车牌号'
+      });
+    } else {
+      that.setData({
+        usePlate: !usePlate,
+        switchStr: '手机号'
+      });
+    }
   }
 })

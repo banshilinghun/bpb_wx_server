@@ -42,7 +42,7 @@
   background-color: #fff;
   border: 1px solid #ccc;
   width: 80%;
-  border-radius: 12rpx;
+  border-radius: 40rpx;
   font-size: 28rpx;
   margin: 0 auto;
   height: 80rpx;

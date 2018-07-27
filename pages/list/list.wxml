@@ -6,6 +6,46 @@
     </label>
   </radio-group>
 
+  <view class='b-task-wrapper'>
+    <view wx:if='{{ index == 0 }}' class='b-task-middle'>
+      <text>预约总数: {{ subNumber }}人</text>
+    </view>
+    <view wx:if='{{ index == 1 }}' class='b-task-sign'>
+      <text>已签到: {{ signNumber }}人</text>
+    </view>
+    <view wx:if='{{ index == 2 }}' class='b-task-finsh'>
+      <view class='b-finsh-number'>
+        <text>已完成: {{ finishNumber }}人</text>
+      </view>
+      <view class='b-finish-time'>
+        <text>平均用时: {{ avgTime }}分</text>
+      </view>
+    </view>
+  </view>
+
+  <view class='b-task-search'>
+    <view class='b-search-container'>
+      <view class='b-search-wrapper'>
+        <image class='b-search-icon' src='../../image/search_icon.png'></image>
+        <!-- 输入车牌号查询 -->
+        <block wx:if='{{ usePlate }}'>
+          <input id="carcode" name="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{textValue}}' bindtap="bindFocus" />
+        </block>
+        <!-- 输入手机号查询 -->
+        <block wx:else>
+          <input id="carPhone" name="carPhone" type='number' class="track-input" maxlength='20' type="text" placeholder="请输入手机号" value='{{textValue}}' />
+        </block>
+        <image class='b-search-clean' src='../../image/close-gray.png'></image>
+      </view>
+    </view>
+    <view class='b-switch-btn' bindtap='handleSwitchSearch'>
+      <image class='b-switch-icon' src='../../image/search-switch.png'></image>
+      <view class='b-switch-text'>
+        <text>{{ switchStr }}</text>
+      </view>
+    </view>
+  </view>
+
   <view class='content-layout'>
     <view class='list-body' wx:if='{{ !showEmpty }}'>
       <view class='content-margin-wrapper'>
@@ -24,6 +64,7 @@
       <text class='guide-empty-text'>空空如也</text>
     </view>
   </view>
+
 </view>
 
 <view class='switch-tab' bindtap='switchAccount'>

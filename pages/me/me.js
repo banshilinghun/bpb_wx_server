@@ -5,62 +5,38 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    helpCells: [{
+      icon: '../../image/course.png',
+      text: '安装教程',
+      visible: true,
+      type: 'guide',
+      url: '../guide/guide'
+    }],
+    dayCount: 20,
+    totalCount: 1000,
+    avgTime: '10:00分',
+    serverName: '奔跑宝'
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-  
+  onLoad: function(options) {
+
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
+  handleAction(event) {
+    console.log(event);
+    let item = event.currentTarget.dataset.item;
+    switch (item.type) {
+      case 'guide':
+        wx.navigateTo({
+          url: item.url,
+        })
+        break;
+      default:
+        break;
+    }
   }
+
 })
