@@ -11,26 +11,12 @@ var sizeType = [
   ['original'],
   ['compressed', 'original']
 ]
-var typeArray = ['REGISTER', 'CHECK'];
-//标识全租还是普通
-var normal = 1;
-var lease = 2;
-
-//0 隐藏，1 显示普通数据，2显示全租数据
-var flagArray = [0, 1, 2];
 
 Page({
   data: {
     plate_no: "",
     textTips: "在搜索框内输入车牌号查询",
     sta: -1,
-    userName: '',
-    adInfo: '',
-    appointment_time: '',
-    actionText: '激活广告',
-    //判断登记还是检测(登记REGIST 检测CHECK)
-    typeValue: typeArray[0],
-    showTime: true,
     user_id: '',
     ad_id: '',
     check_id: '',
@@ -45,8 +31,7 @@ Page({
     tapNum: false, //数字键盘是否可以点击
     keyboardNumber: '1234567890',
     keyboardAlph: 'QWERTYUIOPASDFGHJKL巛ZXCVBNM',
-    keyboard1:
-    '京津沪冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤川青藏琼宁渝',
+    keyboard1: '京津沪冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤川青藏琼宁渝',
     keyboardValue: '',
     keyboard2: '',
     keyboard2For: ['完成'],
@@ -55,27 +40,88 @@ Page({
     isFocus: false, //输入框聚焦
     disabled: true,
 
-    //全租
-    car_id: '',
-    idList: [],
-    nameList: [],
-    sourceTypeIndex: '',
-    flag: '',
-    carFlag: flagArray[0],
-    leaseName: '',
-    ad_type: ''
+    //new
+    scrollHeight: 0,
+    subscribeCount: 0,
+    queueCount: 0,
+    signCount: 0,
+    finishCount: 0,
+    installList: [
+      {
+        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+        adName: '来啊，奔跑吧',
+        username: '那你知道',
+        phone: '1818829289',
+        plate: '粤B123456',
+        sub_time: '11:00~12:00',
+        status: 0
+      },
+      {
+        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+        adName: '来啊，奔跑吧',
+        username: '那你知道',
+        phone: '1818829289',
+        plate: '粤B123456',
+        sub_time: '11:00~12:00',
+        status: 1
+      }, 
+      {
+        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+        adName: '来啊，奔跑吧',
+        username: '那你知道',
+        phone: '1818829289',
+        plate: '粤B123456',
+        sub_time: '11:00~12:00',
+        status: 2
+      },
+      {
+        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+        adName: '来啊，奔跑吧',
+        username: '那你知道',
+        phone: '1818829289',
+        plate: '粤B123456',
+        sub_time: '11:00~12:00',
+        status: 2
+      },
+      {
+        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+        adName: '来啊，奔跑吧',
+        username: '那你知道',
+        phone: '1818829289',
+        plate: '粤B123456',
+        sub_time: '11:00~12:00',
+        status: 2
+      },
+      {
+        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+        adName: '来啊，奔跑吧',
+        username: '那你知道',
+        phone: '1818829289',
+        plate: '粤B123456',
+        sub_time: '11:00~12:00',
+        status: 2
+      }]
   },
 
-  onLoad: function(){
+  onLoad: function() {
     //检测更新
-    this.checkUpdate();
+    let that = this;
+    that.checkUpdate();
+    wx.getSystemInfo({
+      success: function(res) {
+        let query = wx.createSelectorQuery();
+        //选择id
+        query.select('#header').boundingClientRect(function (rect) {
+          that.setData({
+            scrollHeight: res.windowHeight - rect.height
+          })
+          console.log(rect.height)
+        }).exec();
+      }
+    })
   },
 
-  onReady: function () {
-
-  },
-
-  onShow: function () {
+  onShow: function() {
     var self = this;
     self.setData({
       flag: false
@@ -91,11 +137,11 @@ Page({
     });
   },
 
-  tapSpecBtn: function () {
+  tapSpecBtn: function() {
     this.hideKeyboard();
   },
 
-  previewImage: function (e) {
+  previewImage: function(e) {
     var current = e.target.dataset.src;
     wx.previewImage({
       current: current,
@@ -103,7 +149,7 @@ Page({
     })
   },
 
-  checkCarCode: function (code) {
+  checkCarCode: function(code) {
     var carcode = code;
     if (util.isVehicleNumber(carcode)) {
       return true;
@@ -117,52 +163,20 @@ Page({
     }
   },
 
-  setAdCheckInfo: function () {
+  /**
+   * 登记检测
+   */
+  actionClick: function() {
     var that = this;
-    var typeValue = that.data.typeValue;
-    if (typeValue == typeArray[0]) {
-      this.setData({
-        actionText: '激活广告',
-        showTime: true,
-        textTips: "该车辆需激活广告",
-        appointment_time: that.data.date + "  " + that.data.begin_time + '~' + that.data.end_time,
-      })
-    } else if (typeValue = typeArray[1]) {
-      this.setData({
-        actionText: '检测广告',
-        showTime: false,
-        textTips: "该车辆需检测广告",
-      })
-    }
-  },
-
-  actionClick: function () {
-    var that = this;
-    if (that.data.flag == normal) {
       wx.redirectTo({
-        url: '../photoAudit/photoAudit?typeValue=' + that.data.typeValue + '&user_id=' + that.data.user_id + '&ad_id=' + that.data.ad_id + '&check_id=' + that.data.check_id + '&time_id=' + that.data.time_id + '&ad_type=' + that.data.ad_type
+        url: '../photoAudit/photoAudit?user_id=' + that.data.user_id + '&ad_id=' + that.data.ad_id + '&check_id=' + that.data.check_id + '&time_id=' + that.data.time_id + '&ad_type=' + that.data.ad_type
       });
-    } else if (that.data.flag == lease) {
-      var adId = that.data.idList[that.data.sourceTypeIndex];
-      console.log('adId--------------->' + adId);
-      if (adId == '' || adId == undefined) {
-        wx.showModal({
-          title: '提示',
-          content: '请选择广告',
-          showCancel: false,
-        })
-        return false;
-      }
-      wx.redirectTo({
-        url: '../leasePhotoAudit/leasePhotoAudit?typeValue=' + that.data.typeValue + '&car_id=' + that.data.car_id + '&ad_id=' + adId + '&check_id=' + that.data.check_id + '&ad_type=' + that.data.ad_type
-      })
-    }
   },
 
   /**
    * 键盘相关
    */
-  tapKeyboard: function (e) {
+  tapKeyboard: function(e) {
     var self = this;
     //获取键盘点击的内容，并将内容赋值到textarea框中
     var tapIndex = e.target.dataset.index;
@@ -194,10 +208,6 @@ Page({
         keyboardValue: this.keyboardValue,
         specialBtn: this.specialBtn,
         tapNum: this.tapNum,
-        //清空选择广告列表
-        sourceTypeIndex: '',
-        idList: [],
-        nameList: [],
       });
       self.search(self.data.textValue);
       return false;
@@ -221,14 +231,13 @@ Page({
     self.search(self.data.textValue);
   },
 
-  search: function (params) {
+  search: function(params) {
     var that = this;
     var plateNo = params;
     that.setData({
       textTips: "输入的车牌号长度不合法",
       sta: 0,
       plate_no: plateNo,
-      carFlag: flagArray[0],
     })
     if (plateNo.length >= 7 && plateNo.length <= 8) {
       that.setData({
@@ -249,61 +258,28 @@ Page({
             var dataBean = res.data.data;
             if (dataBean == null) {
               that.setData({
-                textTips: "该车辆尚未登记广告",
+                textTips: "该车辆尚未预约",
                 sta: 0,
                 id: 0,
-                carFlag: flagArray[0],
               })
             } else {
-              //如果是全租
-              if (dataBean.flag == lease) {
-                that.setData({
-                  sta: -1,
-                  leaseName: dataBean.lease_company,
-                  typeValue: dataBean.type,
-                  carFlag: flagArray[2],
-                  car_id: dataBean.car_id,
-                  flag: dataBean.flag,
-                  ad_type: dataBean.ad_type ? dataBean.ad_type : 3
-                })
-                var idList = [];
-                var nameList = [];
-                for (var key in dataBean.ads) {
-                  idList.push(dataBean.ads[key].ad_id);
-                  nameList.push(dataBean.ads[key].ad_name);
-                }
-                that.setData({
-                  idList: idList,
-                  nameList: nameList,
-                })
-              } else {
-                that.setData({
-                  id: dataBean.user_id,
-                  sta: 2,
-                  userName: dataBean.real_name,
-                  adInfo: dataBean.name,
-                  typeValue: dataBean.type,
-                  carFlag: flagArray[1],
-                  user_id: dataBean.user_id,
-                  ad_id: dataBean.ad_id,
-                  check_id: dataBean.check_id ? dataBean.check_id : '',
-                  time_id: dataBean.time_id ? dataBean.time_id : '',
-                  begin_time: dataBean.begin_time ? dataBean.begin_time : '',
-                  end_time: dataBean.end_time ? dataBean.end_time : '',
-                  date: dataBean.date ? dataBean.date : '',
-                  flag: dataBean.flag,
-                  ad_type: dataBean.ad_type ? dataBean.ad_type : 3
-                })
-              }
-              console.log('ad_type------->' + that.data.ad_type)
-              //填充数据
-              that.setAdCheckInfo();
-              that.hideKeyboard();
+              that.setData({
+                id: dataBean.user_id,
+                sta: 2,
+                user_id: dataBean.user_id,
+                ad_id: dataBean.ad_id,
+                check_id: dataBean.check_id ? dataBean.check_id : '',
+                time_id: dataBean.time_id ? dataBean.time_id : '',
+                begin_time: dataBean.begin_time ? dataBean.begin_time : '',
+                end_time: dataBean.end_time ? dataBean.end_time : '',
+                date: dataBean.date ? dataBean.date : '',
+                flag: dataBean.flag,
+                ad_type: dataBean.ad_type ? dataBean.ad_type : 3
+              })
             }
           } else {
             that.setData({
-              textTips: res.data.msg,
-              carFlag: flagArray[0],
+              textTips: res.data.msg
             })
           }
         },
@@ -325,7 +301,7 @@ Page({
   /**
    * 点击页面隐藏键盘事件
    */
-  hideKeyboard: function () {
+  hideKeyboard: function() {
     var self = this;
     if (self.data.isKeyboard) {
       //说明键盘是显示的，再次点击要隐藏键盘
@@ -342,7 +318,7 @@ Page({
     }
   },
 
-  bindFocus: function () {
+  bindFocus: function() {
     var self = this;
     if (self.data.isKeyboard) {
       //说明键盘是显示的，再次点击要隐藏键盘
@@ -359,7 +335,7 @@ Page({
     }
   },
 
-  showKeyboard: function () {
+  showKeyboard: function() {
     var self = this;
     self.setData({
       isFocus: true,
@@ -367,29 +343,36 @@ Page({
     });
   },
 
-  sourceTypeChange: function (e) {
-    this.setData({
-      sourceTypeIndex: e.detail.value
+  /**
+   * 查看任务详情
+   */
+  handleDetail(){
+    wx.navigateTo({
+      url: '../detail/detail',
     })
+  },
+
+  handleMaskClick(){
+    this.hideKeyboard();
   },
 
   /**
    * 版本更新
    */
-  checkUpdate: function () {
+  checkUpdate: function() {
     if (wx.canIUse('getUpdateManager')) {
       const updateManager = wx.getUpdateManager();
-      updateManager.onCheckForUpdate(function (res) {
+      updateManager.onCheckForUpdate(function(res) {
         // 请求完新版本信息的回调
         console.log('onCheckForUpdate----------------->');
         console.log(res.hasUpdate);
       })
 
-      updateManager.onUpdateReady(function () {
+      updateManager.onUpdateReady(function() {
         wx.showModal({
           title: '更新提示',
           content: '新版本已经准备好，即刻体验？',
-          success: function (res) {
+          success: function(res) {
             if (res.confirm) {
               // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
               updateManager.applyUpdate();
@@ -398,7 +381,7 @@ Page({
         })
       })
 
-      updateManager.onUpdateFailed(function () {
+      updateManager.onUpdateFailed(function() {
         // 新的版本下载失败
       })
     }

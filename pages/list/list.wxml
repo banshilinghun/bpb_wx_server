@@ -38,34 +38,68 @@
         <image class='b-search-clean' src='../../image/close-gray.png'></image>
       </view>
     </view>
-    <view class='b-switch-btn' bindtap='handleSwitchSearch'>
+    <!-- <view class='b-switch-btn' bindtap='handleSwitchSearch'>
       <image class='b-switch-icon' src='../../image/search-switch.png'></image>
       <view class='b-switch-text'>
         <text>{{ switchStr }}</text>
       </view>
-    </view>
+    </view> -->
   </view>
 
-  <view class='content-layout'>
-    <view class='list-body' wx:if='{{ !showEmpty }}'>
-      <view class='content-margin-wrapper'>
-        <block wx:if='{{ index != 1 && listInfo && listInfo.length !=0}}'>
-          <listView listInfo='{{ listInfo }}' bind:call='callPhoneListener'></listView>
-        </block>
-        <block wx:if='{{ index == 1 }}'>
-          <view class='cell-wrapper'>
-            <cell cellList='{{ cellList }}' bind:navigate='navigateListener'></cell>
+  <scroll-view scroll-y='true'>
+    <view class='content-layout'>
+      <block wx:if='{{ rootList && rootList.length !== 0 }}'>
+        <view class='list-body' wx:for='{{ rootList }}' wx:key='item.id'>
+          <view class='b-list-panel'>
+            <text>{{ item.date }}</text>
           </view>
-        </block>
-      </view>
+          <block wx:for="{{ item.insideList }}" wx:key="item.id">
+            <view class="item2" bindtap="handleDetail" data-item='item'>
+              <view class="item-left">
+                <image src="{{item.logo}}" class="image" />
+              </view>
+              <view class="item-middle">
+                <view class="b-list-title">
+                  <text>{{item.adName}}</text>
+                </view>
+                <view class="myad-li">
+                  <view class="message">
+                    <view class='b-item-left'>{{ item.username }}</view>
+                    <label class="data-text theme-color">{{ item.phone }}</label>
+                  </view>
+                  <view class="message">
+                    <view class='b-item-left'>{{ item.plate }}</view>
+                    <label class="data-text">预约时间: {{item.sub_time}}</label>
+                  </view>
+                </view>
+              </view>
+              <view class="item_right">
+                <view wx:if="{{item.status==0}}">
+                  <text class="time timetxt2">未签到</text>
+                </view>
+                <view wx:elif="{{item.status==1}}">
+                  <text class="time">已签到</text>
+                </view>
+                <view wx:elif="{{item.status==2}}">
+                  <text class="time timetxt2">已完成</text>
+                </view>
+              </view>
+            </view>
+            <view class="b-line"></view>
+          </block>
+          <view class='b-list-divider'></view>
+        </view>
+      </block>
+      <block  wx:else>
+        <view class='guide-empty-wrapper'>
+          <image class='guide-empty-image' src='../../image/empty_data.png'></image>
+          <text class='guide-empty-text'>空空如也</text>
+        </view>
+      </block>
     </view>
-    <view class='guide-empty-wrapper' wx:if='{{ showEmpty }}'>
-      <image class='guide-empty-image' src='../../image/empty_data.png'></image>
-      <text class='guide-empty-text'>空空如也</text>
-    </view>
-  </view>
-
+  </scroll-view>
 </view>
+
 
 <view class='switch-tab' bindtap='switchAccount'>
   <image class='switch-icon' src='../../image/switch_icon.png'></image>

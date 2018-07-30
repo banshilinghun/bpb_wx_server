@@ -13,14 +13,34 @@ Page({
     index: 0,
     carList: [{ name: '已预约', value: 0 }, { name: '已签到', value: 1 }, { name: '已完成', value: 2 }],
     listInfo: [],
-    showEmpty: false,
     usePlate: true, //使用车牌号查询还是手机号查询
     cellList: [],
     subNumber: 1,
     signNumber: 0,
     finishNumber: 0,
     avgTime: '00:00',
-    switchStr: '手机号'
+    switchStr: '手机号',
+    rootList: [{
+      date: '2018-7-30', insideList: [{
+        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+        adName: '来啊，奔跑吧',
+        username: '那你知道',
+        phone: '1818829289',
+        plate: '粤B123456',
+        sub_time: '11:00~12:00',
+        status: 0
+      }]
+    }, {
+        date: '2018-7-30', insideList: [{
+          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+          adName: '来啊，奔跑吧',
+          username: '那你知道',
+          phone: '1818829289',
+          plate: '粤B123456',
+          sub_time: '11:00~12:00',
+          status: 0
+        }]
+      }]
   },
 
   /**
@@ -80,7 +100,6 @@ Page({
         }
         inst.setData({
           listInfo: dataBean,
-          showEmpty: !dataBean || dataBean.length == 0 ? true : false,
         });
       },
       fail: function(res){
@@ -130,8 +149,7 @@ Page({
         });
         console.log(res);
         that.setData({
-          cellList: res,
-          showEmpty: !res || res.length == 0 ? true : false,
+          cellList: res
         })
       }
     };
@@ -164,8 +182,7 @@ Page({
           }
         }
         inst.setData({
-          listInfo: dataBean,
-          showEmpty: !dataBean || dataBean.length == 0 ? true : false,
+          listInfo: dataBean
         });
       },
       fail: function (res) {

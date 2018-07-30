@@ -1,80 +1,74 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="track-bg">
-    <view class="track-input-block">
-      <block wx:if="{{!isFocus}}">
-        <input id="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" bindtap="showKeyboard" />
-      </block>
-      <block wx:else="{{isFocus}}">
-        <input id="carcode" name="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{textValue}}' bindtap="bindFocus" />
-      </block>
-
-      <image class='search-icon' src='../../image/search_icon.png'></image>
-    </view>
-
-    <view class="track-history">
-      <view>
-        <view class="track-history-title">
+  <view id='header'>
+    <!-- 预约排队等的人数 -->
+    <view class='b-install-header'>
+      <view class='b-header-item'>
+        <view class='b-header-wrapper'>
+          <text class='b-header-top'>今日预约: {{ subscribeCount }}人</text>
+          <text class='b-header-bottom b-header-black'>当前排队: {{ queueCount }}人</text>
         </view>
-        <block wx:if='{{sta==0}}'>
-          <view class="item clbg">
-            <icon type="cancel" size="20" />
-            <label>{{textTips}}</label>
-          </view>
+      </view>
+      <view class='b-header-item'>
+        <view class='b-header-wrapper'>
+          <text class='b-header-top'>已签到: {{ signCount }}人</text>
+          <text class='b-header-bottom'>已完成: {{ finishCount }}人</text>
+        </view>
+      </view>
+    </view>
+    <!-- 输入框 -->
+    <view class="track-bg">
+      <view class="track-input-block">
+        <block wx:if="{{!isFocus}}">
+          <input id="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" bindtap="showKeyboard" />
         </block>
-        <block wx:if='{{sta==1}}'>
-          <view class="item bsbg">
-            <icon type="warn" size="20" />
-            <label>{{textTips}}</label>
-          </view>
+        <block wx:else="{{isFocus}}">
+          <input id="carcode" name="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{textValue}}' bindtap="bindFocus" />
         </block>
-        <block wx:if='{{sta==2}}'>
-          <view class="item sdbg">
-            <icon type="success" size="20" />
-            <label>{{textTips}}</label>
-          </view>
-        </block>
+        <image class='search-icon' src='../../image/search_icon.png'></image>
       </view>
     </view>
   </view>
+  <!-- 列表 -->
+  <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px'>
+    <block wx:for="{{ installList }}" wx:key="item.id">
+      <view class="item2" bindtap="handleDetail" data-item='item'>
+        <view class="item-left">
+          <image src="{{item.logo}}" class="image" />
+        </view>
+        <view class="item-middle">
+          <view class="b-list-title">
+            <text>{{item.adName}}</text>
+          </view>
+          <view class="myad-li">
+            <view class="message">
+              <view class='b-item-left'>{{ item.username }}</view>
+              <label class="data-text theme-color">{{ item.phone }}</label>
+            </view>
+            <view class="message">
+              <view class='b-item-left'>{{ item.plate }}</view>
+              <label class="data-text">预约时间: {{item.sub_time}}</label>
+            </view>
+          </view>
+        </view>
+        <view class="item_right">
+          <view wx:if="{{item.status==0}}">
+            <text class="time timetxt2">未签到</text>
+          </view>
+          <view wx:elif="{{item.status==1}}">
+            <text class="time">已签到</text>
+          </view>
+          <view wx:elif="{{item.status==2}}">
+            <text class="time timetxt2">已完成</text>
+          </view>
+        </view>
+      </view>
+      <view class="b-line"></view>
+    </block>
+  </scroll-view>
 
-  <view class='item-wrapper' bindtap='hideKeyboard'>
-    <view class='item_layout' wx-if='{{carFlag == 1}}'>
-      <view class='item_info'>
-        <text class='title'>姓名</text>
-        <text class='content'>{{userName}}</text>
-      </view>
-      <view class='item_info'>
-        <text class='title'>广告信息</text>
-        <text class='content'>{{adInfo}}</text>
-      </view>
-      <view class='item_info' wx-if='{{showTime}}'>
-        <text class='title'>预约时间</text>
-        <text class='content'>{{appointment_time}}</text>
-      </view>
-    </view>
-    <!--全租-->
-    <view class='item_layout' wx-if='{{carFlag == 2}}'>
-      <view class='item_info'>
-        <text class='title'>所属租赁公司</text>
-        <text class='content'>{{leaseName}}</text>
-      </view>
-      <view class='item_info'>
-        <text class='title'>选择广告</text>
-        <picker class='picker-border' range="{{nameList}}" bindchange="sourceTypeChange" value="{{sourceTypeIndex}}" mode="selector">
-          <input class="weui-input" wx:if='{{sourceTypeIndex==""}}' id="city" name="lease" maxlength='20' type="text" placeholder="请选择广告" disabled='disabled' />
-          <view class="weui-input" wx:if='{{sourceTypeIndex!=""}}'>{{nameList[sourceTypeIndex]}}</view>
-        </picker>
-      </view>
-    </view>
-
-    <view class='btn_wraper' wx-if='{{carFlag == 1 || carFlag == 2}}'>
-      <button class="btn-inspect" bindtap="actionClick">{{actionText}}</button>
-    </view>
-
-  </view>
-
-  <block wx:if="{{isKeyboard}}">
+  <block wx:if="{{ isKeyboard }}">
+    <view class='keyboard-mask' bindtap='handleMaskClick'></view>
     <view class="keyboard">
 
       <!--省份简写键盘-->

@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "登记列表",
+  "navigationBarTitleText": "任务列表",
   "enablePullDownRefresh": true,
   "usingComponents": {
     "listView": "../../components/list/index",
