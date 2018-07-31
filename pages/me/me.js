@@ -37,6 +37,22 @@ Page({
       default:
         break;
     }
-  }
+  },
+
+  switchAccount: function () {
+    var that = this;
+    wx.showModal({
+      title: '提示',
+      content: '确定要退出当前账号吗？',
+      success: function (res) {
+        if (res.confirm) {
+          wx.redirectTo({
+            url: '../login/login',
+          })
+        } else if (res.cancel) {
+        }
+      },
+    })
+  },
 
 })

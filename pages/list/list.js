@@ -1,4 +1,3 @@
-
 var app = getApp();
 const apiManager = require('../../utils/api/ApiManager.js');
 
@@ -11,7 +10,16 @@ Page({
     inspectUrl: app.globalData.baseUrl + '',
     server_id: '',
     tabIndex: 0,
-    carList: [{ name: '已预约', value: 0 }, { name: '已签到', value: 1 }, { name: '已完成', value: 2 }],
+    carList: [{
+      name: '已预约',
+      value: 0
+    }, {
+      name: '已签到',
+      value: 1
+    }, {
+      name: '已完成',
+      value: 2
+    }],
     listInfo: [],
     usePlate: true, //使用车牌号查询还是手机号查询
     cellList: [],
@@ -21,7 +29,8 @@ Page({
     avgTime: '00:00',
     switchStr: '手机号',
     rootList: [{
-      date: '2018-7-30', insideList: [{
+      date: '2018-7-30',
+      insideList: [{
         logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
         adName: '来啊，奔跑吧',
         username: '那你知道',
@@ -31,36 +40,53 @@ Page({
         status: 0
       }]
     }, {
-        date: '2018-7-30', insideList: [{
-          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-          adName: '来啊，奔跑吧',
-          username: '那你知道',
-          phone: '1818829289',
-          plate: '粤B123456',
-          sub_time: '11:00~12:00',
-          status: 0
-        }]
-      }, {
-        date: '2018-7-30', insideList: [{
-          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-          adName: '来啊，奔跑吧',
-          username: '那你知道',
-          phone: '1818829289',
-          plate: '粤B123456',
-          sub_time: '11:00~12:00',
-          status: 0
-        }]
-      }, {
-        date: '2018-7-30', insideList: [{
-          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-          adName: '来啊，奔跑吧',
-          username: '那你知道',
-          phone: '1818829289',
-          plate: '粤B123456',
-          sub_time: '11:00~12:00',
-          status: 0
-        }]
+      date: '2018-7-30',
+      insideList: [{
+        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+        adName: '来啊，奔跑吧',
+        username: '那你知道',
+        phone: '1818829289',
+        plate: '粤B123456',
+        sub_time: '11:00~12:00',
+        status: 0
       }]
+    }, {
+      date: '2018-7-30',
+      insideList: [{
+        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+        adName: '来啊，奔跑吧',
+        username: '那你知道',
+        phone: '1818829289',
+        plate: '粤B123456',
+        sub_time: '11:00~12:00',
+        status: 0
+      }]
+    }, {
+      date: '2018-7-30',
+      insideList: [{
+        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+        adName: '来啊，奔跑吧',
+        username: '那你知道',
+        phone: '1818829289',
+        plate: '粤B123456',
+        sub_time: '11:00~12:00',
+        status: 0
+      }]
+    }],
+
+    //键盘
+    isKeyboard: false, //是否显示键盘
+    specialBtn: false,
+    tapNum: false, //数字键盘是否可以点击
+    keyboardNumber: '1234567890',
+    keyboardAlph: 'QWERTYUIOPASDFGHJKL巛ZXCVBNM',
+    keyboard1: '京津沪冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤川青藏琼宁渝',
+    keyboardValue: '',
+    keyboard2: '',
+    keyboard2For: ['完成'],
+    textArr: [],
+    textValue: '',
+    disabled: true
   },
 
   /**
@@ -86,10 +112,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    let self = this;
+    if (self.data.keyboard1 instanceof Array) {
+      return;
+    }
+    //将keyboard1和keyboard2中的所有字符串拆分成一个一个字组成的数组
+    self.data.keyboard1 = self.data.keyboard1.split('');
+    self.data.keyboard2 = self.data.keyboard2.split('');
+    self.setData({
+      keyboardValue: self.data.keyboard1
+    });
   },
 
-  listChange: function(e){
+  listChange: function (e) {
     console.log(e);
     var inst = this;
     var value = e.detail.value;
@@ -99,27 +134,27 @@ Page({
       //重置 listInfo
       listInfo: []
     })
-    if(value == 0){
+    if (value == 0) {
       inst.getSubscribeList();
-    }else if(value == 1){
+    } else if (value == 1) {
+      //todo 已签到列表
+    } else if (value == 2) {
       inst.getActiveAdList();
-    }else if(value == 2){
-      inst.getInspectAdList();
     }
   },
 
   /**
    * 预约列表 
    */
-  getSubscribeList: function(){
+  getSubscribeList: function () {
     var inst = this;
     inst.showLoadingView();
     wx.request({
       url: apiManager.getSubscribeUrl(),
-      data:{
+      data: {
         server_id: app.globalData.server_id
       },
-      success: function(res){
+      success: function (res) {
         console.log(res)
         var dataBean = res.data.data;
         for (var key in dataBean) {
@@ -134,33 +169,33 @@ Page({
           listInfo: dataBean,
         });
       },
-      fail: function(res){
+      fail: function (res) {
         wx.showModal({
           title: '提示',
           content: '网络错误',
           showCancel: false,
         })
       },
-      complete: function(){
+      complete: function () {
         inst.hideLoadingView();
       }
     })
   },
 
-  showLoadingView: function(){
+  showLoadingView: function () {
     wx.showLoading({
       title: '奔跑中...',
     })
   },
 
-  hideLoadingView: function(){
+  hideLoadingView: function () {
     wx.hideLoading();
   },
 
   /**
    * 广告激活列表
    */
-  getActiveAdList: function(){
+  getActiveAdList: function () {
     let that = this;
     that.showLoadingView();
     let requestParams = {};
@@ -185,98 +220,43 @@ Page({
         })
       }
     };
-    requestParams.complete = res =>{
+    requestParams.complete = res => {
       that.hideLoadingView();
     };
     apiManager.sendRequest(new apiManager.requestInfo(requestParams));
   },
 
-  /**
-   * 广告检测列表
-   */
-  getInspectAdList: function () {
-    var inst = this;
-    inst.showLoadingView();
-    wx.request({
-      url: apiManager.queryServerAdCheckUrl(),
-      data: {
-        server_id: app.globalData.server_id
-      },
-      success: function (res) {
-        console.log(res)
-        var dataBean = res.data.data;
-        for (var key in dataBean) {
-          var item = dataBean[key];
-          if (item.check_date) {
-            item.subscribeTime = '检测时间：' + item.check_date;
-          } else {
-            item.subscribeTime = '';
-          }
-        }
-        inst.setData({
-          listInfo: dataBean
-        });
-      },
-      fail: function (res) {
-        wx.showModal({
-          title: '提示',
-          content: '网络错误',
-          showCancel: false,
-        })
-      },
-      complete: function () {
-        inst.hideLoadingView();
-      }
-    })
-  },
-
   onPullDownRefresh: function () {
     var that = this;
     var tabIndex = that.data.tabIndex;
-    if (tabIndex == 0){
+    if (tabIndex == 0) {
       that.getSubscribeList();
-    } else if (tabIndex == 1){
+    } else if (tabIndex == 1) {
+      //todo 已签到列表
+    } else if (tabIndex == 2) {
       that.getActiveAdList();
-    } else if (tabIndex == 2){
-      that.getInspectAdList();
     }
     wx.stopPullDownRefresh();
   },
 
-  switchAccount: function(){
-    var that = this;
-    wx.showModal({
-      title: '提示',
-      content: '确定要退出当前账号吗？',
-      success: function(res){
-        if (res.confirm) {
-          wx.redirectTo({
-            url: '../login/login',
-          })
-        }else if(res.cancel){
-        }
-      },
-    })
-  },
-
-  navigateListener: function(event){
+  navigateListener: function (event) {
     console.log(event);
     wx.navigateTo({
       url: '../listSort/listSort?title=' + event.detail.cell.cellTitle + '&count=' + event.detail.cell.count + '&ad_id=' + event.detail.cell.ad_id + '&type=' + event.detail.cell.type,
     })
   },
 
-  callPhoneListener: function(event){
+  callPhoneListener: function (event) {
     console.log(event);
     wx.makePhoneCall({
       phoneNumber: event.detail.phone
     })
   },
 
-  handleSwitchSearch(){
+  handleSwitchSearch() {
     let that = this;
     let usePlate = that.data.usePlate;
-    if(usePlate){
+    if (usePlate) {
       that.setData({
         usePlate: !usePlate,
         switchStr: '车牌号'
@@ -287,5 +267,111 @@ Page({
         switchStr: '手机号'
       });
     }
-  }
+  },
+
+  /**
+   * 键盘相关
+   */
+  tapKeyboard: function (e) {
+    var self = this;
+    //获取键盘点击的内容，并将内容赋值到textarea框中
+    var tapIndex = e.target.dataset.index;
+    var tapVal = e.target.dataset.val;
+    var keyboardValue;
+    var specialBtn;
+    var tapNum;
+    if (tapVal == '巛') {
+      //说明是删除
+      self.data.textArr.pop();
+      if (self.data.textArr.length == 0) {
+        //说明没有数据了，返回到省份选择键盘
+        this.specialBtn = false;
+        this.tapNum = false;
+        this.keyboardValue = self.data.keyboard1;
+      } else if (self.data.textArr.length == 1) {
+        //只能输入字母
+        this.tapNum = false;
+        this.specialBtn = true;
+        console.log(self.data.keyboard2)
+        this.keyboardValue = self.data.keyboard2;
+      } else {
+        this.specialBtn = true;
+        this.tapNum = true;
+        this.keyboardValue = self.data.keyboard2;
+      }
+      self.data.textValue = self.data.textArr.join('');
+      self.setData({
+        textValue: self.data.textValue,
+        keyboardValue: this.keyboardValue,
+        specialBtn: this.specialBtn,
+        tapNum: this.tapNum,
+      });
+      //self.search(self.data.textValue);
+      return false;
+    }
+    if (self.data.textArr.length >= 8) {
+      return false;
+    }
+    self.data.textArr.push(tapVal);
+    self.data.textValue = self.data.textArr.join('');
+    self.setData({
+      textValue: self.data.textValue,
+      keyboardValue: self.data.keyboard2,
+      specialBtn: true
+    });
+    if (self.data.textArr.length > 1) {
+      //展示数字键盘
+      self.setData({
+        tapNum: true
+      });
+    }
+  },
+
+  /**
+   * 输入完成
+   */
+  tapSpecBtn: function () {
+    this.hideKeyboard();
+  },
+
+  showKeyboard() {
+    var self = this;
+    self.setData({
+      isKeyboard: true
+    });
+  },
+
+  /**
+   * 点击页面隐藏键盘事件
+   */
+  hideKeyboard: function () {
+    var self = this;
+    //说明键盘是显示的，再次点击要隐藏键盘
+    if (self.data.textValue) {
+      // todo something
+
+    }
+    self.setData({
+      isKeyboard: false
+    });
+  },
+
+  handleMaskClick() {
+    this.hideKeyboard();
+  },
+
+  /**
+   * 清除搜索内容
+   */
+  handleClear() {
+    let that = this;
+    that.setData({
+      textValue: '',
+      textArr: [],
+      specialBtn: false,
+      tapNum: false,
+      keyboardValue: that.data.keyboard1
+    })
+  },
+
 })

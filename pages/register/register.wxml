@@ -19,13 +19,9 @@
     <!-- 输入框 -->
     <view class="track-bg">
       <view class="track-input-block">
-        <block wx:if="{{!isFocus}}">
-          <input id="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" bindtap="showKeyboard" />
-        </block>
-        <block wx:else="{{isFocus}}">
-          <input id="carcode" name="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{textValue}}' bindtap="bindFocus" />
-        </block>
+        <input id="carcode" name="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{textValue}}' bindtap="showKeyboard" />
         <image class='search-icon' src='../../image/search_icon.png'></image>
+        <image class='b-clear-icon' src='../../image/close-gray.png' catchtap='handleClear'></image>
       </view>
     </view>
   </view>

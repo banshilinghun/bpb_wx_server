@@ -1,4 +1,4 @@
-   <view class="b-me-container">
+<view class="b-me-container">
   <view class='b-me-header'>
     <view class='b-header-wrapper'>
       <view class='b-header-user'>
@@ -56,7 +56,7 @@
       </view>
     </view>
     <view class='b-me-cell'>
-      <view class='b-cell-item' wx:for="{{ helpCells }}"  wx:key='income'   wx:if='{{ item.visible }}'  bindtap='handleAction' data-item='{{ item }}'>
+      <view class='b-cell-item' wx:for="{{ helpCells }}" wx:key='income' wx:if='{{ item.visible }}' bindtap='handleAction' data-item='{{ item }}'>
         <view class='b-cell-wrapper'>
           <image class='b-cell-image' src='{{ item.icon }}'></image>
           <view class='b-cell-action'>
@@ -66,4 +66,9 @@
       </view>
     </view>
   </view>
+</view>
+
+<!-- 切换账号 -->
+<view class='switch-tab' bindtap='switchAccount'>
+  <image class='switch-icon' src='../../image/switch_icon.png'></image>
 </view>

@@ -37,7 +37,6 @@ Page({
     keyboard2For: ['完成'],
     textArr: [],
     textValue: '',
-    isFocus: false, //输入框聚焦
     disabled: true,
 
     //new
@@ -198,6 +197,7 @@ Page({
         //只能输入字母
         this.tapNum = false;
         this.specialBtn = true;
+        console.log(self.data.keyboard2)
         this.keyboardValue = self.data.keyboard2;
       } else {
         this.specialBtn = true;
@@ -305,42 +305,19 @@ Page({
    */
   hideKeyboard: function() {
     var self = this;
-    if (self.data.isKeyboard) {
-      //说明键盘是显示的，再次点击要隐藏键盘
-      if (self.data.textValue) {
-        self.setData({
-          isKeyboard: false
-        });
-      } else {
-        self.setData({
-          isKeyboard: false,
-          isFocus: false
-        });
-      }
-    }
-  },
+    //说明键盘是显示的，再次点击要隐藏键盘
+    if (self.data.textValue) {
+      // todo something
 
-  bindFocus: function() {
-    var self = this;
-    if (self.data.isKeyboard) {
-      //说明键盘是显示的，再次点击要隐藏键盘
-      self.setData({
-        isKeyboard: false,
-        isFocus: true
-      });
-    } else {
-      //说明键盘是隐藏的，再次点击显示键盘
-      self.setData({
-        isFocus: true,
-        isKeyboard: true
-      });
     }
+    self.setData({
+      isKeyboard: false
+    });
   },
 
   showKeyboard: function() {
     var self = this;
     self.setData({
-      isFocus: true,
       isKeyboard: true
     });
   },
@@ -356,6 +333,20 @@ Page({
 
   handleMaskClick(){
     this.hideKeyboard();
+  },
+
+  /**
+   * 清除搜索内容
+   */
+  handleClear(){
+    let that = this;
+    that.setData({
+      textValue: '',
+      textArr: [],
+      specialBtn: false,
+      tapNum: false,
+      keyboardValue: that.data.keyboard1
+    })
   },
 
   /**

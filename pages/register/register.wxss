@@ -1,4 +1,5 @@
-@import '../../utils/common/keybord.wxss';
+@import '../../style/keybord.wxss';
+@import '../../style/input.wxss';
 
 .theme-color{
   color: #ff5539
@@ -11,48 +12,6 @@
 }
 
 /**index.wxss**/
-
-.track-bg {
-  background-color: #f8f8f8;
-  padding-top: 20rpx;
-  padding-bottom: 20rpx;
-  width: 100%;
-  text-align: center;
-  position: relative;
-}
-
-.track-input-block {
-  position: relative;
-}
-
-.track-input-block label {
-  position: absolute;
-  font-size: 24rpx;
-  left: 46rpx;
-  top: 20rpx;
-  color: #888;
-}
-
-.track-input {
-  box-shadow: inset 0 2rpx 2rpx rgba(0, 0, 0, 0.075), 0 0 16rpx #ccc;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  width: 80%;
-  border-radius: 35rpx;
-  font-size: 28rpx;
-  margin: 0 auto;
-  height: 70rpx;
-  text-align: left;
-  padding: 0rpx 30rpx 0rpx 70rpx;
-}
-
-.search-icon{
-  width: 35rpx;
-  height: 35rpx;
-  position: absolute;
-  left: 40rpx;
-  top: 25rpx;
-}
 
 .track-history {
   width: 90%;
@@ -161,6 +120,7 @@
   font-size: 17px;
   width: 50%;
 }
+
 .weui-cells:before {
   content: " ";
   position: absolute;
@@ -170,6 +130,7 @@
   height: 1px;
   color: #D9D9D9;
 }
+
 .weui-cells:after {
   content: " ";
   position: absolute;

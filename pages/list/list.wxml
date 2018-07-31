@@ -25,30 +25,16 @@
       </view>
     </view>
 
-    <view class='b-task-search'>
-      <view class='b-search-container'>
-        <view class='b-search-wrapper'>
-          <image class='b-search-icon' src='../../image/search_icon.png'></image>
-          <!-- 输入车牌号查询 -->
-          <block wx:if='{{ usePlate }}'>
-            <input id="carcode" name="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{textValue}}' bindtap="bindFocus" />
-          </block>
-          <!-- 输入手机号查询 -->
-          <block wx:else>
-            <input id="carPhone" name="carPhone" type='number' class="track-input" maxlength='20' type="text" placeholder="请输入手机号" value='{{textValue}}' />
-          </block>
-          <image class='b-search-clean' src='../../image/close-gray.png'></image>
-        </view>
+    <!-- 输入框 -->
+    <view class="track-bg" wx:if='{{ tabIndex != 2 }}'>
+      <view class="track-input-block">
+        <input id="carcode" name="carcode" disabled="true" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{textValue}}' bindtap="showKeyboard" />
+        <image class='search-icon' src='../../image/search_icon.png'></image>
+        <image class='b-clear-icon' src='../../image/close-gray.png' catchtap='handleClear'></image>
       </view>
-      <!-- <view class='b-switch-btn' bindtap='handleSwitchSearch'>
-      <image class='b-switch-icon' src='../../image/search-switch.png'></image>
-      <view class='b-switch-text'>
-        <text>{{ switchStr }}</text>
-      </view>
-    </view> -->
     </view>
+    <view class='b-list-divider' wx:if='{{ tabIndex == 2 }}'></view>
   </view>
-
   <!-- 列表 -->
   <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px'>
     <view class='content-layout'>
@@ -95,8 +81,8 @@
       </block>
       <!-- 已完成列表 -->
       <block wx:elif='{{ tabIndex == 2 && cellList && cellList.length !== 0 }}'>
-        <view wx:for='{{ cellList }}' wx:for-item='cell' wx:key='cell.id'>
-          <cell></cell>
+        <view class='cell-wrapper'>
+          <cell cellList='{{ cellList }}' bind:navigate='navigateListener'></cell>
         </view>
       </block>
       <!-- 空页面 -->
@@ -110,7 +96,41 @@
   </scroll-view>
 </view>
 
+<!-- 车牌输入键盘 -->
+<block wx:if="{{ isKeyboard }}">
+  <view class='keyboard-mask' bindtap='handleMaskClick'></view>
+  <view class="keyboard">
 
-<view class='switch-tab' bindtap='switchAccount'>
-  <image class='switch-icon' src='../../image/switch_icon.png'></image>
-</view>
+    <!--省份简写键盘-->
+    <view class="td td_nor" wx:for="{{keyboardValue}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this" bindtap="tapKeyboard" data-index="{{idx}}" data-val="{{itemName}}" hover-class="board_bg" hover-start-time="0" hover-stay-time="80">
+      {{itemName}}
+    </view>
+
+    <!--数字键盘不可点击-->
+    <view wx:if="{{specialBtn && !tapNum}}" class="td td_num board_bg" wx:for="{{keyboardNumber}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this">
+      {{itemName}}
+    </view>
+
+    <!--数字键盘可点击-->
+    <view wx:if="{{specialBtn && tapNum}}" class="td td_num" wx:for="{{keyboardNumber}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this" bindtap="tapKeyboard" data-index="{{idx}}" data-val="{{itemName}}" hover-class="board_bg" hover-start-time="0"
+      hover-stay-time="80">
+      {{itemName}}
+    </view>
+
+    <!--字母键盘-->
+    <view wx:if="{{specialBtn}}" class="td td_num" wx:for="{{keyboardAlph}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this" hover-class="board_bg" hover-start-time="0" hover-stay-time="80">
+      <view class="del_icon" wx:if="{{idx == 19}}" bindtap="tapKeyboard" data-index="{{idx}}" data-val="{{itemName}}">
+        <!--<image src="/images/icon_del.png" mode="aspectFit" class="del_icon"></image>-->
+      </view>
+      <view wx:elif="{{idx != 19}}" bindtap="tapKeyboard" data-index="{{idx}}" data-val="{{itemName}}">
+        {{itemName}}
+      </view>
+    </view>
+
+    <!--完成按钮 start-->
+    <view class="td td_spec_fin" wx:for="{{keyboard2For}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this" bindtap="tapSpecBtn" data-index="{{idx}}" data-val="{{itemName}}" wx:if="{{specialBtn}}" hover-class="board_bg_spec" hover-start-time="0" hover-stay-time="80">
+      {{itemName}}
+    </view>
+    <!--完成按钮 end-->
+  </view>
+</block>

@@ -1,5 +1,7 @@
 
 @import '../guide/guide.wxss';
+@import '../../style/keybord.wxss';
+@import '../../style/input.wxss';
 
 /** radio start **/
 list-root{
@@ -104,24 +106,6 @@ view{
   padding-bottom: 20rpx;
 }
 
-.switch-tab{
-  width: 70rpx;
-  height: 70rpx;
-  background-color: #ff5a39;
-  opacity: 0.8;
-  position: fixed;
-  border-radius: 40rpx;
-  right: 30rpx;
-  bottom: 30rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.switch-icon{
-  width: 50rpx;
-  height: 50rpx;
-}
-
 .empty-layout{
   position: absolute;
   width: 100%;
@@ -167,7 +151,6 @@ view{
 
 .b-task-search{
   padding: 0 20rpx;
-  margin-top: 20rpx;
   background: #f6f6f6;
   display: flex;
   align-items: center
