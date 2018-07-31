@@ -46,6 +46,7 @@ Page({
     queueCount: 0,
     signCount: 0,
     finishCount: 0,
+    scrollHeight: 0,
     installList: [
       {
         logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
@@ -104,9 +105,10 @@ Page({
   },
 
   onLoad: function() {
-    //检测更新
     let that = this;
+    //检测更新
     that.checkUpdate();
+    //设置滚动高度
     wx.getSystemInfo({
       success: function(res) {
         let query = wx.createSelectorQuery();

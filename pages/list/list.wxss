@@ -28,8 +28,7 @@ view{
     height: 70rpx;
     color:#ff5a39;
     text-align:center;
-    margin-top: 30rpx;
-    margin-bottom: 30rpx;
+    padding: 30rpx 0
 }
 .radio{
     display: inline-block;
@@ -318,10 +317,12 @@ view{
 }
 
 .data-text{
+  font-size: 24rpx;
   margin-left: 50rpx
 }
 
 .b-item-left{
+  font-size: 24rpx;
   min-width: 150rpx
 }
 
@@ -333,13 +334,11 @@ view{
   background: #ddd
 }
 
-.b-line:last-child{
-  display: none
-}
-
 .b-list-divider{
   height: 20rpx;
   background: #f6f6f6
 }
 
-
+.theme-color{
+  color: #ff5a39
+}

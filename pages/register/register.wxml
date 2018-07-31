@@ -43,11 +43,11 @@
           <view class="myad-li">
             <view class="message">
               <view class='b-item-left'>{{ item.username }}</view>
-              <label class="data-text theme-color">{{ item.phone }}</label>
+              <view class="data-text theme-color">{{ item.phone }}</view>
             </view>
             <view class="message">
               <view class='b-item-left'>{{ item.plate }}</view>
-              <label class="data-text">预约时间: {{item.sub_time}}</label>
+              <view class="data-text">预约时间: {{item.sub_time}}</view>
             </view>
           </view>
         </view>

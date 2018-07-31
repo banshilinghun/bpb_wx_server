@@ -1,96 +1,106 @@
 <!--pages/list/list.wxml-->
 <view class='list-root'>
-  <radio-group class="radio-group" bindchange="listChange">
-    <label wx:for="{{ carList }}" wx:for-index="idx" wx:key="item.value" class="radio {{ idx == index ? 'active' : ''}}">
-      <radio class="radio-item" value="{{ item.value }}" checked="{{ idx==0 }}" />{{item.name}}
-    </label>
-  </radio-group>
+  <!-- header -->
+  <view id='header'>
+    <radio-group class="radio-group" bindchange="listChange">
+      <label wx:for="{{ carList }}" wx:for-index="idx" wx:key="item.value" class="radio {{ idx == tabIndex ? 'active' : ''}}">
+        <radio class="radio-item" value="{{ item.value }}" checked="{{ idx==0 }}" />{{item.name}}
+      </label>
+    </radio-group>
 
-  <view class='b-task-wrapper'>
-    <view wx:if='{{ index == 0 }}' class='b-task-middle'>
-      <text>预约总数: {{ subNumber }}人</text>
-    </view>
-    <view wx:if='{{ index == 1 }}' class='b-task-sign'>
-      <text>已签到: {{ signNumber }}人</text>
-    </view>
-    <view wx:if='{{ index == 2 }}' class='b-task-finsh'>
-      <view class='b-finsh-number'>
-        <text>已完成: {{ finishNumber }}人</text>
+    <view class='b-task-wrapper'>
+      <view wx:if='{{ tabIndex == 0 }}' class='b-task-middle'>
+        <text>预约总数: {{ subNumber }}人</text>
       </view>
-      <view class='b-finish-time'>
-        <text>平均用时: {{ avgTime }}分</text>
+      <view wx:if='{{ tabIndex == 1 }}' class='b-task-sign'>
+        <text>已签到: {{ signNumber }}人</text>
+      </view>
+      <view wx:if='{{ tabIndex == 2 }}' class='b-task-finsh'>
+        <view class='b-finsh-number'>
+          <text>已完成: {{ finishNumber }}人</text>
+        </view>
+        <view class='b-finish-time'>
+          <text>平均用时: {{ avgTime }}分</text>
+        </view>
       </view>
     </view>
-  </view>
 
-  <view class='b-task-search'>
-    <view class='b-search-container'>
-      <view class='b-search-wrapper'>
-        <image class='b-search-icon' src='../../image/search_icon.png'></image>
-        <!-- 输入车牌号查询 -->
-        <block wx:if='{{ usePlate }}'>
-          <input id="carcode" name="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{textValue}}' bindtap="bindFocus" />
-        </block>
-        <!-- 输入手机号查询 -->
-        <block wx:else>
-          <input id="carPhone" name="carPhone" type='number' class="track-input" maxlength='20' type="text" placeholder="请输入手机号" value='{{textValue}}' />
-        </block>
-        <image class='b-search-clean' src='../../image/close-gray.png'></image>
+    <view class='b-task-search'>
+      <view class='b-search-container'>
+        <view class='b-search-wrapper'>
+          <image class='b-search-icon' src='../../image/search_icon.png'></image>
+          <!-- 输入车牌号查询 -->
+          <block wx:if='{{ usePlate }}'>
+            <input id="carcode" name="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{textValue}}' bindtap="bindFocus" />
+          </block>
+          <!-- 输入手机号查询 -->
+          <block wx:else>
+            <input id="carPhone" name="carPhone" type='number' class="track-input" maxlength='20' type="text" placeholder="请输入手机号" value='{{textValue}}' />
+          </block>
+          <image class='b-search-clean' src='../../image/close-gray.png'></image>
+        </view>
       </view>
-    </view>
-    <!-- <view class='b-switch-btn' bindtap='handleSwitchSearch'>
+      <!-- <view class='b-switch-btn' bindtap='handleSwitchSearch'>
       <image class='b-switch-icon' src='../../image/search-switch.png'></image>
       <view class='b-switch-text'>
         <text>{{ switchStr }}</text>
       </view>
     </view> -->
+    </view>
   </view>
 
-  <scroll-view scroll-y='true'>
+  <!-- 列表 -->
+  <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px'>
     <view class='content-layout'>
-      <block wx:if='{{ rootList && rootList.length !== 0 }}'>
+      <!-- 已预约、已签到列表 -->
+      <block wx:if='{{ tabIndex != 2 && rootList && rootList.length !== 0 }}'>
         <view class='list-body' wx:for='{{ rootList }}' wx:key='item.id'>
           <view class='b-list-panel'>
             <text>{{ item.date }}</text>
           </view>
-          <block wx:for="{{ item.insideList }}" wx:key="item.id">
-            <view class="item2" bindtap="handleDetail" data-item='item'>
+          <block wx:for="{{ item.insideList }}" wx:for-item='info' wx:key="info.id" wx:for-index="idx">
+            <view class="item2" bindtap="handleDetail" data-item='info'>
               <view class="item-left">
-                <image src="{{item.logo}}" class="image" />
+                <image src="{{info.logo}}" class="image" />
               </view>
               <view class="item-middle">
                 <view class="b-list-title">
-                  <text>{{item.adName}}</text>
+                  <text>{{info.adName}}</text>
                 </view>
                 <view class="myad-li">
                   <view class="message">
-                    <view class='b-item-left'>{{ item.username }}</view>
-                    <label class="data-text theme-color">{{ item.phone }}</label>
+                    <view class='b-item-left'>{{ info.username }}</view>
+                    <view class="data-text theme-color">{{ info.phone }}</view>
                   </view>
                   <view class="message">
-                    <view class='b-item-left'>{{ item.plate }}</view>
-                    <label class="data-text">预约时间: {{item.sub_time}}</label>
+                    <view class='b-item-left'>{{ info.plate }}</view>
+                    <view class="data-text">预约时间: {{info.sub_time}}</view>
                   </view>
                 </view>
               </view>
               <view class="item_right">
-                <view wx:if="{{item.status==0}}">
-                  <text class="time timetxt2">未签到</text>
+                <view wx:if="{{ tabIndex == 0 }}">
+                  <text class="time timetxt2">已预约</text>
                 </view>
-                <view wx:elif="{{item.status==1}}">
+                <view wx:elif="{{ tabIndex == 1 }}">
                   <text class="time">已签到</text>
                 </view>
-                <view wx:elif="{{item.status==2}}">
-                  <text class="time timetxt2">已完成</text>
-                </view>
+
               </view>
             </view>
-            <view class="b-line"></view>
+            <view class="b-line" wx:if='{{ idx !== item.insideList.length - 1 }}'></view>
           </block>
-          <view class='b-list-divider'></view>
+          <view class='b-list-divider' wx:if='{{ index !== rootList.length - 1 }}'></view>
         </view>
       </block>
-      <block  wx:else>
+      <!-- 已完成列表 -->
+      <block wx:elif='{{ tabIndex == 2 && cellList && cellList.length !== 0 }}'>
+        <view wx:for='{{ cellList }}' wx:for-item='cell' wx:key='cell.id'>
+          <cell></cell>
+        </view>
+      </block>
+      <!-- 空页面 -->
+      <block wx:else>
         <view class='guide-empty-wrapper'>
           <image class='guide-empty-image' src='../../image/empty_data.png'></image>
           <text class='guide-empty-text'>空空如也</text>

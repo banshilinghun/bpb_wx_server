@@ -10,7 +10,7 @@ Page({
   data: {
     inspectUrl: app.globalData.baseUrl + '',
     server_id: '',
-    index: 0,
+    tabIndex: 0,
     carList: [{ name: '已预约', value: 0 }, { name: '已签到', value: 1 }, { name: '已完成', value: 2 }],
     listInfo: [],
     usePlate: true, //使用车牌号查询还是手机号查询
@@ -40,6 +40,26 @@ Page({
           sub_time: '11:00~12:00',
           status: 0
         }]
+      }, {
+        date: '2018-7-30', insideList: [{
+          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+          adName: '来啊，奔跑吧',
+          username: '那你知道',
+          phone: '1818829289',
+          plate: '粤B123456',
+          sub_time: '11:00~12:00',
+          status: 0
+        }]
+      }, {
+        date: '2018-7-30', insideList: [{
+          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+          adName: '来啊，奔跑吧',
+          username: '那你知道',
+          phone: '1818829289',
+          plate: '粤B123456',
+          sub_time: '11:00~12:00',
+          status: 0
+        }]
       }]
   },
 
@@ -47,7 +67,19 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getSubscribeList();
+    let that = this;
+    that.getSubscribeList();
+    wx.getSystemInfo({
+      success: function (res) {
+        let query = wx.createSelectorQuery();
+        //选择id
+        query.select('#header').boundingClientRect(function (rect) {
+          that.setData({
+            scrollHeight: res.windowHeight - rect.height
+          })
+        }).exec();
+      }
+    })
   },
 
   /**
@@ -63,7 +95,7 @@ Page({
     var value = e.detail.value;
     var that = this;
     that.setData({
-      index: value,
+      tabIndex: value,
       //重置 listInfo
       listInfo: []
     })
@@ -200,12 +232,12 @@ Page({
 
   onPullDownRefresh: function () {
     var that = this;
-    var index = that.data.index;
-    if(index == 0){
+    var tabIndex = that.data.tabIndex;
+    if (tabIndex == 0){
       that.getSubscribeList();
-    }else if(index == 1){
+    } else if (tabIndex == 1){
       that.getActiveAdList();
-    }else if(index == 2){
+    } else if (tabIndex == 2){
       that.getInspectAdList();
     }
     wx.stopPullDownRefresh();
