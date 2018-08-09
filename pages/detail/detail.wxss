@@ -4,10 +4,6 @@
   box-sizing: border-box;
 }
 
-.b-design-container{
-  padding: 0 30rpx;
-}
-
 .b-divider{
   width: 100%;
   height: 20rpx;
@@ -22,16 +18,25 @@
   padding: 20rpx 0;
 }
 
+.b-detail-ad-after{
+  padding: 30rpx 0
+}
+
 .b-detail-ad-name {
-  font-size: 32rpx;
-  color: black;
+  font-size: 36rpx;
+  color: #333;
   font-weight: 500;
   flex: 1;
 }
 
 .b-detail-ad-status {
   font-size: 28rpx;
-  color: #333;
+  color: #666;
+}
+
+.b-detail-ad-right-text {
+  font-size: 32rpx;
+  color: #666;
 }
 
 .b-user-info {
@@ -67,55 +72,12 @@
 
 .b-detail-left{
   flex: 1;
-  font-size: 28rpx;
+  font-size: 32rpx;
   color: #666;
 }
 
 .b-subs-time{
   border-bottom: none
-}
-
-.b-ad-design-title {
-  font-size: 36rpx;
-  color: black;
-  margin-top: 20rpx;
-}
-
-.b-design-wrapper {
-  padding-left: 30rpx;
-  padding-right: 30rpx;
-  margin-top: 20rpx;
-  padding-top: 10rpx;
-  padding-bottom: 20rpx;
-}
-
-.b-design-wrapper:last-child{
-  border-bottom: none
-}
-
-.b-design-item-title {
-  font-size: 32rpx;
-  color: #333;
-  font-weight: bold;
-}
-
-.b-design-effect {
-  margin-top: 20rpx;
-  text-align: center;
-  box-shadow: 0rpx 0rpx 20rpx #ddd;
-  border-radius: 8rpx;
-  padding: 20rpx;
-}
-
-.b-design-effect-image {
-  border-radius: 5rpx;
-  width: 100%;
-  background: #f6f6f6;
-}
-
-.b-design-effect-type {
-  font-size: 26rpx;
-  color: #666;
 }
 
 .b-divider{
@@ -149,4 +111,67 @@ button::after{
 
 .b-detail-btn-time{
   font-size: 24rpx
+}
+
+
+.b-ad-design-title {
+  font-size: 36rpx;
+  color: #000;
+  margin-top: 40rpx;
+  padding: 0 30rpx;
+  font-weight: 500
+}
+
+.b-design-wrapper {
+  margin-top: 20rpx;
+  margin-bottom: 10rpx
+}
+
+.b-design-wrapper:last-child{
+  border-bottom: none
+}
+
+.b-design-item-title {
+  font-size: 28rpx;
+  color: #666;
+  padding: 0 30rpx
+}
+
+.b-design-effect {
+  margin-top: 20rpx;
+  text-align: center;
+  box-shadow: 0rpx 0rpx 20rpx #ddd;
+  border-radius: 8rpx;
+  padding: 20rpx;
+}
+
+.b-design-effect-image {
+  border-radius: 5rpx;
+  width: 100%;
+  background: #f6f6f6;
+}
+
+.b-design-effect-type {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.b-design-introduce{
+  padding: 0 30rpx
+}
+
+.b-effect-wrapper{
+  display: flex;
+  flex-direction: row;
+  padding: 20rpx 22rpx 0 22rpx
+}
+
+.b-effect-image-wrapper{
+  flex: 1;
+  padding: 0 8rpx
+}
+
+.b-effect-image{
+  width: 100%;
+  box-shadow: 0 0 8rpx #ddd
 }

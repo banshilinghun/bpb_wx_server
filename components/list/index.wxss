@@ -85,7 +85,7 @@
 }
 
 .item-phone{
-  color: #FB653D;
+  color: #ff555c;
   font-weight: bold;
   text-decoration: underline;
 }

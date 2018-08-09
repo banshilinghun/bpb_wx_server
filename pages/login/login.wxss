@@ -71,7 +71,7 @@
 }
 
 .register {
-  color: #ff5539;
+  color: #ff555c;
 }
 
 .smsCode {
@@ -87,7 +87,7 @@
 
 .smsCode .getSmsCodeBtn {
   font-size: 30rpx;
-  color: #ff5539;
+  color: #ff555c;
   width: 216rpx;
   box-sizing: border-box;
   height: 80rpx;

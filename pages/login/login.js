@@ -5,7 +5,7 @@ const apiManager = require('../../utils/api/ApiManager.js');
 Page({
   data: {
     loginBtnTxt: "登录",
-    loginBtnBgBgColor: "#ff5539",
+    loginBtnBgBgColor: "#ff555c",
     btnLoading: false,
     disabled: false,
     inputUserName: '',
@@ -125,7 +125,7 @@ Page({
     this.setData({
       loginBtnTxt: "登录",
       disabled: !this.data.disabled,
-      loginBtnBgBgColor: "#ff5539",
+      loginBtnBgBgColor: "#ff555c",
       btnLoading: !this.data.btnLoading
     });
   },

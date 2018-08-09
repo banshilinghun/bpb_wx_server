@@ -1,4 +1,6 @@
+
 let timer;
+const viewUtil = require("../../utils/common/viewUtil.js");
 
 Page({
 
@@ -53,6 +55,32 @@ Page({
         })
       }
     });
+    that.setDesignImageHeight();
+  },
+
+  setDesignImageHeight() {
+    let that = this;
+    viewUtil.getViewHeight("#effect-image").then(rect => {
+      that.setData({
+        designHeight: rect.width * 9 / 16
+      })
+    })
+  },
+
+  /** 预览设计效果图 */
+  handlePreviewDesign(event) {
+    let imageList = [];
+    let effect = event.currentTarget.dataset.effect;
+    if (!effect || effect.length === 0) {
+      return;
+    }
+    effect.forEach(element => {
+      imageList.push(element.src);
+    });
+    wx.previewImage({
+      current: event.currentTarget.dataset.current,
+      urls: imageList
+    })
   },
 
   handleInstall() {

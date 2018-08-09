@@ -13,6 +13,6 @@
   margin-top: 20rpx;
   margin-bottom: 20rpx;
   text-align: center;
-  color: #FB653D;
+  color: #ff555c;
   font-weight: 500;
 }

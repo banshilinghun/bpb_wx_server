@@ -1,18 +1,24 @@
 <!--index.wxml-->
 <view class="container">
   <view id='header'>
-    <!-- 预约排队等的人数 -->
-    <view class='b-install-header'>
-      <view class='b-header-item'>
-        <view class='b-header-wrapper'>
-          <text class='b-header-top'>今日预约: {{ subscribeCount }}人</text>
-          <text class='b-header-bottom b-header-black'>当前排队: {{ queueCount }}人</text>
-        </view>
+    <!-- header -->
+    <view class='b-header'>
+      <view class='b-queue-wrapper'>
+        <view class='b-server-top'>当前排队(人)</view>
+        <view class='b-server-person'>{{ queueCount }}</view>
       </view>
-      <view class='b-header-item'>
-        <view class='b-header-wrapper'>
-          <text class='b-header-top'>已签到: {{ signCount }}人</text>
-          <text class='b-header-bottom'>已完成: {{ finishCount }}人</text>
+      <view class='b-action-root'>
+        <view class='b-action-wrapper'>
+          <view class='b-server-top'>今日预约(人)</view>
+          <view class='b-server-action-people'>{{ subscribeCount }}</view>
+        </view>
+        <view class='b-action-wrapper'>
+          <view class='b-server-top'>已签到(人)</view>
+          <view class='b-server-action-people'>{{ signCount }}</view>
+        </view>
+        <view class='b-action-wrapper'>
+          <view class='b-server-top'>已完成(人)</view>
+          <view class='b-server-action-people'>{{ finishCount }}</view>
         </view>
       </view>
     </view>

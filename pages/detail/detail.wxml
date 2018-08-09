@@ -1,70 +1,82 @@
 <view>
   <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px'>
     <view class='b-top-wrapper'>
-      <view class='b-detail-ad'>
-        <view class='b-detail-ad-name'>
-          <text>奔跑宝</text>
-        </view>
-        <view class='b-detail-ad-status'>
-          <text>已签到</text>
-        </view>
-      </view>
-      <view class='b-detail-ad'>
-        <view class='b-user-info'>
-          <view class='b-user-title'>
-            <text>车主姓名: </text>
+      <block>
+        <view class='b-detail-ad b-detail-ad-after'>
+          <view class='b-detail-ad-name'>
+            <text>奔跑宝</text>
           </view>
-          <view class='b-user-name'>
+          <view class='b-detail-ad-status'>
+            <text>已签到</text>
+          </view>
+        </view>
+      </block>
+      <block>
+        <view class='b-detail-ad'>
+          <view class='b-detail-left'>
+            <text>车主姓名:</text>
+          </view>
+          <view class='b-detail-ad-right-text'>
             <text>杨正树</text>
           </view>
         </view>
-        <view class='b-info-right'>
-          <view class='b-user-title'>
-            <text>车牌号: </text>
+      </block>
+      <block>
+        <view class='b-detail-ad'>
+          <view class='b-detail-left'>
+            <text>车牌号:</text>
           </view>
-          <view class='b-user-name'>
+          <view class='b-detail-ad-right-text'>
             <text>粤666666</text>
           </view>
         </view>
-      </view>
+      </block>
       <!-- 电话 -->
-      <view class='b-detail-ad'>
-        <view class='b-detail-left'>
-          <text>车主电话</text>
+      <block>
+        <view class='b-detail-ad'>
+          <view class='b-detail-left'>
+            <text>车主电话:</text>
+          </view>
+          <view class='b-detail-ad-right-text b-theme-color'>
+            <text>18170601995</text>
+          </view>
         </view>
-        <view class='b-detail-ad-status b-theme-color'>
-          <text>18170601995</text>
+      </block>
+      <block>
+        <!-- 预约时间 -->
+        <view class='b-detail-ad b-subs-time'>
+          <view class='b-detail-left'>
+            <text>预约时间:</text>
+          </view>
+          <view class='b-detail-ad-right-text'>
+            <text>12:00~13:00</text>
+          </view>
         </view>
-      </view>
-      <!-- 预约时间 -->
-      <view class='b-detail-ad b-subs-time'>
-        <view class='b-detail-left'>
-          <text>预约时间</text>
-        </view>
-        <view class='b-detail-ad-status'>
-          <text>12:00~13:00</text>
-        </view>
-      </view>
+      </block>
     </view>
     <view class='b-divider'></view>
-    <view class='b-design-container'>
-      <view class='b-ad-design-title'>广告设计预览</view>
+    <block>
       <view>
-        <view wx:for="{{ designList }}" wx:for-item='design' class='b-design-wrapper' wx:key='design'>
-          <view class='b-design-item-title'>{{ design.title }}</view>
-          <view wx:for="{{ design.effect }}" class='b-design-effect' wx:key='effect'>
-            <image class='b-design-effect-image' src='{{ item.src }}' bindtap='handlePreview' data-effect='{{ design.effect }}' data-index='{{ index }}' mode='widthFix'></image>
-            <view class='b-design-effect-type'>{{ item.type }}</view>
+        <view class='b-ad-design-title'>广告设计预览</view>
+        <view>
+          <view wx:for="{{ designList }}" wx:for-item='design' class='b-design-wrapper' wx:key='design.id'>
+            <view class='b-design-item-title'>{{ design.title }}</view>
+            <view class='b-effect-wrapper'>
+              <view id='effect-image' class='b-effect-image-wrapper' wx:for='{{ design.effect }}' wx:for-item='effect' wx:key='effect.id'>
+                <image class='b-effect-image' src='{{ effect.src }}' style='height: {{ designHeight }}px' bindtap='handlePreviewDesign' data-effect='{{ design.effect }}' data-current='{{ effect.src }}'></image>
+              </view>
+            </view>
           </view>
-          <view class='b-design-divider'></view>
         </view>
       </view>
-    </view>
+    </block>
   </scroll-view>
   <view class='b-check-btn-wrapper'>
     <button class='b-check-btn' bindtap='handleInstall'>
       <view class='b-detail-btn-text'>{{ isInstall? "结束安装" : "开始安装" }}</view>
-      <view class='b-detail-btn-time' wx:if='{{ isInstall }}'><text decode='true'>&nbsp;&nbsp;( 安装用时 {{ time_process }} )</text></view>
+      <view class='b-detail-btn-time' wx:if='{{ isInstall }}'>
+        <text decode='true'>&nbsp;&nbsp;( 安装用时 {{ time_process }} )</text>
+      </view>
     </button>
   </view>
 </view>

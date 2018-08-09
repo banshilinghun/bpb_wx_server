@@ -1,0 +1,23 @@
+
+.page, 
+.page__bd, 
+.weui-tab__content {
+	height: 100%;
+	padding-bottom: 0;
+}
+
+.weui-navbar{
+  border-bottom: 1rpx solid #ccc
+}
+
+.weui-navbar__item{
+  color: #666
+}
+
+.weui-navbar__item.weui-bar__item_on{
+  color: #ff555c
+}
+
+.weui-navbar__slider{
+  background-color: #ff555c
+}

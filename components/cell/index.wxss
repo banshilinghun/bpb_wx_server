@@ -63,5 +63,5 @@
   width: 100%;
   text-align: left;
   font-size: 26rpx;
-  color: #FB653D;
+  color: #ff555c;
 }

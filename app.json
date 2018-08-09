@@ -11,11 +11,12 @@
     "pages/guideDetail/guideDetail",
     "pages/listSort/listSort",
     "pages/me/me",
-    "pages/detail/detail"
+    "pages/detail/detail",
+    "pages/test/test"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#FB653D",
+    "navigationBarBackgroundColor": "#ff555c",
     "navigationBarTitleText": "",
     "navigationBarTextStyle": "white",
     "enablePullDownRefresh": false
@@ -40,8 +41,8 @@
       },
       {
         "pagePath": "pages/me/me",
-        "iconPath": "image/icon_guide.png",
-        "selectedIconPath": "image/icon_guide_HL.png",
+        "iconPath": "image/icon_me.png",
+        "selectedIconPath": "image/icon_me_HL.png",
         "text": "个人中心"
       }
     ]

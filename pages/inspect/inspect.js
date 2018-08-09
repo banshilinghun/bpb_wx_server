@@ -27,7 +27,7 @@ Page({
     outsideResult: '',
     insideResult: '',
     disabled: false,
-    inspectBtnBgBgColor: '#ff5539',
+    inspectBtnBgBgColor: '#ff555c',
     btnLoading: false,
   },
 
@@ -169,7 +169,7 @@ Page({
     this.setData({
       inspectBtnText: "提交",
       disabled: !this.data.disabled,
-      inspectBtnBgBgColor: "#ff5539",
+      inspectBtnBgBgColor: "#ff555c",
       btnLoading: !this.data.btnLoading
     })
   },

@@ -1,45 +1,55 @@
 <!--pages/list/list.wxml-->
 <view class='list-root'>
   <!-- header -->
+
   <view id='header'>
-    <radio-group class="radio-group" bindchange="listChange">
-      <label wx:for="{{ carList }}" wx:for-index="idx" wx:key="item.value" class="radio {{ idx == tabIndex ? 'active' : ''}}">
-        <radio class="radio-item" value="{{ item.value }}" checked="{{ idx==0 }}" />{{item.name}}
-      </label>
-    </radio-group>
+    <view class="weui-tab">
+      <view class="weui-navbar">
+        <block wx:for-items="{{ tabs}}" wx:key="{{ index }}">
+          <view data-id="{{ index }}" class="weui-navbar__item {{ activeIndex == index ? 'weui-bar__item_on' : '' }}" bindtap="tabClick">
+            <view class="weui-navbar__title">{{ item }}</view>
+          </view>
+        </block>
+        <view class="weui-navbar__slider" style="left: {{ sliderLeft }}px; transform: translateX({{ sliderOffset }}px); -webkit-transform: translateX({{ sliderOffset }}px);"></view>
+      </view>
+    </view>
 
     <view class='b-task-wrapper'>
-      <view wx:if='{{ tabIndex == 0 }}' class='b-task-middle'>
-        <text>预约总数: {{ subNumber }}人</text>
+      <view wx:if='{{ activeIndex == 0 }}' class='b-task-middle'>
+        <text>预约总数: </text>
+        <text class='b-task-number-blod'>{{ subNumber }}人</text>
       </view>
-      <view wx:if='{{ tabIndex == 1 }}' class='b-task-sign'>
-        <text>已签到: {{ signNumber }}人</text>
+      <view wx:if='{{ activeIndex == 1 }}' class='b-task-sign'>
+        <text>已签到: </text>
+        <text class='b-task-number-blod'>{{ signNumber }}人</text>
       </view>
-      <view wx:if='{{ tabIndex == 2 }}' class='b-task-finsh'>
+      <view wx:if='{{ activeIndex == 2 }}' class='b-task-finsh'>
         <view class='b-finsh-number'>
-          <text>已完成: {{ finishNumber }}人</text>
+          <text>已完成: </text>
+          <text class='b-task-number-blod'>{{ finishNumber }}人</text>
         </view>
         <view class='b-finish-time'>
-          <text>平均用时: {{ avgTime }}分</text>
+          <text>平均用时: </text>
+          <text class='b-task-number-blod'>{{ avgTime }}分</text>
         </view>
       </view>
     </view>
 
     <!-- 输入框 -->
-    <view class="track-bg" wx:if='{{ tabIndex != 2 }}'>
+    <view class="track-bg" wx:if='{{ activeIndex != 2 }}'>
       <view class="track-input-block">
         <input id="carcode" name="carcode" disabled="true" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{textValue}}' bindtap="showKeyboard" />
         <image class='search-icon' src='../../image/search_icon.png'></image>
         <image class='b-clear-icon' src='../../image/close-gray.png' catchtap='handleClear'></image>
       </view>
     </view>
-    <view class='b-list-divider' wx:if='{{ tabIndex == 2 }}'></view>
+    <view class='b-list-divider' wx:if='{{ activeIndex == 2 }}'></view>
   </view>
   <!-- 列表 -->
   <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px'>
     <view class='content-layout'>
       <!-- 已预约、已签到列表 -->
-      <block wx:if='{{ tabIndex != 2 && rootList && rootList.length !== 0 }}'>
+      <block wx:if='{{ activeIndex != 2 && rootList && rootList.length !== 0 }}'>
         <view class='list-body' wx:for='{{ rootList }}' wx:key='item.id'>
           <view class='b-list-panel'>
             <text>{{ item.date }}</text>
@@ -65,10 +75,10 @@
                 </view>
               </view>
               <view class="item_right">
-                <view wx:if="{{ tabIndex == 0 }}">
+                <view wx:if="{{ activeIndex == 0 }}">
                   <text class="time timetxt2">已预约</text>
                 </view>
-                <view wx:elif="{{ tabIndex == 1 }}">
+                <view wx:elif="{{ activeIndex == 1 }}">
                   <text class="time">已签到</text>
                 </view>
 
@@ -80,7 +90,7 @@
         </view>
       </block>
       <!-- 已完成列表 -->
-      <block wx:elif='{{ tabIndex == 2 && cellList && cellList.length !== 0 }}'>
+      <block wx:elif='{{ activeIndex == 2 && cellList && cellList.length !== 0 }}'>
         <view class='cell-wrapper'>
           <cell cellList='{{ cellList }}' bind:navigate='navigateListener'></cell>
         </view>

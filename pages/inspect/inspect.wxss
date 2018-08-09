@@ -37,7 +37,7 @@
 .label_cell{
   width: 50%;
   font-size: 34rpx;
-  color: #ff5a39;
+  color: #ff555c;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -46,7 +46,7 @@
 .label_cell_outside{
   width: 50%;
   font-size: 26rpx;
-  color: #ff5a39;
+  color: #ff555c;
   margin-bottom: 20rpx;
   display: flex;
   flex-direction: row;
@@ -85,7 +85,7 @@
 .inspect_commit{
   width: 90%;
   border: none;
-  background-color: #ff5539;
+  background-color: #ff555c;
   color: white;
   margin: 0rpx auto;
   margin-top: 40rpx;

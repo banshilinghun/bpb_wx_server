@@ -1,25 +1,20 @@
 var app = getApp();
 const apiManager = require('../../utils/api/ApiManager.js');
 
+const sliderWidth = 96;
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    tabs: ['已预约', '已签到', '已完成'],
+    activeIndex: 0,
+    sliderOffset: 0,
+    sliderLeft: 0,
     inspectUrl: app.globalData.baseUrl + '',
     server_id: '',
-    tabIndex: 0,
-    carList: [{
-      name: '已预约',
-      value: 0
-    }, {
-      name: '已签到',
-      value: 1
-    }, {
-      name: '已完成',
-      value: 2
-    }],
     listInfo: [],
     usePlate: true, //使用车牌号查询还是手机号查询
     cellList: [],
@@ -29,50 +24,52 @@ Page({
     avgTime: '00:00',
     switchStr: '手机号',
     rootList: [{
-      date: '2018-7-30',
-      insideList: [{
-        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-        adName: '来啊，奔跑吧',
-        username: '那你知道',
-        phone: '1818829289',
-        plate: '粤B123456',
-        sub_time: '11:00~12:00',
-        status: 0
-      }]
-    }, {
-      date: '2018-7-30',
-      insideList: [{
-        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-        adName: '来啊，奔跑吧',
-        username: '那你知道',
-        phone: '1818829289',
-        plate: '粤B123456',
-        sub_time: '11:00~12:00',
-        status: 0
-      }]
-    }, {
-      date: '2018-7-30',
-      insideList: [{
-        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-        adName: '来啊，奔跑吧',
-        username: '那你知道',
-        phone: '1818829289',
-        plate: '粤B123456',
-        sub_time: '11:00~12:00',
-        status: 0
-      }]
-    }, {
-      date: '2018-7-30',
-      insideList: [{
-        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-        adName: '来啊，奔跑吧',
-        username: '那你知道',
-        phone: '1818829289',
-        plate: '粤B123456',
-        sub_time: '11:00~12:00',
-        status: 0
-      }]
-    }],
+        date: '2018-7-30',
+        insideList: [{
+          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+          adName: '来啊，奔跑吧',
+          username: '那你知道',
+          phone: '1818829289',
+          plate: '粤B123456',
+          sub_time: '11:00~12:00',
+          status: 0
+        }]
+      },
+      {
+        date: '2018-7-30',
+        insideList: [{
+          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+          adName: '来啊，奔跑吧',
+          username: '那你知道',
+          phone: '1818829289',
+          plate: '粤B123456',
+          sub_time: '11:00~12:00',
+          status: 0
+        }]
+      }, {
+        date: '2018-7-30',
+        insideList: [{
+          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+          adName: '来啊，奔跑吧',
+          username: '那你知道',
+          phone: '1818829289',
+          plate: '粤B123456',
+          sub_time: '11:00~12:00',
+          status: 0
+        }]
+      }, {
+        date: '2018-7-30',
+        insideList: [{
+          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
+          adName: '来啊，奔跑吧',
+          username: '那你知道',
+          phone: '1818829289',
+          plate: '粤B123456',
+          sub_time: '11:00~12:00',
+          status: 0
+        }]
+      }
+    ],
 
     //键盘
     isKeyboard: false, //是否显示键盘
@@ -92,18 +89,22 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     let that = this;
     that.getSubscribeList();
     wx.getSystemInfo({
-      success: function (res) {
+      success: function(res) {
         let query = wx.createSelectorQuery();
         //选择id
-        query.select('#header').boundingClientRect(function (rect) {
+        query.select('#header').boundingClientRect(function(rect) {
           that.setData({
             scrollHeight: res.windowHeight - rect.height
           })
         }).exec();
+        //设置滑动距离
+        that.setData({
+          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
+        })
       }
     })
   },
@@ -111,7 +112,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     let self = this;
     if (self.data.keyboard1 instanceof Array) {
       return;
@@ -124,29 +125,35 @@ Page({
     });
   },
 
-  listChange: function (e) {
-    console.log(e);
-    var inst = this;
-    var value = e.detail.value;
-    var that = this;
-    that.setData({
-      tabIndex: value,
+  tabClick(e) {
+    console.log(e)
+    const {
+      offsetLeft,
+      dataset
+    } = e.currentTarget
+    const {
+      id
+    } = dataset
+
+    this.setData({
       //重置 listInfo
-      listInfo: []
+      listInfo: [],
+      sliderOffset: offsetLeft,
+      activeIndex: id,
     })
-    if (value == 0) {
-      inst.getSubscribeList();
-    } else if (value == 1) {
-      //todo 已签到列表
-    } else if (value == 2) {
-      inst.getActiveAdList();
+    if (id == 0){
+      this.getSubscribeList();
+    } else if (id == 1){
+      // todo 已签到列表
+    } else {
+      this.getActiveAdList();
     }
   },
 
   /**
    * 预约列表 
    */
-  getSubscribeList: function () {
+  getSubscribeList: function() {
     var inst = this;
     inst.showLoadingView();
     wx.request({
@@ -154,7 +161,7 @@ Page({
       data: {
         server_id: app.globalData.server_id
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         var dataBean = res.data.data;
         for (var key in dataBean) {
@@ -169,33 +176,33 @@ Page({
           listInfo: dataBean,
         });
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.showModal({
           title: '提示',
           content: '网络错误',
           showCancel: false,
         })
       },
-      complete: function () {
+      complete: function() {
         inst.hideLoadingView();
       }
     })
   },
 
-  showLoadingView: function () {
+  showLoadingView: function() {
     wx.showLoading({
       title: '奔跑中...',
     })
   },
 
-  hideLoadingView: function () {
+  hideLoadingView: function() {
     wx.hideLoading();
   },
 
   /**
    * 广告激活列表
    */
-  getActiveAdList: function () {
+  getActiveAdList: function() {
     let that = this;
     that.showLoadingView();
     let requestParams = {};
@@ -226,27 +233,27 @@ Page({
     apiManager.sendRequest(new apiManager.requestInfo(requestParams));
   },
 
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     var that = this;
-    var tabIndex = that.data.tabIndex;
-    if (tabIndex == 0) {
+    var activeIndex = that.data.activeIndex;
+    if (activeIndex == 0) {
       that.getSubscribeList();
-    } else if (tabIndex == 1) {
+    } else if (activeIndex == 1) {
       //todo 已签到列表
-    } else if (tabIndex == 2) {
+    } else if (activeIndex == 2) {
       that.getActiveAdList();
     }
     wx.stopPullDownRefresh();
   },
 
-  navigateListener: function (event) {
+  navigateListener: function(event) {
     console.log(event);
     wx.navigateTo({
       url: '../listSort/listSort?title=' + event.detail.cell.cellTitle + '&count=' + event.detail.cell.count + '&ad_id=' + event.detail.cell.ad_id + '&type=' + event.detail.cell.type,
     })
   },
 
-  callPhoneListener: function (event) {
+  callPhoneListener: function(event) {
     console.log(event);
     wx.makePhoneCall({
       phoneNumber: event.detail.phone
@@ -272,7 +279,7 @@ Page({
   /**
    * 键盘相关
    */
-  tapKeyboard: function (e) {
+  tapKeyboard: function(e) {
     var self = this;
     //获取键盘点击的内容，并将内容赋值到textarea框中
     var tapIndex = e.target.dataset.index;
@@ -330,7 +337,7 @@ Page({
   /**
    * 输入完成
    */
-  tapSpecBtn: function () {
+  tapSpecBtn: function() {
     this.hideKeyboard();
   },
 
@@ -344,7 +351,7 @@ Page({
   /**
    * 点击页面隐藏键盘事件
    */
-  hideKeyboard: function () {
+  hideKeyboard: function() {
     var self = this;
     //说明键盘是显示的，再次点击要隐藏键盘
     if (self.data.textValue) {

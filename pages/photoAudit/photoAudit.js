@@ -29,7 +29,7 @@ Page({
   data: {
     disabled: false,
     btnLoading: false,
-    auditBtnBgBgColor: '#ff5539',
+    auditBtnBgBgColor: '#ff555c',
     auditBtnText: '提交',
     typeValue: 1,
     user_id: '',
@@ -278,7 +278,7 @@ Page({
     this.setData({
       auditBtnText: "提交",
       disabled: !this.data.disabled,
-      auditBtnBgBgColor: "#ff5539",
+      auditBtnBgBgColor: "#ff555c",
       btnLoading: !this.data.btnLoading
     })
   },
