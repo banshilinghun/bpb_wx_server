@@ -1,5 +1,6 @@
 var app = getApp();
 const apiManager = require('../../utils/api/ApiManager.js');
+const ApiConst = require('../../utils/api/ApiConst');
 
 const sliderWidth = 96;
 
@@ -157,7 +158,7 @@ Page({
     var inst = this;
     inst.showLoadingView();
     wx.request({
-      url: apiManager.getSubscribeUrl(),
+      url: ApiConst.GET_SUBSCRIBE_URL,
       data: {
         server_id: app.globalData.server_id
       },
@@ -206,7 +207,7 @@ Page({
     let that = this;
     that.showLoadingView();
     let requestParams = {};
-    requestParams.url = apiManager.queryRegistStatisticInfoUrl();
+    requestParams.url = ApiConst.QUERY_REGIST_STATISTIC_INFO_URL;
     requestParams.data = {
       server_id: app.globalData.server_id
     }

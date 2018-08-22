@@ -1,6 +1,7 @@
 
 var app = getApp();
 const apiManager = require('../../utils/api/ApiManager.js');
+const ApiConst = require('../../utils/api/ApiConst');
 
 Page({
 
@@ -33,7 +34,7 @@ Page({
     var inst = this;
     inst.showLoadingView();
     wx.request({
-      url: listType == 'active' ? apiManager.queryServerAdRegistUrl() : '',
+      url: listType == 'active' ? ApiConst.QUERY_SERVER_AD_REGIST_URL : '',
       data: {
         server_id: app.globalData.server_id,
         ad_id: adId

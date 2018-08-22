@@ -32,8 +32,8 @@
     </view>
   </view>
   <!-- 列表 -->
-  <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px'>
-    <block wx:for="{{ installList }}" wx:key="item.id">
+  <scroll-view scroll-y='true'>
+    <block wx:for="{{ reserveList }}" wx:key="item.id">
       <view class="item2" bindtap="handleDetail" data-item='item'>
         <view class="item-left">
           <image src="{{item.logo}}" class="image" />

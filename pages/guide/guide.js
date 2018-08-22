@@ -1,5 +1,6 @@
 
 const apiManager = require('../../utils/api/ApiManager.js');
+const ApiConst = require('../../utils/api/ApiConst');
 
 Page({
 
@@ -20,7 +21,7 @@ Page({
   onShow: function(){
     let that = this;
     let requestInfo = {};
-    requestInfo.url = apiManager.getGuideUrl();
+    requestInfo.url = ApiConst.GET_GUIDE_URL;
     requestInfo.success = res => {
       console.log(res);
       let list = [];

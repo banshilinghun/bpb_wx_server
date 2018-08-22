@@ -2,126 +2,31 @@
 /**
  * API 接口管理
  */
-const domainAttr = ['release', 'release2', 'debug']
+const domainAttr = ['release', 'release2', 'test', 'debug']
 //api 1
-const domain = domainAttr[0];//1
+const domain = domainAttr[3];//1
 
-const releaseDomain = 'https://wxapi.benpaobao.com/';
-const releaseDomain2 = 'https://wxapi2.benpaobao.com/';
-const debugDomain = 'http://192.168.1.142:8000/';
+let domainStrategy = {
+  release: function(){
+    return 'https://wxapi.benpaobao.com/';
+  },
+  release2: function(){
+    return 'https://wxapi2.benpaobao.com/';
+  },
+  test: function(){
+    return 'https://adapi.benpaobao.com/';
+  },
+  debug: function(){
+    return 'http://192.168.2.172:8000/';
+  }
+}
 
 /**
  * 加载域名
  */
 function getBaseUrl() {
-  switch (domain) {
-    case domainAttr[0]:
-      return releaseDomain;
-    case domainAttr[1]:
-      return releaseDomain2;
-    case domainAttr[2]:
-      return debugDomain;
-    default:
-      return releaseDomain;
-  }
-}
-
-/**
- * 广告教程列表
- */
-function getGuideUrl() {
-  return getBaseUrl() + 'server/query/query_ad_course';
-}
-
-/**
- * 登录
- */
-function getLoginUrl() {
-  return getBaseUrl() + 'server/user/login';
-}
-
-/**
- * 查询车牌号
- */
-function getSearchUrl() {
-  return getBaseUrl() + 'server/query/user_info';
-}
-
-/**
- * 预约列表
- */
-function getSubscribeUrl() {
-  return getBaseUrl() + 'server/query/server_subscribe';
-}
-
-/**
- * 登记列表
- */
-function getActiveUrl() {
-  return getBaseUrl() + 'server/query/server_regist';
-}
-
-/**
- * 普通登记上传图片
- */
-function getUploadUrl() {
-  return getBaseUrl() + 'server/upload/ad_image';
-}
-
-/**
- * 普通登记确认
- */
-function getConfirmUrl() {
-  return getBaseUrl() + 'server/upload/ad_regist_info';
-}
-
-/**
- * 普通检测
- */
-function getCheckInfoUrl() {
-  return getBaseUrl() + 'server/upload/ad_check_info';
-}
-
-/**
- * 全租上传图片
- */
-function getLeaseUploadUrl() {
-  return getBaseUrl() + 'leaseServer/upload/regist_img';
-}
-
-/**
- * 全租确认登记
- */
-function getLeaseConfirmUrl() {
-  return getBaseUrl() + 'leaseServer/commit/regist_info';
-}
-
-/**
- * 全租检测
- */
-function getLeaseCheckInfoUrl() {
-  return getBaseUrl() + 'leaseServer/commit/check_info';
-}
-
-/**
- * 查询车行广告登记统计信息
- */
-function queryRegistStatisticInfoUrl(){
-  return getBaseUrl() + 'server/query/query_regist_statistic_info';
-}
-
-/**
- * 根据广告ID查询车行广告登记列表 
- */
-function queryServerAdRegistUrl() {
-  return getBaseUrl() + 'server/query/query_server_ad_regist_list';
-}
-
-/**
- * 根据广告ID查询车行广告登记列表  
- */
-function queryServerAdCheckUrl() {
-  return getBaseUrl() + 'server/query/query_server_check_list';
+  console.log('domin--------->' + domainStrategy[domain]());
+  return domainStrategy[domain]();
 }
 
 class uploadInfo {
@@ -158,6 +63,7 @@ function uploadFile(uploadInfo) {
     filePath: uploadInfo.filePath,
     name: uploadInfo.fileName,
     formData: uploadInfo.formData,
+    header: getApp().globalData.header,
     success: function (res) {
       if (res.statusCode == 200) {
         let dataBean = res.data;
@@ -195,9 +101,11 @@ function sendRequest(requestInfo) {
   if (!requestInfo) {
     return;
   }
+  console.log(getApp().globalData.header);
   wx.request({
     url: requestInfo.url,
     data: requestInfo.data,
+    header: getApp().globalData.header,
     success: function (res) {
       if (res.statusCode == 200) {
         let dataBean = res.data;
@@ -239,22 +147,9 @@ function showModel(content) {
 }
 
 module.exports = {
-  getGuideUrl: getGuideUrl,
+  getBaseUrl: getBaseUrl,
   uploadFile: uploadFile,
   uploadInfo: uploadInfo,
   sendRequest: sendRequest,
   requestInfo: requestInfo,
-  getLoginUrl: getLoginUrl,
-  getSearchUrl: getSearchUrl,
-  getUploadUrl: getUploadUrl,
-  getConfirmUrl: getConfirmUrl,
-  getSubscribeUrl: getSubscribeUrl,
-  getActiveUrl: getActiveUrl,
-  getLeaseUploadUrl: getLeaseUploadUrl,
-  getLeaseConfirmUrl: getLeaseConfirmUrl,
-  getCheckInfoUrl: getCheckInfoUrl,
-  getLeaseCheckInfoUrl: getLeaseCheckInfoUrl,
-  queryRegistStatisticInfoUrl: queryRegistStatisticInfoUrl,
-  queryServerAdRegistUrl: queryServerAdRegistUrl,
-  queryServerAdCheckUrl: queryServerAdCheckUrl
 }

@@ -1,5 +1,6 @@
 
 const apiManager = require('../../utils/api/ApiManager.js');
+const ApiConst = require('../../utils/api/ApiConst');
 const app = getApp();
 var sourceType = [
   ['camera'],
@@ -129,7 +130,7 @@ Page({
       return;
     } else {
       wx.uploadFile({
-        url: apiManager.getUploadUrl(),
+        url: ApiConst.GET_UPLOAD_URL,
         filePath: filePath,
         name: filename,
         formData: {
@@ -232,7 +233,7 @@ Page({
     requestData.server_id = that.data.server_id;
     requestData.time_id = that.data.time_id;
     wx.request({
-      url: apiManager.getConfirmUrl(),
+      url: ApiConst.GET_CONFIRM_URL,
       data: requestData,
       success: function (res) {
         if (res.data.code == 1000) {

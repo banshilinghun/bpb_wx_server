@@ -1,6 +1,7 @@
 
 const app = getApp();
 const apiManager = require('../../utils/api/ApiManager.js');
+const ApiConst = require('../../utils/api/ApiConst');
 
 Page({
 
@@ -105,11 +106,11 @@ Page({
     var params = {};
     var requestUrl;
     if(that.data.flag == 1){
-      requestUrl = apiManager.getCheckInfoUrl();
+      requestUrl = ApiConst.GET_CHECK_INFO_URL;
       params.user_id = that.data.user_id;
       params.check_id = that.data.check_id;
     } else if (that.data.flag == 2) {
-      requestUrl = apiManager.getLeaseCheckInfoUrl();
+      requestUrl = ApiConst.GET_LEASE_CHECK_INFO_URL;
       params.car_id = that.data.user_id;
     }
     params.ad_id = that.data.ad_id;

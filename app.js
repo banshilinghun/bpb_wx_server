@@ -1,5 +1,4 @@
 //app.js
-const app = getApp()
 
 App({
 	onLaunch: function() {
@@ -9,6 +8,10 @@ App({
 	globalData: {
 		userInfo: null,
     //服务网点id
-    server_id: '0'
+		server_id: '0',
+		header: {
+			Cookie: '',
+			'content-type': 'application/json'
+		}
 	},
 })

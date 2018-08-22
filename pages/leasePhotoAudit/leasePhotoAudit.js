@@ -1,6 +1,7 @@
 
 const app = getApp();
 const apiManager = require('../../utils/api/ApiManager.js');
+const ApiConst = require('../../utils/api/ApiConst');
 var sourceType = [
   ['camera'],
   ['album'],
@@ -133,7 +134,7 @@ Page({
       filename = uploadType[index];
       console.log('filename--------->' + filename);
       wx.uploadFile({
-        url: apiManager.getLeaseUploadUrl(),
+        url: ApiConst.GET_LEASE_UPLOAD_URL,
         filePath: filePath,
         name: filename,
         formData: {
@@ -231,7 +232,7 @@ Page({
     requestData.ad_id = that.data.ad_id;
     requestData.server_id = that.data.server_id;
     wx.request({
-      url: apiManager.getLeaseConfirmUrl(),
+      url: ApiConst.GET_LEASE_CONFIRM_URL,
       data: requestData,
       success: function (res) {
         if(res.data.code == 1000){

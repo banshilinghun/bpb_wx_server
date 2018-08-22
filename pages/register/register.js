@@ -1,5 +1,6 @@
 var util = require("../../utils/util.js");
-const apiManager = require('../../utils/api/ApiManager.js');
+const ApiManager = require('../../utils/api/ApiManager.js');
+const ApiConst = require('../../utils/api/ApiConst');
 const app = getApp();
 var sourceType = [
   ['camera'],
@@ -46,62 +47,8 @@ Page({
     signCount: 0,
     finishCount: 0,
     scrollHeight: 0,
-    installList: [
-      {
-        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-        adName: '来啊，奔跑吧',
-        username: '那你知道',
-        phone: '1818829289',
-        plate: '粤B123456',
-        sub_time: '11:00~12:00',
-        status: 0
-      },
-      {
-        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-        adName: '来啊，奔跑吧',
-        username: '那你知道',
-        phone: '1818829289',
-        plate: '粤B123456',
-        sub_time: '11:00~12:00',
-        status: 1
-      }, 
-      {
-        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-        adName: '来啊，奔跑吧',
-        username: '那你知道',
-        phone: '1818829289',
-        plate: '粤B123456',
-        sub_time: '11:00~12:00',
-        status: 2
-      },
-      {
-        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-        adName: '来啊，奔跑吧',
-        username: '那你知道',
-        phone: '1818829289',
-        plate: '粤B123456',
-        sub_time: '11:00~12:00',
-        status: 2
-      },
-      {
-        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-        adName: '来啊，奔跑吧',
-        username: '那你知道',
-        phone: '1818829289',
-        plate: '粤B123456',
-        sub_time: '11:00~12:00',
-        status: 2
-      },
-      {
-        logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-        adName: '来啊，奔跑吧',
-        username: '那你知道',
-        phone: '1818829289',
-        plate: '粤B123456',
-        sub_time: '11:00~12:00',
-        status: 2
-      }]
-  },
+    reserveList: []
+   },
 
   onLoad: function() {
     let that = this;
@@ -234,70 +181,18 @@ Page({
   },
 
   search: function(params) {
-    var that = this;
-    var plateNo = params;
-    that.setData({
-      textTips: "输入的车牌号长度不合法",
-      sta: 0,
-      plate_no: plateNo,
-    })
-    if (plateNo.length >= 7 && plateNo.length <= 8) {
-      that.setData({
-        textTips: "正在查询...",
-        sta: 0
-      })
-      wx.request({
-        url: apiManager.getSearchUrl(),
-        data: {
-          plate_no: plateNo,
-          server_id: app.globalData.server_id
-        },
-        header: {
-          'content-type': 'application/json'
-        },
-        success: res => {
-          if (res.data.code == 1000) {
-            var dataBean = res.data.data;
-            if (dataBean == null) {
-              that.setData({
-                textTips: "该车辆尚未预约",
-                sta: 0,
-                id: 0,
-              })
-            } else {
-              that.setData({
-                id: dataBean.user_id,
-                sta: 2,
-                user_id: dataBean.user_id,
-                ad_id: dataBean.ad_id,
-                check_id: dataBean.check_id ? dataBean.check_id : '',
-                time_id: dataBean.time_id ? dataBean.time_id : '',
-                begin_time: dataBean.begin_time ? dataBean.begin_time : '',
-                end_time: dataBean.end_time ? dataBean.end_time : '',
-                date: dataBean.date ? dataBean.date : '',
-                flag: dataBean.flag,
-                ad_type: dataBean.ad_type ? dataBean.ad_type : 3
-              })
-            }
-          } else {
-            that.setData({
-              textTips: res.data.msg
-            })
-          }
-        },
-        fail: res => {
-          wx.showModal({
-            title: '提示',
-            showCancel: false,
-            content: '网络错误'
-          });
-          that.setData({
-            textTips: "服务器出小差了...",
-            sta: 0
-          })
-        }
-      })
+    const that = this;
+    let requestData = {
+      url: ApiConst.GET_TODAY_RESERVE_LIST,
+      data: {
+        filter_name: ''
+      },
+      header: app.globalData.header,
+      success: res => {
+        
+      }
     }
+    ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
   },
 
   /**
@@ -308,7 +203,6 @@ Page({
     //说明键盘是显示的，再次点击要隐藏键盘
     if (self.data.textValue) {
       // todo something
-
     }
     self.setData({
       isKeyboard: false
@@ -357,7 +251,6 @@ Page({
       const updateManager = wx.getUpdateManager();
       updateManager.onCheckForUpdate(function(res) {
         // 请求完新版本信息的回调
-        console.log('onCheckForUpdate----------------->');
         console.log(res.hasUpdate);
       })
 
