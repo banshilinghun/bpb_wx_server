@@ -4,7 +4,7 @@
  */
 const domainAttr = ['release', 'release2', 'test', 'debug']
 //api 1
-const domain = domainAttr[3];//1
+const domain = domainAttr[2];//1
 
 let domainStrategy = {
   release: function(){
@@ -25,7 +25,6 @@ let domainStrategy = {
  * 加载域名
  */
 function getBaseUrl() {
-  console.log('domin--------->' + domainStrategy[domain]());
   return domainStrategy[domain]();
 }
 

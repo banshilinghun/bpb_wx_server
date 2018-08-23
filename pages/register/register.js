@@ -70,18 +70,21 @@ Page({
   },
 
   onShow: function() {
-    var self = this;
-    self.setData({
+    var that = this;
+    that.setData({
       flag: false
     });
-    if (self.data.keyboard1 instanceof Array) {
+    //加载今日数据
+    that.getTodayList("");
+    //初始化键盘相关数据
+    if (that.data.keyboard1 instanceof Array) {
       return;
     }
     //将keyboard1和keyboard2中的所有字符串拆分成一个一个字组成的数组
-    self.data.keyboard1 = self.data.keyboard1.split('');
-    self.data.keyboard2 = self.data.keyboard2.split('');
-    self.setData({
-      keyboardValue: self.data.keyboard1
+    that.data.keyboard1 = that.data.keyboard1.split('');
+    that.data.keyboard2 = that.data.keyboard2.split('');
+    that.setData({
+      keyboardValue: that.data.keyboard1
     });
   },
 
@@ -158,7 +161,7 @@ Page({
         specialBtn: this.specialBtn,
         tapNum: this.tapNum,
       });
-      self.search(self.data.textValue);
+      self.getTodayList(self.data.textValue);
       return false;
     }
     if (self.data.textArr.length >= 8) {
@@ -177,15 +180,15 @@ Page({
         tapNum: true
       });
     }
-    self.search(self.data.textValue);
+    self.getTodayList(self.data.textValue);
   },
 
-  search: function(params) {
+  getTodayList: function(params) {
     const that = this;
     let requestData = {
       url: ApiConst.GET_TODAY_RESERVE_LIST,
       data: {
-        filter_name: ''
+        filter_name: params
       },
       header: app.globalData.header,
       success: res => {

@@ -12,7 +12,7 @@ page{
   height: 100%;
   width: 100%;
   border-radius: 10rpx;
-  background: linear-gradient(90deg, #ff555c, #FB653D);
+  background: linear-gradient(180deg, #ff555c, #FB653D);
   box-shadow: 0px 3px 10px #aaa
 }
 
@@ -35,11 +35,18 @@ page{
 .b-header-detail{
   margin-left: 20rpx;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.b-server-name{
+  color: #fff;
+  font-size: 36rpx
 }
 
 .b-user-name{
   color: #fff;
-  font-size: 36rpx
+  font-size: 28rpx
 }
 
 .b-user-palte{

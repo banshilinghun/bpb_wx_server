@@ -1,4 +1,7 @@
-// pages/me/me.js
+
+const ApiManager = require('../../utils/api/ApiManager.js');
+const ApiConst = require('../../utils/api/ApiConst');
+
 Page({
 
   /**
@@ -12,17 +15,32 @@ Page({
       type: 'guide',
       url: '../guide/guide'
     }],
-    dayCount: 20,
-    totalCount: 1000,
-    avgTime: '10:00分',
-    serverName: '奔跑宝'
+    serverInfo: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    
+  },
 
+  onShow: function(){
+    this.requestUserInfo();
+  },
+
+  requestUserInfo(){
+    const that = this;
+    let requestData = {
+      url: ApiConst.GET_SERVER_USER_INFO,
+      data: {},
+      success: res => {
+        that.setData({
+          serverInfo: res
+        })
+      }
+    }
+    ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
   },
 
   handleAction(event) {

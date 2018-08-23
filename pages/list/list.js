@@ -1,6 +1,7 @@
 var app = getApp();
-const apiManager = require('../../utils/api/ApiManager.js');
+const ApiManager = require('../../utils/api/ApiManager.js');
 const ApiConst = require('../../utils/api/ApiConst');
+const timeUtil = require('../../utils/common/timeUitl');
 
 const sliderWidth = 96;
 
@@ -17,61 +18,12 @@ Page({
     inspectUrl: app.globalData.baseUrl + '',
     server_id: '',
     listInfo: [],
+    statisticInfo: null,
     usePlate: true, //使用车牌号查询还是手机号查询
     cellList: [],
     subNumber: 1,
-    signNumber: 0,
-    finishNumber: 0,
-    avgTime: '00:00',
     switchStr: '手机号',
-    rootList: [{
-        date: '2018-7-30',
-        insideList: [{
-          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-          adName: '来啊，奔跑吧',
-          username: '那你知道',
-          phone: '1818829289',
-          plate: '粤B123456',
-          sub_time: '11:00~12:00',
-          status: 0
-        }]
-      },
-      {
-        date: '2018-7-30',
-        insideList: [{
-          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-          adName: '来啊，奔跑吧',
-          username: '那你知道',
-          phone: '1818829289',
-          plate: '粤B123456',
-          sub_time: '11:00~12:00',
-          status: 0
-        }]
-      }, {
-        date: '2018-7-30',
-        insideList: [{
-          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-          adName: '来啊，奔跑吧',
-          username: '那你知道',
-          phone: '1818829289',
-          plate: '粤B123456',
-          sub_time: '11:00~12:00',
-          status: 0
-        }]
-      }, {
-        date: '2018-7-30',
-        insideList: [{
-          logo: 'https://images.unsplash.com/photo-1518889735218-3e3a03fd3128?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fc2f58b2cffc18635231617b6a03179c&auto=format&fit=crop&w=800&q=60',
-          adName: '来啊，奔跑吧',
-          username: '那你知道',
-          phone: '1818829289',
-          plate: '粤B123456',
-          sub_time: '11:00~12:00',
-          status: 0
-        }]
-      }
-    ],
-
+    
     //键盘
     isKeyboard: false, //是否显示键盘
     specialBtn: false,
@@ -91,8 +43,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    this.initView();
+    this.requestReserveList();
+    this.requestStatisticInfo();
+  },
+
+  initView(){
     let that = this;
-    that.getSubscribeList();
     wx.getSystemInfo({
       success: function(res) {
         let query = wx.createSelectorQuery();
@@ -142,52 +99,46 @@ Page({
       sliderOffset: offsetLeft,
       activeIndex: id,
     })
-    if (id == 0){
-      this.getSubscribeList();
-    } else if (id == 1){
-      // todo 已签到列表
-    } else {
+    if(this.data.activeIndex == 2){
       this.getActiveAdList();
+    } else {
+      this.requestReserveList();
     }
+    this.requestStatisticInfo();
   },
 
-  /**
-   * 预约列表 
-   */
-  getSubscribeList: function() {
-    var inst = this;
-    inst.showLoadingView();
-    wx.request({
-      url: ApiConst.GET_SUBSCRIBE_URL,
+  requestReserveList(){
+    const that = this;
+    let requestData = {
+      url: ApiConst.GET_ALL_RESERVE_LIST,
       data: {
-        server_id: app.globalData.server_id
+        filter_name: '',
+        type: that.data.activeIndex
       },
-      success: function(res) {
-        console.log(res)
-        var dataBean = res.data.data;
-        for (var key in dataBean) {
-          var item = dataBean[key];
-          if (item.date != undefined || item.date != null) {
-            item.subscribeTime = '预约时间：' + item.date + ' ' + item.begin_time + '~' + item.end_time;
-          } else {
-            item.subscribeTime = '';
-          }
-        }
-        inst.setData({
-          listInfo: dataBean,
-        });
-      },
-      fail: function(res) {
-        wx.showModal({
-          title: '提示',
-          content: '网络错误',
-          showCancel: false,
-        })
-      },
-      complete: function() {
-        inst.hideLoadingView();
+      success: res => {
+        
       }
-    })
+    }
+    ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
+  },
+
+  requestStatisticInfo(){
+    const that = this;
+    let requestData = {
+      url: ApiConst.GET_RESERVE_STATISTICS,
+      data: {
+        type: that.data.activeIndex
+      },
+      success: res => {
+        if(that.data.activeIndex === 2){
+          res.avg_duration = timeUtil.formatTime(res.avg_duration);
+        }
+        that.setData({
+          statisticInfo: res
+        })
+      }
+    }
+    ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
   },
 
   showLoadingView: function() {
@@ -208,9 +159,7 @@ Page({
     that.showLoadingView();
     let requestParams = {};
     requestParams.url = ApiConst.QUERY_REGIST_STATISTIC_INFO_URL;
-    requestParams.data = {
-      server_id: app.globalData.server_id
-    }
+    requestParams.data = {}
     requestParams.success = res => {
       console.log(res);
       that.setData({
@@ -231,19 +180,16 @@ Page({
     requestParams.complete = res => {
       that.hideLoadingView();
     };
-    apiManager.sendRequest(new apiManager.requestInfo(requestParams));
+    ApiManager.sendRequest(new ApiManager.requestInfo(requestParams));
   },
 
   onPullDownRefresh: function() {
-    var that = this;
-    var activeIndex = that.data.activeIndex;
-    if (activeIndex == 0) {
-      that.getSubscribeList();
-    } else if (activeIndex == 1) {
-      //todo 已签到列表
-    } else if (activeIndex == 2) {
-      that.getActiveAdList();
+    if(this.data.activeIndex == 2){
+      this.getActiveAdList();
+    } else {
+      this.requestReserveList();
     }
+    this.requestStatisticInfo();
     wx.stopPullDownRefresh();
   },
 

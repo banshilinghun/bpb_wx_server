@@ -13,28 +13,28 @@
         <view class="weui-navbar__slider" style="left: {{ sliderLeft }}px; transform: translateX({{ sliderOffset }}px); -webkit-transform: translateX({{ sliderOffset }}px);"></view>
       </view>
     </view>
-
+    <view class="b-divider"></view>
     <view class='b-task-wrapper'>
       <view wx:if='{{ activeIndex == 0 }}' class='b-task-middle'>
         <text>预约总数: </text>
-        <text class='b-task-number-blod'>{{ subNumber }}人</text>
+        <text class='b-task-number-blod'>{{ statisticInfo.total_count }}人</text>
       </view>
       <view wx:if='{{ activeIndex == 1 }}' class='b-task-sign'>
         <text>已签到: </text>
-        <text class='b-task-number-blod'>{{ signNumber }}人</text>
+        <text class='b-task-number-blod'>{{ statisticInfo.total_count }}人</text>
       </view>
       <view wx:if='{{ activeIndex == 2 }}' class='b-task-finsh'>
         <view class='b-finsh-number'>
           <text>已完成: </text>
-          <text class='b-task-number-blod'>{{ finishNumber }}人</text>
+          <text class='b-task-number-blod'>{{ statisticInfo.total_count }}人</text>
         </view>
         <view class='b-finish-time'>
           <text>平均用时: </text>
-          <text class='b-task-number-blod'>{{ avgTime }}分</text>
+          <text class='b-task-number-blod'>{{ statisticInfo.avg_duration }}分</text>
         </view>
       </view>
     </view>
-
+    <view class="b-divider"></view>
     <!-- 输入框 -->
     <view class="track-bg" wx:if='{{ activeIndex != 2 }}'>
       <view class="track-input-block">

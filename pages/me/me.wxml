@@ -4,9 +4,12 @@
       <view class='b-header-user'>
         <image class='b-header-avatar' src='{{ userInfo.avatarUrl }}'></image>
         <view class='b-header-detail'>
-          <view class='b-user-name'>
-            <text>{{ serverName }}</text>
+          <view class='b-server-name'>
+            <text>{{ serverInfo.user_info.server_name }}</text>
           </view>
+          <view class='b-user-name'>
+              <text>{{ serverInfo.user_info.username }}</text>
+            </view>
         </view>
       </view>
       <!-- 余额、待收收益、累计收益 -->
@@ -17,7 +20,7 @@
               <text>今日安装数量</text>
             </view>
             <view class='b-balance-number'>
-              <text>{{ dayCount }}</text>
+              <text>{{ serverInfo.today_count }}</text>
             </view>
           </view>
         </view>
@@ -27,7 +30,7 @@
               <text>累计安装数量</text>
             </view>
             <view class='b-balance-number'>
-              <text>{{ totalCount }}</text>
+              <text>{{ serverInfo.total_count }}</text>
             </view>
             <view class='b-red-dot' wx:if='{{ dotVisible }}'></view>
           </view>
@@ -38,7 +41,7 @@
               <text>平均耗时</text>
             </view>
             <view class='b-avg-time'>
-              <text>{{ avgTime }}</text>
+              <text>{{ serverInfo.avg_duration? "serverInfo.avg_duration" : "暂无记录" }}</text>
             </view>
           </view>
         </view>

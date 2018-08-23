@@ -67,6 +67,20 @@ Page({
     })
   },
 
+  requestInstallDetail(){
+    const that = this;
+    let requestData = {
+      url: ApiConst.QUERY_RESERVE_DETAIL_INFO,
+      data: {
+        reserve_id: ''
+      },
+      success: res => {
+        
+      }
+    }
+    ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
+  },
+
   /** 预览设计效果图 */
   handlePreviewDesign(event) {
     let imageList = [];
@@ -88,6 +102,7 @@ Page({
     if (!that.data.isInstall) {
       that.startinstall();
     } else {
+      
       that.endInstall();
     }
   },
