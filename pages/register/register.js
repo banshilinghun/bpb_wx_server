@@ -15,16 +15,6 @@ var sizeType = [
 
 Page({
   data: {
-    plate_no: "",
-    textTips: "在搜索框内输入车牌号查询",
-    sta: -1,
-    user_id: '',
-    ad_id: '',
-    check_id: '',
-    time_id: '',
-    date: '',
-    begin_time: '',
-    end_time: '',
 
     //键盘
     isKeyboard: false, //是否显示键盘
@@ -190,12 +180,38 @@ Page({
       data: {
         filter_name: params
       },
-      header: app.globalData.header,
       success: res => {
-        
+        that.setData({
+          reserveList: res
+        })
+        that.resolveClassify(res);
       }
     }
     ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
+  },
+
+  resolveClassify(res){
+    let subscribe = this.data.reserveList.filter(this.subscribeFilter);
+    let signed = this.data.reserveList.filter(this.signedFilter);
+    let installed = this.data.reserveList.filter(this.installedFilter);
+    this.setData({
+      subscribeCount: this.data.reserveList.length,
+      queueCount: signed.length,
+      signCount: signed.length + installed.length,
+      finishCount: installed.length
+    })
+  },
+
+  subscribeFilter(element){
+    return element.status == 0;
+  },
+
+  signedFilter(element){
+    return element.status == 1;
+  },
+
+  installedFilter(element){
+    return element.status == 2;
   },
 
   /**
@@ -222,9 +238,9 @@ Page({
   /**
    * 查看任务详情
    */
-  handleDetail(){
+  handleDetail(event){
     wx.navigateTo({
-      url: '../detail/detail',
+      url: '../detail/detail?reserve_id=' + event.currentTarget.dataset.item.reserve_id,
     })
   },
 

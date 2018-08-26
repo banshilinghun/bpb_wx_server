@@ -35,6 +35,12 @@ Page({
       url: ApiConst.GET_SERVER_USER_INFO,
       data: {},
       success: res => {
+        if(res.avg_duration){
+          let avg_duration = res.avg_duration;
+          let minutes = Math.floor(avg_duration / 60);
+          let seconds = avg_duration % 60;
+          res.avg_duration = minutes + '分' + seconds + '秒';
+        }
         that.setData({
           serverInfo: res
         })

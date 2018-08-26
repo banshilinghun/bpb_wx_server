@@ -34,33 +34,33 @@
   <!-- 列表 -->
   <scroll-view scroll-y='true'>
     <block wx:for="{{ reserveList }}" wx:key="item.id">
-      <view class="item2" bindtap="handleDetail" data-item='item'>
+      <view class="item2" bindtap="handleDetail" data-item='{{ item }}'>
         <view class="item-left">
-          <image src="{{item.logo}}" class="image" />
+          <image src="{{ item.logo }}" class="image" />
         </view>
         <view class="item-middle">
           <view class="b-list-title">
-            <text>{{item.adName}}</text>
+            <text>{{ item.ad_name }}</text>
           </view>
           <view class="myad-li">
             <view class="message">
-              <view class='b-item-left'>{{ item.username }}</view>
-              <view class="data-text theme-color">{{ item.phone }}</view>
+              <view class='b-item-left'>{{ item.real_name }}</view>
+              <view class="data-text theme-color">{{ item.phone_no }}</view>
             </view>
             <view class="message">
-              <view class='b-item-left'>{{ item.plate }}</view>
-              <view class="data-text">预约时间: {{item.sub_time}}</view>
+              <view class='b-item-left'>{{ item.plate_no }}</view>
+              <view class="data-text">预约时间: {{ item.begin_time + '-' + item.end_time }}</view>
             </view>
           </view>
         </view>
         <view class="item_right">
-          <view wx:if="{{item.status==0}}">
-            <text class="time timetxt2">未签到</text>
+          <view wx:if="{{ item.status == 0 }}">
+            <text class="time">未签到</text>
           </view>
-          <view wx:elif="{{item.status==1}}">
+          <view wx:elif="{{ item.status == 1 }}">
             <text class="time">已签到</text>
           </view>
-          <view wx:elif="{{item.status==2}}">
+          <view wx:elif="{{ item.status == 2 }}">
             <text class="time timetxt2">已完成</text>
           </view>
         </view>

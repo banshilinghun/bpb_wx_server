@@ -361,8 +361,12 @@ page{
 }
 
 .time {
-  color: #03d0b7;
+  color: #ff555c;
   font-size: 24rpx;
+}
+
+.timetxt2{
+  color: #666;
 }
 
 .myad-li {

@@ -101,6 +101,10 @@
   border-radius: 10rpx;
 }
 
+.b-installed-over{
+  background: #ccc
+}
+
 button::after{
   border: none;
 }
@@ -174,4 +178,8 @@ button::after{
 .b-effect-image{
   width: 100%;
   box-shadow: 0 0 8rpx #ddd
+}
+
+.b-phone-text{
+  text-decoration: underline
 }

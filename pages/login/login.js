@@ -131,11 +131,8 @@ Page({
   },
 
   redirectTo: function (param) {
-    // wx.switchTab({
-    //   url: '../register/register',
-    // })
-    wx.redirectTo({
-      url: '../detail/detail'
+    wx.switchTab({
+      url: '../register/register',
     })
   }
 })

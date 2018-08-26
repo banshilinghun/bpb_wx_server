@@ -2,7 +2,7 @@
   <view class='b-me-header'>
     <view class='b-header-wrapper'>
       <view class='b-header-user'>
-        <image class='b-header-avatar' src='{{ userInfo.avatarUrl }}'></image>
+        <image class='b-header-avatar' src='{{ serverInfo.logo? serverInfo.logo : "../../image/bpb-service.png" }}'></image>
         <view class='b-header-detail'>
           <view class='b-server-name'>
             <text>{{ serverInfo.user_info.server_name }}</text>
@@ -41,7 +41,7 @@
               <text>平均耗时</text>
             </view>
             <view class='b-avg-time'>
-              <text>{{ serverInfo.avg_duration? "serverInfo.avg_duration" : "暂无记录" }}</text>
+              <text>{{ serverInfo.avg_duration? serverInfo.avg_duration : "暂无记录" }}</text>
             </view>
           </view>
         </view>
