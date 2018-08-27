@@ -33,7 +33,7 @@
           </block>
           <!-- 输入手机号 -->
           <block wx:else>
-            <input class="track-input" maxlength='20' type="number" placeholder="请输入手机号" value='{{ textValue }}' bindinput="hanldePhoneInput"/>
+            <input class="track-input" maxlength='20' type="number" placeholder="请输入手机号" value='{{ textValue }}' bindinput="hanldePhoneInput" />
           </block>
           <image wx:if="{{ textValue }}" class='b-clear-icon' src='../../image/close-gray.png' catchtap='handleClear'></image>
         </view>
@@ -48,39 +48,48 @@
   </view>
   <!-- 列表 -->
   <scroll-view scroll-y='true'>
-    <block wx:for="{{ reserveList }}" wx:key="item.id">
-      <view class="item2" bindtap="handleDetail" data-item='{{ item }}'>
-        <view class="item-left">
-          <image src="{{ item.logo }}" class="image" />
-        </view>
-        <view class="item-middle">
-          <view class="b-list-title">
-            <text>{{ item.ad_name }}</text>
+    <block wx:if="{{ reserveList && reserveList.length !== 0 }}">
+      <view wx:for="{{ reserveList }}" wx:key="item.id">
+        <view class="item2" bindtap="handleDetail" data-item='{{ item }}'>
+          <view class="item-left">
+            <image src="{{ item.logo }}" class="image" />
           </view>
-          <view class="myad-li">
-            <view class="message">
-              <view class='b-item-left'>{{ item.real_name }}</view>
-              <view class="data-text theme-color">{{ item.phone_no }}</view>
+          <view class="item-middle">
+            <view class="b-list-title">
+              <text>{{ item.ad_name }}</text>
             </view>
-            <view class="message">
-              <view class='b-item-left'>{{ item.plate_no }}</view>
-              <view class="data-text">预约时间: {{ item.begin_time + '-' + item.end_time }}</view>
+            <view class="myad-li">
+              <view class="message">
+                <view class='b-item-left'>{{ item.real_name }}</view>
+                <view class="data-text theme-color">{{ item.phone_no }}</view>
+              </view>
+              <view class="message">
+                <view class='b-item-left'>{{ item.plate_no }}</view>
+                <view class="data-text">预约时间: {{ item.begin_time + '-' + item.end_time }}</view>
+              </view>
+            </view>
+          </view>
+          <view class="item_right">
+            <view wx:if="{{ item.status == 0 }}">
+              <text class="time">未签到</text>
+            </view>
+            <view wx:elif="{{ item.status == 1 }}">
+              <text class="time">已签到</text>
+            </view>
+            <view wx:elif="{{ item.status == 2 }}">
+              <text class="time timetxt2">已完成</text>
             </view>
           </view>
         </view>
-        <view class="item_right">
-          <view wx:if="{{ item.status == 0 }}">
-            <text class="time">未签到</text>
-          </view>
-          <view wx:elif="{{ item.status == 1 }}">
-            <text class="time">已签到</text>
-          </view>
-          <view wx:elif="{{ item.status == 2 }}">
-            <text class="time timetxt2">已完成</text>
-          </view>
-        </view>
+        <view class="b-line"></view>
       </view>
-      <view class="b-line"></view>
+    </block>
+    <!-- 空页面 -->
+    <block wx:else>
+      <view class='guide-empty-wrapper'>
+        <image class='guide-empty-image' src='../../image/empty_data.png'></image>
+        <text class='guide-empty-text'>空空如也</text>
+      </view>
     </block>
   </scroll-view>
 

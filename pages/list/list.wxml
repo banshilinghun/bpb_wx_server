@@ -63,7 +63,7 @@
     <view class='b-list-divider' wx:if='{{ activeIndex == 2 }}'></view>
   </view>
   <!-- 列表 -->
-  <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px'>
+  <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px' class='b-scroll-view'>
     <view class='content-layout'>
       <!-- 已预约、已签到列表 -->
       <block wx:if='{{ activeIndex != 2 && reserveList && reserveList.length !== 0 }}'>

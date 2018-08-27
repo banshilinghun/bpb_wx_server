@@ -1,11 +1,12 @@
 
-@import '../guide/guide.wxss';
 @import '../../style/keybord.wxss';
 @import '../../style/input.wxss';
+@import '../../style/empty.wxss';
 
 /** radio start **/
 list-root{
   width: 100%;
+  background-color: #f6f6f6
 }
 .apply-choice{
     width: 30rpx;
@@ -20,8 +21,7 @@ view{
 }
 
 .body{
-    padding: 25rpx 25rpx 0;
-    background-color: #fff;
+    padding: 25rpx 25rpx 0
 }
 
 .type-group{
@@ -342,4 +342,8 @@ view{
   color: #333;
   font-size: 28rpx;
   margin-left: 5rpx
+}
+
+.b-scroll-view{
+  background-color: #f6f6f6
 }

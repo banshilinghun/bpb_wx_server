@@ -112,6 +112,7 @@ Page({
   initTimer(begin_time) {
     let nowTime = new Date().getTime();
     let startTime = Math.floor(nowTime / 1000 - begin_time);
+    this.setInstallTime(startTime);
     this.startTimer(startTime);
   },
 
@@ -167,7 +168,7 @@ Page({
           that.setData({
             operation: 'END'
           })
-          that.startTimer();
+          that.startTimer(0);
         } else {
           that.endInstall();
         }

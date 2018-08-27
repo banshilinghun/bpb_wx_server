@@ -1,5 +1,6 @@
 @import '../../style/keybord.wxss';
 @import '../../style/input.wxss';
+@import '../../style/empty.wxss';
 
 page{
   background-color: #F6F6F6
