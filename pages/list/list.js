@@ -23,6 +23,8 @@ Page({
     cellList: [],
     subNumber: 1,
     switchStr: '手机号',
+    reserveList: [],
+    visiblePlate: true,
     
     //键盘
     isKeyboard: false, //是否显示键盘
@@ -107,21 +109,44 @@ Page({
     this.requestStatisticInfo();
   },
 
-  requestReserveList(){
+  /**
+   * 已预约和已签到列表
+   */
+  requestReserveList(filterValue){
     const that = this;
+    filterValue = filterValue || '';
     let requestData = {
       url: ApiConst.GET_ALL_RESERVE_LIST,
       data: {
-        filter_name: '',
+        filter_name: filterValue,
         type: that.data.activeIndex
       },
       success: res => {
-        
+        that.formatReserveList(res.reserve);
       }
     }
     ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
   },
 
+  formatReserveList(reserve){
+    let reserveTempList = [];
+    let keys = Object.keys(reserve);
+    if(keys.length !== 0) {
+      keys.forEach(element => {
+        let reserveObj = {};
+        reserveObj.date = element;
+        reserveObj.info = reserve[element];
+        reserveTempList.push(reserveObj);
+      })
+    }
+    this.setData({
+      reserveList: reserveTempList
+    })
+  },
+
+  /**
+   * 已安装广告列表
+   */
   requestStatisticInfo(){
     const that = this;
     let requestData = {
@@ -158,16 +183,12 @@ Page({
     let that = this;
     that.showLoadingView();
     let requestParams = {};
-    requestParams.url = ApiConst.QUERY_REGIST_STATISTIC_INFO_URL;
+    requestParams.url = ApiConst.GET_INSTALL_AD_LIST;
     requestParams.data = {}
     requestParams.success = res => {
-      console.log(res);
-      that.setData({
-        cellList: []
-      })
       if (res && res.length > 0) {
         res.forEach(element => {
-          element.cellTitle = element.name;
+          element.cellTitle = element.ad_name;
           element.remark = '已激活' + element.count + '辆';
           element.type = 'active';
         });
@@ -197,6 +218,13 @@ Page({
     console.log(event);
     wx.navigateTo({
       url: '../listSort/listSort?title=' + event.detail.cell.cellTitle + '&count=' + event.detail.cell.count + '&ad_id=' + event.detail.cell.ad_id + '&type=' + event.detail.cell.type,
+    })
+  },
+
+  handleDetail(event){
+    console.log(event);
+    wx.navigateTo({
+      url: '../detail/detail?reserve_id=' + event.currentTarget.dataset.item.reserve_id
     })
   },
 
@@ -260,7 +288,7 @@ Page({
         specialBtn: this.specialBtn,
         tapNum: this.tapNum,
       });
-      //self.search(self.data.textValue);
+      self.requestReserveList(self.data.textValue);
       return false;
     }
     if (self.data.textArr.length >= 8) {
@@ -279,6 +307,7 @@ Page({
         tapNum: true
       });
     }
+    self.requestReserveList(self.data.textValue);
   },
 
   /**
@@ -314,6 +343,26 @@ Page({
     this.hideKeyboard();
   },
 
+  hanldePhoneInput(event){
+    let that = this;
+    console.log(event);
+    let value = event.detail.value;
+    that.setData({
+      textValue: value
+    })
+    that.requestReserveList(value);
+  },
+
+  handleSwitch(){
+    this.setData({
+      switchStr: this.data.visiblePlate ? '车牌号' : '手机号',
+      visiblePlate: !this.data.visiblePlate,
+      textValue: ''
+    })
+    this.requestReserveList(this.data.textValue);
+  },
+
+
   /**
    * 清除搜索内容
    */
@@ -326,6 +375,7 @@ Page({
       tapNum: false,
       keyboardValue: that.data.keyboard1
     })
+    this.requestReserveList(this.data.textValue);
   },
 
 })

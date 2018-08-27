@@ -100,7 +100,6 @@ function sendRequest(requestInfo) {
   if (!requestInfo) {
     return;
   }
-  console.log(getApp().globalData.header);
   wx.request({
     url: requestInfo.url,
     data: requestInfo.data,

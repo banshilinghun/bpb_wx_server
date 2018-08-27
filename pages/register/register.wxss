@@ -393,6 +393,31 @@ page{
   display: none
 }
 
+.b-track-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 30rpx
+}
+
+.b-switch-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 26rpx
+}
+
+.b-switch-image{
+  width: 40rpx;
+  height: 40rpx
+}
+
+.b-switch-text{
+  color: #333;
+  font-size: 28rpx;
+  margin-left: 5rpx
+}
+
 /* header start */
 .b-header{
   margin-bottom: 20rpx;

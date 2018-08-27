@@ -14,6 +14,13 @@ Page({
       visible: true,
       type: 'guide',
       url: '../guide/guide'
+    },
+    {
+      icon: '../../image/switch_icon.png',
+      text: '退出登录',
+      visible: true,
+      type: 'logout',
+      url: '../login/login'
     }],
     serverInfo: []
   },
@@ -50,7 +57,6 @@ Page({
   },
 
   handleAction(event) {
-    console.log(event);
     let item = event.currentTarget.dataset.item;
     switch (item.type) {
       case 'guide':
@@ -58,12 +64,15 @@ Page({
           url: item.url,
         })
         break;
+      case 'logout':
+        this.switchAccount(item.url);
+        break;
       default:
         break;
     }
   },
 
-  switchAccount: function () {
+  switchAccount(url) {
     var that = this;
     wx.showModal({
       title: '提示',
@@ -71,9 +80,10 @@ Page({
       success: function (res) {
         if (res.confirm) {
           wx.redirectTo({
-            url: '../login/login',
+            url: url,
           })
         } else if (res.cancel) {
+          //do nothing
         }
       },
     })

@@ -70,8 +70,3 @@
     </view>
   </view>
 </view>
-
-<!-- 切换账号 -->
-<view class='switch-tab' bindtap='switchAccount'>
-  <image class='switch-icon' src='../../image/switch_icon.png'></image>
-</view>

@@ -105,3 +105,13 @@ export const GET_RESERVE_STATISTICS = baseUrl + 'server/get/reserve_statistics';
  * 获取车行用户信息
  */
 export const GET_SERVER_USER_INFO = baseUrl + 'server/get/server_userinfo';
+
+/**
+ * 查询车行已安装广告列表
+ */
+export const GET_INSTALL_AD_LIST = baseUrl + 'server/get/install_ad_list';
+
+/**
+ * 查询车行单个广告安装详细列表
+ */
+export const INSTALL_AD_DETAIL_LIST = baseUrl + 'server/get/install_ad_detail_list';

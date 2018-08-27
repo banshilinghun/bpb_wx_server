@@ -24,10 +24,25 @@
     </view>
     <!-- 输入框 -->
     <view class="track-bg">
-      <view class="track-input-block">
-        <input id="carcode" name="carcode" disabled="{{disabled}}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{textValue}}' bindtap="showKeyboard" />
-        <image class='search-icon' src='../../image/search_icon.png'></image>
-        <image class='b-clear-icon' src='../../image/close-gray.png' catchtap='handleClear'></image>
+      <view class='b-track-wrapper'>
+        <view class="track-input-block">
+          <image class='search-icon' src='../../image/search_icon.png'></image>
+          <!-- 输入车牌 -->
+          <block wx:if="{{ visiblePlate }}">
+            <input id="carcode" name="carcode" disabled="{{ disabled }}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{ textValue }}' bindtap="showKeyboard" />
+          </block>
+          <!-- 输入手机号 -->
+          <block wx:else>
+            <input class="track-input" maxlength='20' type="number" placeholder="请输入手机号" value='{{ textValue }}' bindinput="hanldePhoneInput"/>
+          </block>
+          <image wx:if="{{ textValue }}" class='b-clear-icon' src='../../image/close-gray.png' catchtap='handleClear'></image>
+        </view>
+        <view class='b-switch-wrapper' bindtap='handleSwitch'>
+          <image class='b-switch-image' src='../../image/b-switch.png'></image>
+          <view class='b-switch-text'>
+            <text>{{ switchStr }}</text>
+          </view>
+        </view>
       </view>
     </view>
   </view>

@@ -37,7 +37,9 @@ Page({
     signCount: 0,
     finishCount: 0,
     scrollHeight: 0,
-    reserveList: []
+    reserveList: [],
+    visiblePlate: true,
+    switchStr: '手机号'
    },
 
   onLoad: function() {
@@ -248,6 +250,16 @@ Page({
     this.hideKeyboard();
   },
 
+  hanldePhoneInput(event){
+    let that = this;
+    console.log(event);
+    let value = event.detail.value;
+    that.setData({
+      textValue: value
+    })
+    that.getTodayList(value);
+  },
+
   /**
    * 清除搜索内容
    */
@@ -260,6 +272,16 @@ Page({
       tapNum: false,
       keyboardValue: that.data.keyboard1
     })
+    that.getTodayList(that.data.textValue);
+  },
+
+  handleSwitch(){
+    this.setData({
+      switchStr: this.data.visiblePlate ? '车牌号' : '手机号',
+      visiblePlate: !this.data.visiblePlate,
+      textValue: ''
+    })
+    this.getTodayList(this.data.textValue);
   },
 
   /**
