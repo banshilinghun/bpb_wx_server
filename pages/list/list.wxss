@@ -347,3 +347,10 @@ view{
 .b-scroll-view{
   background-color: #f6f6f6
 }
+
+.b-rework-title{
+  color: #ff555c;
+  font-size: 32rpx;
+  font-weight: 500;
+  padding: 10rpx 20rpx
+}

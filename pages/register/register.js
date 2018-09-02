@@ -2,6 +2,8 @@ var util = require("../../utils/util.js");
 const ApiManager = require('../../utils/api/ApiManager.js');
 const ApiConst = require('../../utils/api/ApiConst');
 const app = getApp();
+const { $Toast } = require('../../components/base/index');
+
 var sourceType = [
   ['camera'],
   ['album'],
@@ -39,16 +41,17 @@ Page({
     scrollHeight: 0,
     reserveList: [],
     visiblePlate: true,
-    switchStr: '手机号'
-   },
+    switchStr: '手机号',
+    reworkList: []
+  },
 
-  onLoad: function() {
+  onLoad: function () {
     let that = this;
     //检测更新
     that.checkUpdate();
     //设置滚动高度
     wx.getSystemInfo({
-      success: function(res) {
+      success: function (res) {
         let query = wx.createSelectorQuery();
         //选择id
         query.select('#header').boundingClientRect(function (rect) {
@@ -61,7 +64,7 @@ Page({
     })
   },
 
-  onShow: function() {
+  onShow: function () {
     var that = this;
     that.setData({
       flag: false
@@ -80,11 +83,11 @@ Page({
     });
   },
 
-  tapSpecBtn: function() {
+  tapSpecBtn: function () {
     this.hideKeyboard();
   },
 
-  previewImage: function(e) {
+  previewImage: function (e) {
     var current = e.target.dataset.src;
     wx.previewImage({
       current: current,
@@ -92,7 +95,7 @@ Page({
     })
   },
 
-  checkCarCode: function(code) {
+  checkCarCode: function (code) {
     var carcode = code;
     if (util.isVehicleNumber(carcode)) {
       return true;
@@ -109,17 +112,17 @@ Page({
   /**
    * 登记检测
    */
-  actionClick: function() {
+  actionClick: function () {
     var that = this;
-      wx.redirectTo({
-        url: '../photoAudit/photoAudit?user_id=' + that.data.user_id + '&ad_id=' + that.data.ad_id + '&check_id=' + that.data.check_id + '&time_id=' + that.data.time_id + '&ad_type=' + that.data.ad_type
-      });
+    wx.redirectTo({
+      url: '../photoAudit/photoAudit?user_id=' + that.data.user_id + '&ad_id=' + that.data.ad_id + '&check_id=' + that.data.check_id + '&time_id=' + that.data.time_id + '&ad_type=' + that.data.ad_type
+    });
   },
 
   /**
    * 键盘相关
    */
-  tapKeyboard: function(e) {
+  tapKeyboard: function (e) {
     var self = this;
     //获取键盘点击的内容，并将内容赋值到textarea框中
     var tapIndex = e.target.dataset.index;
@@ -175,7 +178,7 @@ Page({
     self.getTodayList(self.data.textValue);
   },
 
-  getTodayList: function(params) {
+  getTodayList: function (params) {
     const that = this;
     let requestData = {
       url: ApiConst.GET_TODAY_RESERVE_LIST,
@@ -183,8 +186,29 @@ Page({
         filter_name: params
       },
       success: res => {
+        let reserveTempList = [];
+        let reworkList = [];
+        let normalList = [];
+        if (res && res.length !== 0) {
+          reworkList = res.filter(element => {
+            return Number(element.sourse) === 2 && Number(element.status) !== 2;
+          });
+          normalList = res.filter(element => {
+            return Number(element.sourse) !== 2 || Number(element.status) === 2;
+          })
+          // 正常列表再进行排序
+          normalList.forEach(element => {
+            if (Number(element.status) === 1) {
+              element.status = -1;
+            }
+          });
+          normalList.sort((a, b) => a.status - b.status);
+          reserveTempList = reserveTempList.concat(normalList);
+        }
+        console.log(reserveTempList);
         that.setData({
-          reserveList: res
+          reworkList: reworkList,
+          reserveList: reserveTempList
         })
         that.resolveClassify(res);
       }
@@ -192,7 +216,7 @@ Page({
     ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
   },
 
-  resolveClassify(res){
+  resolveClassify(res) {
     let subscribe = this.data.reserveList.filter(this.subscribeFilter);
     let signed = this.data.reserveList.filter(this.signedFilter);
     let installed = this.data.reserveList.filter(this.installedFilter);
@@ -204,22 +228,22 @@ Page({
     })
   },
 
-  subscribeFilter(element){
+  subscribeFilter(element) {
     return element.status == 0;
   },
 
-  signedFilter(element){
+  signedFilter(element) {
     return element.status == 1;
   },
 
-  installedFilter(element){
+  installedFilter(element) {
     return element.status == 2;
   },
 
   /**
    * 点击页面隐藏键盘事件
    */
-  hideKeyboard: function() {
+  hideKeyboard: function () {
     var self = this;
     //说明键盘是显示的，再次点击要隐藏键盘
     if (self.data.textValue) {
@@ -230,7 +254,7 @@ Page({
     });
   },
 
-  showKeyboard: function() {
+  showKeyboard: function () {
     var self = this;
     self.setData({
       isKeyboard: true
@@ -240,17 +264,17 @@ Page({
   /**
    * 查看任务详情
    */
-  handleDetail(event){
+  handleDetail(event) {
     wx.navigateTo({
       url: '../detail/detail?reserve_id=' + event.currentTarget.dataset.item.reserve_id,
     })
   },
 
-  handleMaskClick(){
+  handleMaskClick() {
     this.hideKeyboard();
   },
 
-  hanldePhoneInput(event){
+  hanldePhoneInput(event) {
     let that = this;
     console.log(event);
     let value = event.detail.value;
@@ -263,7 +287,7 @@ Page({
   /**
    * 清除搜索内容
    */
-  handleClear(){
+  handleClear() {
     let that = this;
     that.setData({
       textValue: '',
@@ -275,31 +299,35 @@ Page({
     that.getTodayList(that.data.textValue);
   },
 
-  handleSwitch(){
+  handleSwitch() {
     this.setData({
       switchStr: this.data.visiblePlate ? '车牌号' : '手机号',
       visiblePlate: !this.data.visiblePlate,
       textValue: ''
     })
+    $Toast({
+      content: this.data.visiblePlate? '已切换至车牌号搜索' : '已切换至手机号搜索',
+      type: 'success'
+    });
     this.getTodayList(this.data.textValue);
   },
 
   /**
    * 版本更新
    */
-  checkUpdate: function() {
+  checkUpdate: function () {
     if (wx.canIUse('getUpdateManager')) {
       const updateManager = wx.getUpdateManager();
-      updateManager.onCheckForUpdate(function(res) {
+      updateManager.onCheckForUpdate(function (res) {
         // 请求完新版本信息的回调
         console.log(res.hasUpdate);
       })
 
-      updateManager.onUpdateReady(function() {
+      updateManager.onUpdateReady(function () {
         wx.showModal({
           title: '更新提示',
           content: '新版本已经准备好，即刻体验？',
-          success: function(res) {
+          success: function (res) {
             if (res.confirm) {
               // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
               updateManager.applyUpdate();
@@ -308,7 +336,7 @@ Page({
         })
       })
 
-      updateManager.onUpdateFailed(function() {
+      updateManager.onUpdateFailed(function () {
         // 新的版本下载失败
       })
     }

@@ -19,6 +19,7 @@ Page({
     minute: 0,
     second: 0,
     detailInfo: null,
+    reserve_id: '',
     operation: 'BEGIN', //操作类型
   },
 
@@ -34,16 +35,19 @@ Page({
         })
       }
     });
-    that.requestInstallDetail(options.reserve_id);
+    that.setData({
+      reserve_id: options.reserve_id
+    })
+    that.requestInstallDetail();
   },
 
-  requestInstallDetail(reserve_id) {
+  requestInstallDetail() {
     const that = this;
     LoadingHelper.showLoading();
     let requestData = {
       url: ApiConst.QUERY_RESERVE_DETAIL_INFO,
       data: {
-        reserve_id: reserve_id
+        reserve_id: that.data.reserve_id
       },
       success: res => {
         //广告效果图
@@ -134,19 +138,23 @@ Page({
 
   handleInstall() {
     const that = this;
+    if(Number(that.data.detailInfo.status) === 0){
+      ModalHelper.showWxModal('提示', "车主还未签到，暂不能开始安装", "我知道了", false);
+      return;
+    }
     //把安装完成过滤
     if (that.data.operation === 'END' && that.data.detailInfo.install_info.end_time) {
       return;
     }
     if (that.data.operation === 'END') {
-      ModalHelper.showWxModalShowAllWidthCallback('提示', '确定已经安装完毕吗？', '结束安装', '继续安装', true, res => {
+      ModalHelper.showWxModalShowAllWidthCallback('结束安装提示', `车牌号: ${ that.data.detailInfo.plate_no }\n确认该车辆已经安装完毕吗？`, '结束安装', '继续安装', true, res => {
         if (res.confirm) {
           clearInterval(timer);
           that.commitInstallRequest();
         }
       })
     } else {
-      ModalHelper.showWxModalUseConfirm('提示', '确定准备好开始安装吗？', '开始安装', true, res => {
+      ModalHelper.showWxModalUseConfirm('开始安装提示', '确定准备好开始安装吗？', '开始安装', true, res => {
         if (res.confirm) {
           that.commitInstallRequest();
         }
@@ -169,6 +177,7 @@ Page({
             operation: 'END'
           })
           that.startTimer(0);
+          that.requestInstallDetail();
         } else {
           that.endInstall();
         }

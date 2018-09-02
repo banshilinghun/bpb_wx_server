@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "广告安装"
+  "navigationBarTitleText": "广告安装",
+  "usingComponents": {
+    "b-toast": "../../components/toast/index"
+  }
 }

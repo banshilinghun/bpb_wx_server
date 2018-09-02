@@ -65,8 +65,43 @@
   <!-- 列表 -->
   <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px' class='b-scroll-view'>
     <view class='content-layout'>
+      <!-- 返工列表 -->
+      <block wx:if="{{ activeIndex != 2 && reworkList && reworkList.length !== 0 }}">
+        <view class="b-rework-title">返工列表</view>
+        <block wx:for="{{ reworkList }}" wx:for-item='rework' wx:key="rework.id" wx:for-index="idx">
+          <view class="item2" bindtap="handleDetail" data-item='{{ rework }}'>
+            <view class="item-left">
+              <image src="{{ rework.logo }}" class="image" />
+            </view>
+            <view class="item-middle">
+              <view class="b-list-title">
+                <text>{{ rework.ad_name }}</text>
+              </view>
+              <view class="myad-li">
+                <view class="message">
+                  <view class='b-item-left'>{{ rework.real_name }}</view>
+                  <view class="data-text theme-color">{{ rework.phone_no }}</view>
+                </view>
+                <view class="message">
+                  <view class='b-item-left'>{{ rework.plate_no }}</view>
+                </view>
+              </view>
+            </view>
+            <view class="item_right">
+              <view wx:if="{{ activeIndex == 0 }}">
+                <text class="time timetxt2">已预约</text>
+              </view>
+              <view wx:elif="{{ activeIndex == 1 }}">
+                <text class="time">已签到</text>
+              </view>
+            </view>
+          </view>
+          <view class="b-line" wx:if='{{ idx !== reworkList.length - 1 }}'></view>
+        </block>
+      </block>
       <!-- 已预约、已签到列表 -->
       <block wx:if='{{ activeIndex != 2 && reserveList && reserveList.length !== 0 }}'>
+          <view class="b-rework-title">{{ activeIndex == 0? "预约列表" : "签到列表" }}</view>
         <view class='list-body' wx:for='{{ reserveList }}' wx:key='item.id'>
           <view class='b-list-panel'>
             <text>{{ item.date }}</text>
@@ -166,3 +201,6 @@
     <!--完成按钮 end-->
   </view>
 </block>
+
+<!-- 轻提示 -->
+<b-toast id="toast"></b-toast>

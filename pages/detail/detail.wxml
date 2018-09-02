@@ -42,7 +42,7 @@
           </view>
         </view>
       </block>
-      <block>
+      <block wx:if="{{ detailInfo.begin_time && detailInfo.end_time }}">
         <!-- 预约时间 -->
         <view class='b-detail-ad b-subs-time'>
           <view class='b-detail-left'>

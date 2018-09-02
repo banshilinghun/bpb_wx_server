@@ -2,6 +2,7 @@ var app = getApp();
 const ApiManager = require('../../utils/api/ApiManager.js');
 const ApiConst = require('../../utils/api/ApiConst');
 const timeUtil = require('../../utils/common/timeUitl');
+const { $Toast } = require('../../components/base/index');
 
 const sliderWidth = 96;
 
@@ -25,6 +26,7 @@ Page({
     switchStr: '手机号',
     reserveList: [],
     visiblePlate: true,
+    reworkList: [],
     
     //键盘
     isKeyboard: false, //是否显示键盘
@@ -123,6 +125,9 @@ Page({
       },
       success: res => {
         that.formatReserveList(res.reserve);
+        that.setData({
+          reworkList: res.rework
+        })
       }
     }
     ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
@@ -359,6 +364,10 @@ Page({
       visiblePlate: !this.data.visiblePlate,
       textValue: ''
     })
+    $Toast({
+      content: this.data.visiblePlate? '已切换至车牌号搜索' : '已切换至手机号搜索',
+      type: 'success'
+    });
     this.requestReserveList(this.data.textValue);
   },
 

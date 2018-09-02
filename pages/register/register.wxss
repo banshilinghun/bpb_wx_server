@@ -419,6 +419,17 @@ page{
   margin-left: 5rpx
 }
 
+.b-rework-title{
+  color: #ff555c;
+  font-size: 32rpx;
+  font-weight: 500;
+  padding: 10rpx 20rpx
+}
+
+.b-rework-list{
+  margin-bottom: 20rpx
+}
+
 /* header start */
 .b-header{
   margin-bottom: 20rpx;
