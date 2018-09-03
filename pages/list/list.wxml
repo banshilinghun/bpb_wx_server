@@ -30,7 +30,7 @@
         </view>
         <view class='b-finish-time'>
           <text>平均用时: </text>
-          <text class='b-task-number-blod'>{{ statisticInfo.avg_duration }}分</text>
+          <text class='b-task-number-blod'>{{ statisticInfo.avg_duration }}</text>
         </view>
       </view>
     </view>

@@ -15,11 +15,11 @@
     "pages/test/test"
   ],
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#ff555c",
     "navigationBarTitleText": "",
     "navigationBarTextStyle": "white",
-    "enablePullDownRefresh": false
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "#7A7E83",

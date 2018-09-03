@@ -48,8 +48,6 @@ Page({
    */
   onLoad: function(options) {
     this.initView();
-    this.requestReserveList();
-    this.requestStatisticInfo();
   },
 
   initView(){
@@ -76,6 +74,12 @@ Page({
    */
   onShow: function() {
     let self = this;
+    self.requestCurrentClassify();
+    self.initKeybord();
+  },
+
+  initKeybord(){
+    const self = this;
     if (self.data.keyboard1 instanceof Array) {
       return;
     }
@@ -85,6 +89,10 @@ Page({
     self.setData({
       keyboardValue: self.data.keyboard1
     });
+  },
+
+  onPullDownRefresh(){
+    this.requestCurrentClassify();
   },
 
   tabClick(e) {
@@ -103,6 +111,10 @@ Page({
       sliderOffset: offsetLeft,
       activeIndex: id,
     })
+    this.requestCurrentClassify();
+  },
+
+  requestCurrentClassify(){
     if(this.data.activeIndex == 2){
       this.getActiveAdList();
     } else {
@@ -128,6 +140,9 @@ Page({
         that.setData({
           reworkList: res.rework
         })
+      },
+      complete: res => {
+        wx.stopPullDownRefresh();
       }
     }
     ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
@@ -161,7 +176,10 @@ Page({
       },
       success: res => {
         if(that.data.activeIndex === 2){
-          res.avg_duration = timeUtil.formatTime(res.avg_duration);
+          let avg_duration = res.avg_duration;
+          let minutes = Math.floor(avg_duration / 60);
+          let seconds = Math.floor(avg_duration % 60);
+          res.avg_duration = `${ minutes }分${ seconds }秒`;
         }
         that.setData({
           statisticInfo: res
@@ -171,22 +189,11 @@ Page({
     ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
   },
 
-  showLoadingView: function() {
-    wx.showLoading({
-      title: '奔跑中...',
-    })
-  },
-
-  hideLoadingView: function() {
-    wx.hideLoading();
-  },
-
   /**
    * 广告激活列表
    */
   getActiveAdList: function() {
     let that = this;
-    that.showLoadingView();
     let requestParams = {};
     requestParams.url = ApiConst.GET_INSTALL_AD_LIST;
     requestParams.data = {}
@@ -204,7 +211,7 @@ Page({
       }
     };
     requestParams.complete = res => {
-      that.hideLoadingView();
+      wx.stopPullDownRefresh();
     };
     ApiManager.sendRequest(new ApiManager.requestInfo(requestParams));
   },

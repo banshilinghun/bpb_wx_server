@@ -36,6 +36,10 @@ Page({
     this.requestUserInfo();
   },
 
+  onPullDownRefresh(){
+    this.requestUserInfo();
+  },
+
   requestUserInfo(){
     const that = this;
     let requestData = {
@@ -45,12 +49,15 @@ Page({
         if(res.avg_duration){
           let avg_duration = res.avg_duration;
           let minutes = Math.floor(avg_duration / 60);
-          let seconds = avg_duration % 60;
+          let seconds = Math.floor(avg_duration % 60);
           res.avg_duration = minutes + '分' + seconds + '秒';
         }
         that.setData({
           serverInfo: res
         })
+      },
+      complete: res => {
+        wx.stopPullDownRefresh();
       }
     }
     ApiManager.sendRequest(new ApiManager.requestInfo(requestData));

@@ -196,6 +196,7 @@ view{
 .b-list-panel{
   padding: 20rpx 0 0 20rpx;
   font-weight: 500;
+  background-color: #fff;
   font-size: 32rpx;
   color: #ff555c;
 }

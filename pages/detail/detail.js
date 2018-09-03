@@ -67,7 +67,6 @@ Page({
             that.setInstallTime(res.install_info.end_time - res.install_info.begin_time);
           }
         }
-        that.setDesignImageHeight();
       },
       complete: res => {
         LoadingHelper.hideLoading();
@@ -101,16 +100,6 @@ Page({
       console.log(effect_list);
       element.effect = effect_list;
     });
-  },
-
-  setDesignImageHeight() {
-    let that = this;
-    viewUtil.getViewHeight("#effect-image").then(rect => {
-      console.log(rect);
-      that.setData({
-        designHeight: rect.width * 9 / 16
-      })
-    })
   },
 
   initTimer(begin_time) {
@@ -147,14 +136,14 @@ Page({
       return;
     }
     if (that.data.operation === 'END') {
-      ModalHelper.showWxModalShowAllWidthCallback('结束安装提示', `车牌号: ${ that.data.detailInfo.plate_no }\n确认该车辆已经安装完毕吗？`, '结束安装', '继续安装', true, res => {
+      ModalHelper.showWxModalShowAllWidthCallback('结束安装提示', `确认要结束安装车辆的车牌号为:\n${ that.data.detailInfo.plate_no }`, '结束安装', '继续安装', true, res => {
         if (res.confirm) {
           clearInterval(timer);
           that.commitInstallRequest();
         }
       })
     } else {
-      ModalHelper.showWxModalUseConfirm('开始安装提示', '确定准备好开始安装吗？', '开始安装', true, res => {
+      ModalHelper.showWxModalUseConfirm('安装提示', `确认当前安装车辆车牌号为:\n${ that.data.detailInfo.plate_no }`, '开始安装', true, res => {
         if (res.confirm) {
           that.commitInstallRequest();
         }

@@ -3,6 +3,7 @@ const ApiManager = require('../../utils/api/ApiManager.js');
 const ApiConst = require('../../utils/api/ApiConst');
 const app = getApp();
 const { $Toast } = require('../../components/base/index');
+const ModalHelper = require('../../helper/ModalHelper');
 
 var sourceType = [
   ['camera'],
@@ -70,8 +71,13 @@ Page({
       flag: false
     });
     //加载今日数据
-    that.getTodayList("");
+    that.getTodayList();
     //初始化键盘相关数据
+    that.initKeybord();
+  },
+
+  initKeybord(){
+    const that = this;
     if (that.data.keyboard1 instanceof Array) {
       return;
     }
@@ -100,11 +106,7 @@ Page({
     if (util.isVehicleNumber(carcode)) {
       return true;
     } else {
-      wx.showModal({
-        title: '提示',
-        showCancel: false,
-        content: '输入的车牌号不合法'
-      });
+      ModalHelper.showWxModal('提示', '输入的车牌号不合法', '我知道了', false);
       return false;
     }
   },
@@ -183,7 +185,7 @@ Page({
     let requestData = {
       url: ApiConst.GET_TODAY_RESERVE_LIST,
       data: {
-        filter_name: params
+        filter_name: params || ''
       },
       success: res => {
         let reserveTempList = [];
@@ -191,26 +193,28 @@ Page({
         let normalList = [];
         if (res && res.length !== 0) {
           reworkList = res.filter(element => {
-            return Number(element.sourse) === 2 && Number(element.status) !== 2;
+            return parseInt(element.sourse) === 2 && parseInt(element.status) !== 2;
           });
           normalList = res.filter(element => {
-            return Number(element.sourse) !== 2 || Number(element.status) === 2;
+            return parseInt(element.sourse) !== 2 || parseInt(element.status) === 2;
           })
           // 正常列表再进行排序
           normalList.forEach(element => {
-            if (Number(element.status) === 1) {
+            if (parseInt(element.status) === 1) {
               element.status = -1;
             }
           });
           normalList.sort((a, b) => a.status - b.status);
           reserveTempList = reserveTempList.concat(normalList);
         }
-        console.log(reserveTempList);
         that.setData({
           reworkList: reworkList,
           reserveList: reserveTempList
         })
         that.resolveClassify(res);
+      },
+      complete: res => {
+        wx.stopPullDownRefresh();
       }
     }
     ApiManager.sendRequest(new ApiManager.requestInfo(requestData));
@@ -229,15 +233,15 @@ Page({
   },
 
   subscribeFilter(element) {
-    return element.status == 0;
+    return parseInt(element.status) === 0;
   },
 
   signedFilter(element) {
-    return element.status == 1;
+    return parseInt(element.status) == 1;
   },
 
   installedFilter(element) {
-    return element.status == 2;
+    return parseInt(element.status) == 2;
   },
 
   /**
@@ -310,6 +314,10 @@ Page({
       type: 'success'
     });
     this.getTodayList(this.data.textValue);
+  },
+
+  onPullDownRefresh(){
+    this.getTodayList();
   },
 
   /**

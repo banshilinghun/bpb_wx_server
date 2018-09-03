@@ -175,11 +175,24 @@ button::after{
   padding: 0 8rpx
 }
 
-.b-effect-image{
-  width: 100%;
-  box-shadow: 0 0 8rpx #ddd
-}
-
 .b-phone-text{
   text-decoration: underline
+}
+
+.b-effect-image {
+  width: 480rpx;
+  height: 270rpx;
+  border-radius: 5rpx;
+}
+
+.b-effect-desc{
+  font-size: 28rpx;
+  color: #666;
+  text-align: center;
+  padding: 0 0 10rpx 0
+}
+
+.b-scroll-effect{
+  padding: 0 30rpx;
+  box-sizing: border-box
 }
