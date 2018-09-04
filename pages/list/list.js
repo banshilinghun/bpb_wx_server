@@ -1,7 +1,6 @@
 var app = getApp();
 const ApiManager = require('../../utils/api/ApiManager.js');
 const ApiConst = require('../../utils/api/ApiConst');
-const timeUtil = require('../../utils/common/timeUitl');
 const { $Toast } = require('../../components/base/index');
 
 const sliderWidth = 96;
@@ -16,8 +15,6 @@ Page({
     activeIndex: 0,
     sliderOffset: 0,
     sliderLeft: 0,
-    inspectUrl: app.globalData.baseUrl + '',
-    server_id: '',
     listInfo: [],
     statisticInfo: null,
     usePlate: true, //使用车牌号查询还是手机号查询
@@ -230,13 +227,6 @@ Page({
     console.log(event);
     wx.navigateTo({
       url: '../listSort/listSort?title=' + event.detail.cell.cellTitle + '&count=' + event.detail.cell.count + '&ad_id=' + event.detail.cell.ad_id + '&type=' + event.detail.cell.type,
-    })
-  },
-
-  handleDetail(event){
-    console.log(event);
-    wx.navigateTo({
-      url: '../detail/detail?reserve_id=' + event.currentTarget.dataset.item.reserve_id
     })
   },
 

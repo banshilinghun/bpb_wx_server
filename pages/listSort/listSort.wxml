@@ -1,8 +1,128 @@
-<view class='list-container'>
-  <view class='count'>
-    <text>{{ '登记数：' + count }}</text>
+
+<view class='list-root'>
+  <!-- header -->
+  <view id='header'>
+    <!-- 输入框 -->
+    <view class="track-bg">
+      <view class='b-track-wrapper'>
+        <view class="track-input-block">
+          <image class='search-icon' src='../../image/search_icon.png'></image>
+          <!-- 输入车牌 -->
+          <block wx:if="{{ visiblePlate }}">
+            <input id="carcode" name="carcode" disabled="{{ disabled }}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号"
+              value='{{ textValue }}' bindtap="showKeyboard" />
+          </block>
+          <!-- 输入手机号 -->
+          <block wx:else>
+            <input class="track-input" maxlength='20' type="number" placeholder="请输入手机号" value='{{ textValue }}' bindinput="hanldePhoneInput"
+            />
+          </block>
+          <image wx:if="{{ textValue }}" class='b-clear-icon' src='../../image/close-gray.png' catchtap='handleClear'></image>
+        </view>
+        <view class='b-switch-wrapper' bindtap='handleSwitch'>
+          <image class='b-switch-image' src='../../image/b-switch.png'></image>
+          <view class='b-switch-text'>
+            <text>{{ switchStr }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class='b-list-divider'></view>
   </view>
-  <view class='list-wrapper'>
-    <listView listInfo='{{ listInfo }}'></listView>
-  </view>
+  <!-- 列表 -->
+  <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px' class='b-scroll-view'>
+    <view class='content-layout'>
+      <!-- 已预约、已签到列表 -->
+      <block wx:if="{{ reserveList && reserveList.length !== 0 }}">
+        <view class='list-body' wx:for='{{ reserveList }}' wx:key='item.id'>
+          <view class='b-list-panel'>
+            <text>{{ item.date }}</text>
+          </view>
+          <block wx:for="{{ item.info }}" wx:for-item='info' wx:key="info.id" wx:for-index="idx">
+            <view class="item2">
+              <view class="item-left">
+                <image src="{{ info.logo }}" class="image" />
+              </view>
+              <view class="item-middle">
+                <view class="b-list-title">
+                  <text>{{ info.ad_name }}</text>
+                </view>
+                <view class="myad-li">
+                  <view class="message">
+                    <view class='b-item-left'>{{ info.real_name }}</view>
+                    <view class="data-text theme-color">{{ info.phone_no }}</view>
+                  </view>
+                  <view class="message">
+                    <view class='b-item-left'>{{ info.plate_no }}</view>
+                  </view>
+                </view>
+              </view>
+              <view class="item_right">
+                <view>
+                  <text class="time">已完成</text>
+                </view>
+
+              </view>
+            </view>
+            <view class="b-line" wx:if='{{ idx !== item.insideList.length - 1 }}'></view>
+          </block>
+        </view>
+      </block>
+      <!-- 空页面 -->
+      <block wx:else>
+        <view class='guide-empty-wrapper'>
+          <image class='guide-empty-image' src='../../image/empty_data.png'></image>
+          <text class='guide-empty-text'>空空如也</text>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
 </view>
+
+<!-- 车牌输入键盘 -->
+<block wx:if="{{ isKeyboard }}">
+  <view class='keyboard-mask' bindtap='handleMaskClick'></view>
+  <view class="keyboard">
+
+    <!--省份简写键盘-->
+    <view class="td td_nor" wx:for="{{keyboardValue}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this" bindtap="tapKeyboard"
+      data-index="{{idx}}" data-val="{{itemName}}" hover-class="board_bg" hover-start-time="0" hover-stay-time="80">
+      {{itemName}}
+    </view>
+
+    <!--数字键盘不可点击-->
+    <view wx:if="{{specialBtn && !tapNum}}" class="td td_num board_bg" wx:for="{{keyboardNumber}}" wx:for-index="idx" wx:for-item="itemName"
+      wx:key="*this">
+      {{itemName}}
+    </view>
+
+    <!--数字键盘可点击-->
+    <view wx:if="{{specialBtn && tapNum}}" class="td td_num" wx:for="{{keyboardNumber}}" wx:for-index="idx" wx:for-item="itemName"
+      wx:key="*this" bindtap="tapKeyboard" data-index="{{idx}}" data-val="{{itemName}}" hover-class="board_bg" hover-start-time="0"
+      hover-stay-time="80">
+      {{itemName}}
+    </view>
+
+    <!--字母键盘-->
+    <view wx:if="{{specialBtn}}" class="td td_num" wx:for="{{keyboardAlph}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this"
+      hover-class="board_bg" hover-start-time="0" hover-stay-time="80">
+      <view class="del_icon" wx:if="{{idx == 19}}" bindtap="tapKeyboard" data-index="{{idx}}" data-val="{{itemName}}">
+        <!--<image src="/images/icon_del.png" mode="aspectFit" class="del_icon"></image>-->
+      </view>
+      <view wx:elif="{{idx != 19}}" bindtap="tapKeyboard" data-index="{{idx}}" data-val="{{itemName}}">
+        {{itemName}}
+      </view>
+    </view>
+
+    <!--完成按钮 start-->
+    <view class="td td_spec_fin" wx:for="{{keyboard2For}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this" bindtap="tapSpecBtn"
+      data-index="{{idx}}" data-val="{{itemName}}" wx:if="{{specialBtn}}" hover-class="board_bg_spec" hover-start-time="0"
+      hover-stay-time="80">
+      {{itemName}}
+    </view>
+    <!--完成按钮 end-->
+  </view>
+</block>
+
+<!-- 轻提示 -->
+<b-toast id="toast"></b-toast>
