@@ -61,7 +61,8 @@ view{
 /** radio end **/
 
 .content-layout{
-  position: relative
+  position: relative;
+  margin-top: 20rpx
 }
 
 .content-margin-wrapper{
@@ -95,13 +96,13 @@ view{
 }
 
 .b-task-number-blod{
-  font-size: 32rpx;
+  font-size: 28rpx;
   font-weight: 500;
   color: #333
 }
 
 .b-task-middle, .b-task-sign{
-  font-size: 32rpx;
+  font-size: 28rpx;
   color: #666;
 }
 
@@ -202,7 +203,7 @@ view{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 16rpx;
+  padding: 20rpx;
   background-color: #fff;
   /**  border: 1rpx solid #eaeaea;
   border-bottom: 1rpx solid #d0d0d0;
@@ -253,7 +254,6 @@ view{
 
 .item_right {
   overflow: hidden;
-  padding-right: 10px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -314,14 +314,11 @@ view{
   background-color: #ff555c
 }
 
-.track-bg{
-}
-
 .b-track-wrapper{
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0 30rpx
+  padding: 0 20rpx
 }
 
 .b-switch-wrapper{
@@ -358,5 +355,12 @@ view{
   font-size: 32rpx;
   font-weight: 500;
   display: flex;
-  flex-direction: row
+  flex-direction: row;
+  background: #fff;
+  border-bottom: 1rpx solid #ddd;
+  padding: 10rpx 20rpx
+}
+
+.b-title-type{
+  flex: 1
 }

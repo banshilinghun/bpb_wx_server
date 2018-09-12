@@ -26,7 +26,6 @@
         </view>
       </view>
     </view>
-    <view class="b-divider"></view>
     <!-- 输入框 -->
     <view class="track-bg" wx:if='{{ activeIndex != 2 }}'>
       <view class='b-track-wrapper'>
