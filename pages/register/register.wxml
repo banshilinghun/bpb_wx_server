@@ -87,7 +87,7 @@
       </view>
     </block>
     <block wx:if="{{ reserveList && reserveList.length !== 0 }}">
-      <view class="b-rework-title">今日任务</view>
+      <view class="b-rework-title" wx:if="{{ reworkList && reworkList.length !== 0 }}">今日任务</view>
       <view wx:for="{{ reserveList }}" wx:key="item.id">
         <view class="item2" bindtap="handleDetail" data-item='{{ item }}'>
           <view class="item-left">

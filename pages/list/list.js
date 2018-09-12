@@ -384,4 +384,13 @@ Page({
     this.requestReserveList(this.data.textValue);
   },
 
+  /**
+  * 查看任务详情
+  */
+  handleDetail(event) {
+    wx.navigateTo({
+      url: '../detail/detail?reserve_id=' + event.currentTarget.dataset.item.reserve_id,
+    })
+  },
+
 })

@@ -420,7 +420,7 @@ page{
 }
 
 .b-rework-title{
-  color: #ff555c;
+  color: #333;
   font-size: 32rpx;
   font-weight: 500;
   padding: 10rpx 20rpx

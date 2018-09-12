@@ -101,11 +101,8 @@ view{
 }
 
 .b-task-middle, .b-task-sign{
-  padding: 20rpx;
   font-size: 32rpx;
   color: #666;
-  background: #fff;
-  text-align: center
 }
 
 .b-task-finsh{
@@ -350,8 +347,16 @@ view{
 }
 
 .b-rework-title{
-  color: #ff555c;
+  color: #333;
   font-size: 32rpx;
   font-weight: 500;
   padding: 10rpx 20rpx
+}
+
+.b-normal-title{
+  color: #333;
+  font-size: 32rpx;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row
 }
