@@ -51,7 +51,6 @@
         </view>
       </view>
     </view>
-    <view class='b-list-divider' wx:if='{{ activeIndex == 2 }}'></view>
   </view>
   <!-- 列表 -->
   <scroll-view scroll-y='true' style='height: {{ scrollHeight }}px' class='b-scroll-view'>
@@ -91,7 +90,7 @@
         </block>
       </block>
       <!-- 已预约、已签到列表 -->
-      <block wx:if='{{ activeIndex != 2 && reserveList && reserveList.length !== 0 }}'>
+      <block wx:if="{{ activeIndex != 2 }}">
         <view class="b-normal-title">
           <view class="b-title-type">{{ activeIndex == 0? "预约列表" : "签到列表" }}</view>
           <view wx:if='{{ activeIndex == 0 }}' class='b-task-middle'>
@@ -103,6 +102,8 @@
             <text class='b-task-number-blod'>{{ statisticInfo.total_count }}人</text>
           </view>
         </view>
+      </block>
+      <block wx:if='{{ activeIndex != 2 && reserveList && reserveList.length !== 0 }}'>
         <view class='list-body' wx:for='{{ reserveList }}' wx:key='item.id'>
           <view class='b-list-panel'>
             <text>{{ item.date }}</text>
