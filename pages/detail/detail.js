@@ -212,8 +212,8 @@ Page({
     let that = this;
     let totalInstallTip = `本次安装共用时: ${ that.data.minute  }分${ that.data.second }秒！`;
     ModalHelper.showWxModalUseConfirm('安装完成', totalInstallTip, '我知道了', false, res => {
-      wx.switchTab({
-        url: '../register/register'
+      wx.navigateBack({
+        delta: 1
       })
     });
   },

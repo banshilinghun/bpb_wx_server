@@ -49,7 +49,7 @@
     </view>
   </view>
   <!-- 列表 -->
-  <scroll-view scroll-y='true'>
+  <scroll-view scroll-y='true' class='b-scroll'>
     <block wx:if="{{ reworkList && reworkList.length !== 0 }}">
       <view class="b-rework-title">返工列表</view>
       <view wx:for="{{ reworkList }}" wx:key="item.id">

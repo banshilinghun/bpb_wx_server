@@ -15,11 +15,6 @@ list-root{
     vertical-align: text-bottom;
 }
 
-view{
-    font-size: 30rpx;
-    font-weight: 400;
-}
-
 .body{
     padding: 25rpx 25rpx 0
 }
@@ -204,10 +199,7 @@ view{
   flex-direction: row;
   justify-content: space-between;
   padding: 20rpx;
-  background-color: #fff;
-  /**  border: 1rpx solid #eaeaea;
-  border-bottom: 1rpx solid #d0d0d0;
-  border-radius: 5rpx;*/
+  background-color: #fff
 }
 
 .item-left {
@@ -347,7 +339,9 @@ view{
   color: #333;
   font-size: 32rpx;
   font-weight: 500;
-  padding: 10rpx 20rpx
+  padding: 10rpx 20rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #ddd;
 }
 
 .b-normal-title{
@@ -363,4 +357,8 @@ view{
 
 .b-title-type{
   flex: 1
+}
+
+.b-rework-container{
+  margin-bottom: 20rpx
 }

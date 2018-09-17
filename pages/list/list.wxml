@@ -5,8 +5,7 @@
     <view class="weui-tab">
       <view class="weui-navbar">
         <block wx:for-items="{{ tabs}}" wx:key="{{ index }}">
-          <view data-id="{{ index }}" class="weui-navbar__item {{ activeIndex == index ? 'weui-bar__item_on' : '' }}"
-            bindtap="tabClick">
+          <view data-id="{{ index }}" class="weui-navbar__item {{ activeIndex == index ? 'weui-bar__item_on' : '' }}" bindtap="tabClick">
             <view class="weui-navbar__title">{{ item }}</view>
           </view>
         </block>
@@ -33,13 +32,11 @@
           <image class='search-icon' src='../../image/search_icon.png'></image>
           <!-- 输入车牌 -->
           <block wx:if="{{ visiblePlate }}">
-            <input id="carcode" name="carcode" disabled="{{ disabled }}" class="track-input" maxlength='20' type="text"
-              placeholder="请输入车牌号" value='{{ textValue }}' bindtap="showKeyboard" />
+            <input id="carcode" name="carcode" disabled="{{ disabled }}" class="track-input" maxlength='20' type="text" placeholder="请输入车牌号" value='{{ textValue }}' bindtap="showKeyboard" />
           </block>
           <!-- 输入手机号 -->
           <block wx:else>
-            <input class="track-input" maxlength='20' type="number" placeholder="请输入手机号" value='{{ textValue }}'
-              bindinput="hanldePhoneInput" />
+            <input class="track-input" maxlength='20' type="number" placeholder="请输入手机号" value='{{ textValue }}' bindinput="hanldePhoneInput" />
           </block>
           <image wx:if="{{ textValue }}" class='b-clear-icon' src='../../image/close-gray.png' catchtap='handleClear'></image>
         </view>
@@ -57,37 +54,39 @@
     <view class='content-layout'>
       <!-- 返工列表 -->
       <block wx:if="{{ activeIndex != 2 && reworkList && reworkList.length !== 0 }}">
-        <view class="b-rework-title">返工列表</view>
-        <block wx:for="{{ reworkList }}" wx:for-item='rework' wx:key="rework.id" wx:for-index="idx">
-          <view class="item2" bindtap="handleDetail" data-item='{{ rework }}'>
-            <view class="item-left">
-              <image src="{{ rework.logo }}" class="image" />
-            </view>
-            <view class="item-middle">
-              <view class="b-list-title">
-                <text>{{ rework.ad_name }}</text>
+        <view class='b-rework-container'>
+          <view class="b-rework-title">返工列表</view>
+          <block wx:for="{{ reworkList }}" wx:for-item='rework' wx:key="rework.id" wx:for-index="idx">
+            <view class="item2" bindtap="handleDetail" data-item='{{ rework }}'>
+              <view class="item-left">
+                <image src="{{ rework.logo }}" class="image" />
               </view>
-              <view class="myad-li">
-                <view class="message">
-                  <view class='b-item-left'>{{ rework.real_name }}</view>
-                  <view class="data-text theme-color">{{ rework.phone_no }}</view>
+              <view class="item-middle">
+                <view class="b-list-title">
+                  <text>{{ rework.ad_name }}</text>
                 </view>
-                <view class="message">
-                  <view class='b-item-left'>{{ rework.plate_no }}</view>
+                <view class="myad-li">
+                  <view class="message">
+                    <view class='b-item-left'>{{ rework.real_name }}</view>
+                    <view class="data-text theme-color">{{ rework.phone_no }}</view>
+                  </view>
+                  <view class="message">
+                    <view class='b-item-left'>{{ rework.plate_no }}</view>
+                  </view>
+                </view>
+              </view>
+              <view class="item_right">
+                <view wx:if="{{ activeIndex == 0 }}">
+                  <text class="time timetxt2">已预约</text>
+                </view>
+                <view wx:elif="{{ activeIndex == 1 }}">
+                  <text class="time">已签到</text>
                 </view>
               </view>
             </view>
-            <view class="item_right">
-              <view wx:if="{{ activeIndex == 0 }}">
-                <text class="time timetxt2">已预约</text>
-              </view>
-              <view wx:elif="{{ activeIndex == 1 }}">
-                <text class="time">已签到</text>
-              </view>
-            </view>
-          </view>
-          <view class="b-line" wx:if='{{ idx !== reworkList.length - 1 }}'></view>
-        </block>
+            <view class="b-line" wx:if='{{ idx !== reworkList.length - 1 }}'></view>
+          </block>
+        </view>
       </block>
       <!-- 已预约、已签到列表 -->
       <block wx:if="{{ activeIndex != 2 }}">
@@ -165,27 +164,23 @@
   <view class="keyboard">
 
     <!--省份简写键盘-->
-    <view class="td td_nor" wx:for="{{keyboardValue}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this" bindtap="tapKeyboard"
-      data-index="{{idx}}" data-val="{{itemName}}" hover-class="board_bg" hover-start-time="0" hover-stay-time="80">
+    <view class="td td_nor" wx:for="{{keyboardValue}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this" bindtap="tapKeyboard" data-index="{{idx}}" data-val="{{itemName}}" hover-class="board_bg" hover-start-time="0" hover-stay-time="80">
       {{itemName}}
     </view>
 
     <!--数字键盘不可点击-->
-    <view wx:if="{{specialBtn && !tapNum}}" class="td td_num board_bg" wx:for="{{keyboardNumber}}" wx:for-index="idx"
-      wx:for-item="itemName" wx:key="*this">
+    <view wx:if="{{specialBtn && !tapNum}}" class="td td_num board_bg" wx:for="{{keyboardNumber}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this">
       {{itemName}}
     </view>
 
     <!--数字键盘可点击-->
-    <view wx:if="{{specialBtn && tapNum}}" class="td td_num" wx:for="{{keyboardNumber}}" wx:for-index="idx" wx:for-item="itemName"
-      wx:key="*this" bindtap="tapKeyboard" data-index="{{idx}}" data-val="{{itemName}}" hover-class="board_bg"
-      hover-start-time="0" hover-stay-time="80">
+    <view wx:if="{{specialBtn && tapNum}}" class="td td_num" wx:for="{{keyboardNumber}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this" bindtap="tapKeyboard" data-index="{{idx}}" data-val="{{itemName}}" hover-class="board_bg" hover-start-time="0"
+      hover-stay-time="80">
       {{itemName}}
     </view>
 
     <!--字母键盘-->
-    <view wx:if="{{specialBtn}}" class="td td_num" wx:for="{{keyboardAlph}}" wx:for-index="idx" wx:for-item="itemName"
-      wx:key="*this" hover-class="board_bg" hover-start-time="0" hover-stay-time="80">
+    <view wx:if="{{specialBtn}}" class="td td_num" wx:for="{{keyboardAlph}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this" hover-class="board_bg" hover-start-time="0" hover-stay-time="80">
       <view class="del_icon" wx:if="{{idx == 19}}" bindtap="tapKeyboard" data-index="{{idx}}" data-val="{{itemName}}">
         <!--<image src="/images/icon_del.png" mode="aspectFit" class="del_icon"></image>-->
       </view>
@@ -195,9 +190,7 @@
     </view>
 
     <!--完成按钮 start-->
-    <view class="td td_spec_fin" wx:for="{{keyboard2For}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this"
-      bindtap="tapSpecBtn" data-index="{{idx}}" data-val="{{itemName}}" wx:if="{{specialBtn}}" hover-class="board_bg_spec"
-      hover-start-time="0" hover-stay-time="80">
+    <view class="td td_spec_fin" wx:for="{{keyboard2For}}" wx:for-index="idx" wx:for-item="itemName" wx:key="*this" bindtap="tapSpecBtn" data-index="{{idx}}" data-val="{{itemName}}" wx:if="{{specialBtn}}" hover-class="board_bg_spec" hover-start-time="0" hover-stay-time="80">
       {{itemName}}
     </view>
     <!--完成按钮 end-->

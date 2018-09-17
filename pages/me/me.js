@@ -11,7 +11,7 @@ Page({
     helpCells: [{
       icon: '../../image/course.png',
       text: '安装教程',
-      visible: true,
+      visible: false,
       type: 'guide',
       url: '../guide/guide'
     },

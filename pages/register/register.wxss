@@ -430,6 +430,10 @@ page{
   margin-bottom: 20rpx
 }
 
+.b-scroll{
+  margin-top: 20rpx
+}
+
 /* header start */
 .b-header{
   margin-bottom: 20rpx;

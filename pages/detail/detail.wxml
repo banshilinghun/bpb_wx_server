@@ -4,7 +4,7 @@
       <block>
         <view class='b-detail-ad b-detail-ad-after'>
           <view class='b-detail-ad-name'>
-            <text>奔跑宝</text>
+            <text>{{ detailInfo.ad_name }}</text>
           </view>
           <view class='b-detail-ad-status'>
             <text>{{ detailInfo.reserveStatus }}</text>
